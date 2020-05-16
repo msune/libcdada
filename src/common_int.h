@@ -112,4 +112,25 @@ inline bool operator<(const cdata_u2048_t& a1, const cdata_u2048_t& a2){
 						sizeof(cdata_u2048_t)) < 0;
 }
 
+//Comparing methods for extended types (std::list::unique)
+inline bool operator==(const cdata_u128_t& a1, const cdata_u128_t& a2){
+	return memcmp((const void*)&a1, (const void*)&a2,
+						sizeof(cdata_u128_t)) == 0;
+}
+inline bool operator==(const cdata_u256_t& a1, const cdata_u256_t& a2){
+	return memcmp((const void*)&a1, (const void*)&a2,
+						sizeof(cdata_u256_t)) == 0;
+}
+inline bool operator==(const cdata_u512_t& a1, const cdata_u512_t& a2){
+	return memcmp((const void*)&a1, (const void*)&a2,
+						sizeof(cdata_u512_t)) == 0;
+}
+inline bool operator==(const cdata_u1024_t& a1, const cdata_u1024_t& a2){
+	return memcmp((const void*)&a1, (const void*)&a2,
+						sizeof(cdata_u1024_t)) == 0;
+}
+inline bool operator==(const cdata_u2048_t& a1, const cdata_u2048_t& a2){
+	return memcmp((const void*)&a1, (const void*)&a2,
+						sizeof(cdata_u2048_t)) == 0;
+}
 #endif //__CDATA_COMMON_INT__

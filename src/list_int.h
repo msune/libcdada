@@ -31,30 +31,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdint.h>
 #include "cdata/utils.h"
 #include "common_int.h"
-#include <set>
+#include <list>
 
 /**
-* @file set_internal.h
+* @file list_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Internals of the set wrapper
+* @brief Internals of the list wrapper
 */
 typedef struct{
 	uint32_t magic_num;
-	uint32_t user_key_len;
-	uint32_t key_len;
+	uint32_t user_val_len;
+	uint32_t val_len;
 	union {
-		std::set<uint8_t>* u8;
-		std::set<uint16_t>* u16;
-		std::set<uint32_t>* u32;
-		std::set<uint64_t>* u64;
-		std::set<cdata_u128_t>* u128;
-		std::set<cdata_u256_t>* u256;
-		std::set<cdata_u512_t>* u512;
-		std::set<cdata_u1024_t>* u1024;
-		std::set<cdata_u2048_t>* u2048;
+		std::list<uint8_t>* u8;
+		std::list<uint16_t>* u16;
+		std::list<uint32_t>* u32;
+		std::list<uint64_t>* u64;
+		std::list<cdata_u128_t>* u128;
+		std::list<cdata_u256_t>* u256;
+		std::list<cdata_u512_t>* u512;
+		std::list<cdata_u1024_t>* u1024;
+		std::list<cdata_u2048_t>* u2048;
 		void* var;
-	}set;
-}__cdata_set_int_t;
+	}list;
+}__cdata_list_int_t;
 
 #endif //__CDATA_LIST_INT__

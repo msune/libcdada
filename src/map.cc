@@ -126,28 +126,38 @@ int cdata_map_clear(cdata_map_t* map){
 	CDATA_CHECK_MAGIC(m);
 
 	try{
-		if(m->key_len == 1){
-			m->map.u8->clear();
-		}else if(m->key_len ==  2){
-			m->map.u16->clear();
-		}else if(m->key_len > 2 && m->key_len <= 4){
-			m->map.u32->clear();
-		}else if(m->key_len > 4 && m->key_len <= 8){
-			m->map.u64->clear();
-		}else if(m->key_len > 8 && m->key_len <= 16){
-			m->map.u128->clear();
-		}else if(m->key_len > 16 && m->key_len <= 32){
-			m->map.u256->clear();
-		}else if(m->key_len > 32 && m->key_len <= 64){
-			m->map.u512->clear();
-		}else if(m->key_len > 64 && m->key_len <= 128){
-			m->map.u1024->clear();
-		}else if(m->key_len > 128 && m->key_len <= 256){
-			m->map.u2048->clear();
-		}else{
-			//Variable
-			//TODO
-			return CDATA_E_UNSUPPORTED;
+		switch(m->key_len){
+			case 1:
+				m->map.u8->clear();
+				break;
+			case 2:
+				m->map.u16->clear();
+				break;
+			case 4:
+				m->map.u32->clear();
+				break;
+			case 8:
+				m->map.u64->clear();
+				break;
+			case 16:
+				m->map.u128->clear();
+				break;
+			case 32:
+				m->map.u256->clear();
+				break;
+			case 64:
+				m->map.u512->clear();
+				break;
+			case 128:
+				m->map.u1024->clear();
+				break;
+			case 256:
+				m->map.u2048->clear();
+				break;
+			default:
+				//Variable
+				//TODO
+				return CDATA_E_UNSUPPORTED;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -172,19 +182,19 @@ bool cdata_map_empty(cdata_map_t* map){
 				return m->map.u8->empty();
 			case 2:
 				return m->map.u16->empty();
-			case 3:
-				return m->map.u32->empty();
 			case 4:
-				return m->map.u64->empty();
+				return m->map.u32->empty();
 			case 8:
-				return m->map.u128->empty();
+				return m->map.u64->empty();
 			case 16:
-				return m->map.u256->empty();
+				return m->map.u128->empty();
 			case 32:
-				return m->map.u512->empty();
+				return m->map.u256->empty();
 			case 64:
-				return m->map.u1024->empty();
+				return m->map.u512->empty();
 			case 128:
+				return m->map.u1024->empty();
+			case 256:
 				return m->map.u2048->empty();
 			default:
 				//Variable
@@ -212,19 +222,19 @@ uint32_t cdata_map_size(cdata_map_t* map){
 				return m->map.u8->size();
 			case 2:
 				return m->map.u16->size();
-			case 3:
-				return m->map.u32->size();
 			case 4:
-				return m->map.u64->size();
+				return m->map.u32->size();
 			case 8:
-				return m->map.u128->size();
+				return m->map.u64->size();
 			case 16:
-				return m->map.u256->size();
+				return m->map.u128->size();
 			case 32:
-				return m->map.u512->size();
+				return m->map.u256->size();
 			case 64:
-				return m->map.u1024->size();
+				return m->map.u512->size();
 			case 128:
+				return m->map.u1024->size();
+			case 256:
 				return m->map.u2048->size();
 			default:
 				//Variable
