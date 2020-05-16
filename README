@@ -1,0 +1,38 @@
+
+libcdata - C++ stdlib data structures from C
+--------------------------------------------
+
+`libcdata` is a library that exposes _some_ `libstdc++` data structures from a
+pure C API.
+
+Example
+-------
+
+TODO
+
+Details
+-------
+
+The objective is to have an easy to use library for basic day-to-day work of
+C applications in user-space.
+
+`libcdata` is NOT meant to be optimal in performance, but "good enough" for most
+of the applications. If you have have _true_ performance requirements, you should
+consider writing your own custom data structures.
+
+`libcdata`, as `libstdc++`, is not thread-safe.
+
+Requirements
+------------
+
+A posix compatible system with:
+
+* Automake
+* Autoconf
+* Libtool
+* libstdc++
+
+Author
+------
+
+Marc Sune Clos `<marcdevel (at) gmail (dot) com>`
