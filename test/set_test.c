@@ -89,6 +89,10 @@ int test_u8_insert_removal(){
 	assert(cdata_set_find(set, &key) == true);
 	assert(key == 22); //Should never pollute
 
+	rv = cdata_set_clear(set);
+	assert(cdata_set_size(set) == 0);
+	assert(cdata_set_empty(set) == true);
+
 	rv = cdata_set_destroy(set);
 	assert(rv == CDATA_SUCCESS);
 
@@ -155,6 +159,10 @@ int test_u16_insert_removal(){
 	assert(cdata_set_find(set, &key) == true);
 	assert(key == 22); //Should never pollute
 
+	rv = cdata_set_clear(set);
+	assert(cdata_set_size(set) == 0);
+	assert(cdata_set_empty(set) == true);
+
 	rv = cdata_set_destroy(set);
 	assert(rv == CDATA_SUCCESS);
 
@@ -220,6 +228,10 @@ int test_u32_insert_removal(){
 	key = 22;
 	assert(cdata_set_find(set, &key) == true);
 	assert(key == 22); //Should never pollute
+
+	rv = cdata_set_clear(set);
+	assert(cdata_set_size(set) == 0);
+	assert(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
 	assert(rv == CDATA_SUCCESS);
@@ -293,6 +305,10 @@ int test_u64_insert_removal_traverse(){
 
 	opaque = 31ULL;
 	cdata_set_rtraverse(set, &rtrav_u64, &opaque);
+
+	rv = cdata_set_clear(set);
+	assert(cdata_set_size(set) == 0);
+	assert(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
 	assert(rv == CDATA_SUCCESS);
@@ -445,6 +461,10 @@ int test_u552_insert_removal_traverse(){
 
 	opaque = 31ULL;
 	cdata_set_rtraverse(set, &rtrav_u552, &opaque);
+
+	rv = cdata_set_clear(set);
+	assert(cdata_set_size(set) == 0);
+	assert(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
 	assert(rv == CDATA_SUCCESS);
