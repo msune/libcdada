@@ -10,7 +10,7 @@ cdata_map_t* cdata_map_create(const uint16_t key_size){
 
 	__cdata_map_int_t* m = NULL;
 
-	if(key_size == 0)
+	if(unlikely(key_size == 0))
 		return m;
 
 	m = (__cdata_map_int_t*)malloc(sizeof(__cdata_map_int_t));
@@ -173,7 +173,7 @@ bool cdata_map_empty(cdata_map_t* map){
 
 	__cdata_map_int_t* m = (__cdata_map_int_t*)map;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return false;
 
 	try{
@@ -213,7 +213,7 @@ uint32_t cdata_map_size(cdata_map_t* map){
 
 	__cdata_map_int_t* m = (__cdata_map_int_t*)map;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return 0;
 
 	try{
@@ -284,7 +284,7 @@ int cdata_map_insert(cdata_map_t* map, const void* key, void* val){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!key || !val)
+	if(unlikely(!key || !val))
 		return CDATA_E_INVALID;
 
 	//NOTE: we don't want std::map insert "replace semantics", so we return
@@ -390,7 +390,7 @@ int cdata_map_erase(cdata_map_t* map, const void* key){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!key)
+	if(unlikely(!key))
 		return CDATA_E_INVALID;
 
 	try{
@@ -493,7 +493,7 @@ int cdata_map_find(cdata_map_t* map, const void* key, void** val){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!key || val == NULL)
+	if(unlikely(!key || val == NULL))
 		return CDATA_E_INVALID;
 
 	try{
@@ -579,7 +579,7 @@ int cdata_map_traverse(const cdata_map_t* map, cdata_map_it f,
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{
@@ -656,7 +656,7 @@ int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it f,
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{

@@ -10,7 +10,7 @@ cdata_list_t* cdata_list_create(const uint16_t val_size){
 
 	__cdata_list_int_t* m = NULL;
 
-	if(val_size == 0)
+	if(unlikely(val_size == 0))
 		return m;
 
 	m = (__cdata_list_int_t*)malloc(sizeof(__cdata_list_int_t));
@@ -173,7 +173,7 @@ bool cdata_list_empty(cdata_list_t* list){
 
 	__cdata_list_int_t* m = (__cdata_list_int_t*)list;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return false;
 
 	try{
@@ -213,7 +213,7 @@ uint32_t cdata_list_size(cdata_list_t* list){
 
 	__cdata_list_int_t* m = (__cdata_list_int_t*)list;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return 0;
 
 	try{
@@ -289,7 +289,7 @@ int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!val)
+	if(unlikely(!val))
 		return CDATA_E_INVALID;
 
 	//NOTE: we don't want std::list insert "replace semantics", so we return
@@ -388,7 +388,7 @@ int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!val)
+	if(unlikely(!val))
 		return CDATA_E_INVALID;
 
 	//NOTE: we don't want std::list insert "replace semantics", so we return
@@ -569,7 +569,7 @@ int cdata_list_remove(cdata_list_t* list, const void* val){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!val)
+	if(unlikely(!val))
 		return CDATA_E_INVALID;
 
 	//NOTE: we don't want std::list remove "replace semantics", so we return
@@ -673,7 +673,7 @@ static int cdata_list_push_(cdata_list_t* list, const void* val, bool front){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!val)
+	if(unlikely(!val))
 		return CDATA_E_INVALID;
 
 	try{
@@ -829,7 +829,7 @@ int cdata_list_sort(cdata_list_t* list){
 
 	__cdata_list_int_t* m = (__cdata_list_int_t*)list;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return CDATA_E_INVALID;
 
 	try{
@@ -878,7 +878,7 @@ int cdata_list_reverse(cdata_list_t* list){
 
 	__cdata_list_int_t* m = (__cdata_list_int_t*)list;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return CDATA_E_INVALID;
 
 	try{
@@ -927,7 +927,7 @@ int cdata_list_unique(cdata_list_t* list){
 
 	__cdata_list_int_t* m = (__cdata_list_int_t*)list;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return CDATA_E_INVALID;
 
 	try{
@@ -992,7 +992,7 @@ int cdata_list_traverse(const cdata_list_t* list, cdata_list_it f,
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{
@@ -1071,7 +1071,7 @@ int cdata_list_rtraverse(const cdata_list_t* list, cdata_list_it f,
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{

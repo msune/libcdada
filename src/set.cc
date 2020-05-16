@@ -10,7 +10,7 @@ cdata_set_t* cdata_set_create(const uint16_t key_size){
 
 	__cdata_set_int_t* m = NULL;
 
-	if(key_size == 0)
+	if(unlikely(key_size == 0))
 		return m;
 
 	m = (__cdata_set_int_t*)malloc(sizeof(__cdata_set_int_t));
@@ -173,7 +173,7 @@ bool cdata_set_empty(cdata_set_t* set){
 
 	__cdata_set_int_t* m = (__cdata_set_int_t*)set;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return false;
 
 	try{
@@ -213,7 +213,7 @@ uint32_t cdata_set_size(cdata_set_t* set){
 
 	__cdata_set_int_t* m = (__cdata_set_int_t*)set;
 
-	if(!m || m->magic_num != CDATA_MAGIC)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC))
 		return 0;
 
 	try{
@@ -283,7 +283,7 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!key)
+	if(unlikely(!key))
 		return CDATA_E_INVALID;
 
 	//NOTE: we don't want std::set insert "replace semantics", so we return
@@ -380,7 +380,7 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!key)
+	if(unlikely(!key))
 		return CDATA_E_INVALID;
 
 	try{
@@ -463,7 +463,7 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 	bool rv;
 	__cdata_set_int_t* m = (__cdata_set_int_t*)set;
 
-	if(!m || m->magic_num != CDATA_MAGIC || !key)
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC || !key))
 		return false;
 
 	try{
@@ -541,7 +541,7 @@ int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{
@@ -619,7 +619,7 @@ int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 
 	CDATA_CHECK_MAGIC(m);
 
-	if(!f)
+	if(unlikely(!f))
 		return CDATA_E_INVALID;
 
 	try{

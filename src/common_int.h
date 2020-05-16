@@ -87,7 +87,7 @@ typedef struct{
 
 
 #define CDATA_CHECK_MAGIC(s) \
-	if(!m || m->magic_num != CDATA_MAGIC) \
+	if(unlikely(!m || m->magic_num != CDATA_MAGIC)) \
 		return CDATA_E_INVALID
 
 //Comparing methods for extended types
