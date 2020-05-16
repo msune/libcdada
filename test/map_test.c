@@ -2,6 +2,7 @@
 
 #include "cdata_map.h"
 #include <assert.h>
+#include <string.h>
 
 
 static uint64_t opaque = 0ULL;
@@ -423,15 +424,145 @@ int test_basics(){
 	return 0;
 }
 
+//
+// Key is not complete
+//
+//69byte type
+typedef struct{
+	uint8_t front[38];
+	uint8_t mid;
+	uint8_t back[30];
+} __attribute__((packed)) test_u552_t;
+
+void trav_u552(const cdata_map_t* map, const void* k,
+						void* v,
+						void* o){
+	assert(o == &opaque);
+
+	test_u552_t key = *(test_u552_t*)k;
+	uint32_t val = *(uint32_t*)v;
+
+	assert(val == (((uint32_t)key.mid) | 0x1000));
+	assert(opaque == key.mid);
+	opaque++;
+}
+
+void rtrav_u552(const cdata_map_t* map, const void* k,
+						void* v,
+						void* o){
+	assert(o == &opaque);
+
+	test_u552_t key = *(test_u552_t*)k;
+	uint32_t val = *(uint32_t*)v;
+
+	assert(val == (((uint32_t)key.mid) | 0x1000));
+	assert(opaque == key.mid);
+	opaque--;
+}
+
+int test_u552_insert_removal_traverse(){
+
+	int i, rv;
+	test_u552_t key;
+	cdata_map_t* map = NULL;
+	uint32_t values[32];
+	void* tmp;
+
+	assert(sizeof(test_u552_t) == 69);
+
+	for(i=0;i<32;++i)
+		values[i] = i | 0x1000;
+
+	map = cdata_map_create(sizeof(key));
+	assert(map != NULL);
+
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
+
+	//Add one key & get
+	memset(&key, 0, sizeof(key));
+	rv = cdata_map_insert(map, &key, &values[0]);
+	assert(rv == CDATA_SUCCESS);
+
+	assert(cdata_map_size(map) == 1);
+	assert(cdata_map_empty(map) == false);
+
+	rv = cdata_map_find(map, &key, &tmp);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 0); //Should never pollute
+	assert(tmp == &values[0]);
+
+	//Find an invalid value
+	key.mid = 1;
+	rv = cdata_map_find(map, &key, &tmp);
+	assert(rv == CDATA_E_NOT_FOUND);
+
+	//Trying to add the same key should return E_EXISTS, &repeat query
+	key.mid = 0;
+	rv = cdata_map_insert(map, &key, &values[1]);
+	assert(rv == CDATA_E_EXISTS);
+
+	rv = cdata_map_find(map, &key, &tmp);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 0); //Should never pollute
+	assert(tmp == &values[0]);
+
+	//Erase first an invalid
+	key.mid = 1;
+	rv = cdata_map_erase(map, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+
+	key.mid = 0;
+	rv = cdata_map_erase(map, &key);
+	assert(rv == CDATA_SUCCESS);
+
+	rv = cdata_map_find(map, &key, &tmp);
+	assert(rv == CDATA_E_NOT_FOUND);
+
+	//Now add all objects
+	for(i=0;i<32;++i){
+		key.mid = i;
+		rv = cdata_map_insert(map, &key, &values[i]);
+		assert(rv == CDATA_SUCCESS);
+	}
+
+	assert(cdata_map_size(map) == 32);
+	assert(cdata_map_empty(map) == false);
+
+	key.mid = 22;
+	rv = cdata_map_find(map, &key, &tmp);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 22); //Should never pollute
+	assert(tmp == &values[22]);
+
+	//Traverse
+	opaque = 0ULL;
+	cdata_map_traverse(map, &trav_u552, &opaque);
+
+	opaque = 31ULL;
+	cdata_map_rtraverse(map, &rtrav_u552, &opaque);
+
+	rv = cdata_map_destroy(map);
+	assert(rv == CDATA_SUCCESS);
+
+	return 0;
+}
+
+
 int main(int args, char** argv){
 
 	int rv;
 
 	rv = test_basics();
+
+	//Complete
 	rv |= test_u8_insert_removal();
 	rv |= test_u16_insert_removal();
 	rv |= test_u32_insert_removal();
 	rv |= test_u64_insert_removal_traverse();
+
+	//Incomplete
+	rv |= test_u552_insert_removal_traverse();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
