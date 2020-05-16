@@ -543,8 +543,6 @@ int cdata_map_find(cdata_map_t* map, const void* key, void** val){
 				//TODO
 				return CDATA_E_UNSUPPORTED;
 		}
-	}catch(bad_alloc& e){
-		return CDATA_E_MEM;
 	}catch(...){
 		CDATA_ASSERT(0);
 		return CDATA_E_UNKNOWN;
@@ -558,7 +556,7 @@ void cdata_map_traverse_u(const cdata_map_t* map, std::map<T, void*>* m_u,
 							cdata_map_it f,
 							void* opaque){
 
-	typename std::map<T, void*>::iterator it;
+	typename std::map<T, void*>::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end(); ++it)
 		(*f)(map, &it->first, it->second, opaque);
@@ -635,7 +633,7 @@ void cdata_map_rtraverse_u(const cdata_map_t* map, std::map<T, void*>* m_u,
 							cdata_map_it f,
 							void* opaque){
 
-	typename std::map<T, void*>::reverse_iterator it;
+	typename std::map<T, void*>::const_reverse_iterator it;
 
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it)
 		(*f)(map, &it->first, it->second, opaque);

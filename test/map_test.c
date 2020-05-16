@@ -6,11 +6,13 @@
 
 
 static uint64_t opaque = 0ULL;
+static cdata_map_t* map = NULL;
 
-void trav_u64(const cdata_map_t* map, const void* k,
+void trav_u64(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
 	assert(o == &opaque);
+	assert(map == m);
 
 	uint64_t key = *(uint64_t*)k;
 	uint32_t val = *(uint32_t*)v;
@@ -20,10 +22,11 @@ void trav_u64(const cdata_map_t* map, const void* k,
 	opaque++;
 }
 
-void rtrav_u64(const cdata_map_t* map, const void* k,
+void rtrav_u64(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
 	assert(o == &opaque);
+	assert(map == m);
 
 	uint64_t key = *(uint64_t*)k;
 	uint32_t val = *(uint32_t*)v;
@@ -43,7 +46,6 @@ int test_u8_insert_removal(){
 
 	int i, rv;
 	uint8_t key;
-	cdata_map_t* map = NULL;
 	uint32_t values[32];
 	void* tmp;
 
@@ -123,7 +125,6 @@ int test_u16_insert_removal(){
 
 	int i, rv;
 	uint16_t key;
-	cdata_map_t* map = NULL;
 	uint32_t values[32];
 	void* tmp;
 
@@ -203,7 +204,6 @@ int test_u32_insert_removal(){
 
 	int i, rv;
 	uint32_t key;
-	cdata_map_t* map = NULL;
 	uint32_t values[32];
 	void* tmp;
 
@@ -283,7 +283,6 @@ int test_u64_insert_removal_traverse(){
 
 	int i, rv;
 	uint64_t key;
-	cdata_map_t* map = NULL;
 	uint32_t values[32];
 	void* tmp;
 
@@ -368,7 +367,6 @@ int test_u64_insert_removal_traverse(){
 int test_basics(){
 
 	int rv;
-	cdata_map_t* map = NULL;
 
 	void* ptr_not_null = (void*)0x123;
 
@@ -434,10 +432,11 @@ typedef struct{
 	uint8_t back[30];
 } __attribute__((packed)) test_u552_t;
 
-void trav_u552(const cdata_map_t* map, const void* k,
+void trav_u552(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
 	assert(o == &opaque);
+	assert(map == m);
 
 	test_u552_t key = *(test_u552_t*)k;
 	uint32_t val = *(uint32_t*)v;
@@ -447,10 +446,11 @@ void trav_u552(const cdata_map_t* map, const void* k,
 	opaque++;
 }
 
-void rtrav_u552(const cdata_map_t* map, const void* k,
+void rtrav_u552(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
 	assert(o == &opaque);
+	assert(map == m);
 
 	test_u552_t key = *(test_u552_t*)k;
 	uint32_t val = *(uint32_t*)v;
@@ -464,7 +464,6 @@ int test_u552_insert_removal_traverse(){
 
 	int i, rv;
 	test_u552_t key;
-	cdata_map_t* map = NULL;
 	uint32_t values[32];
 	void* tmp;
 
