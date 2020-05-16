@@ -114,6 +114,10 @@ int test_u8_insert_removal(){
 	assert(key == 22); //Should never pollute
 	assert(tmp == &values[22]);
 
+	rv = cdata_map_clear(map);
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
+
 	rv = cdata_map_destroy(map);
 	assert(rv == CDATA_SUCCESS);
 
@@ -193,6 +197,10 @@ int test_u16_insert_removal(){
 	assert(key == 22); //Should never pollute
 	assert(tmp == &values[22]);
 
+	rv = cdata_map_clear(map);
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
+
 	rv = cdata_map_destroy(map);
 	assert(rv == CDATA_SUCCESS);
 
@@ -271,6 +279,10 @@ int test_u32_insert_removal(){
 	assert(rv == CDATA_SUCCESS);
 	assert(key == 22); //Should never pollute
 	assert(tmp == &values[22]);
+
+	rv = cdata_map_clear(map);
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
 	assert(rv == CDATA_SUCCESS);
@@ -357,6 +369,10 @@ int test_u64_insert_removal_traverse(){
 
 	opaque = 31ULL;
 	cdata_map_rtraverse(map, &rtrav_u64, &opaque);
+
+	rv = cdata_map_clear(map);
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
 	assert(rv == CDATA_SUCCESS);
@@ -540,6 +556,10 @@ int test_u552_insert_removal_traverse(){
 
 	opaque = 31ULL;
 	cdata_map_rtraverse(map, &rtrav_u552, &opaque);
+
+	rv = cdata_map_clear(map);
+	assert(cdata_map_size(map) == 0);
+	assert(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
 	assert(rv == CDATA_SUCCESS);
