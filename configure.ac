@@ -34,8 +34,11 @@ m4_include([config_m4/debug.m4])
 # Check for profiling mode
 m4_include([config_m4/profiling.m4])
 
-# Checking libs
+# Checking version
 m4_include([config_m4/versioning.m4])
+
+# Checking valgrind
+m4_include([config_m4/valgrind.m4])
 
 # Output files
 AC_CONFIG_FILES([
