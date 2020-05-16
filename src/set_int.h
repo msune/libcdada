@@ -24,20 +24,37 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_H__
-#define __CDATA_H__
+#ifndef __CDATA_SET_INT__
+#define __CDATA_SET_INT__
+
+#include <stdbool.h>
+#include <stdint.h>
+#include "cdata/utils.h"
+#include "common_int.h"
+#include <set>
 
 /**
-* @file cdata.h
+* @file set_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief libcdata meta header file. This header includes headers from _all_
-*        data structures. Prefer inclusion of individual ones.
+* @brief Internals of the set wrapper
 */
+typedef struct{
+	uint32_t magic_num;
+	uint32_t user_key_len;
+	uint32_t key_len;
+	union {
+		std::set<uint8_t>* u8;
+		std::set<uint16_t>* u16;
+		std::set<uint32_t>* u32;
+		std::set<uint64_t>* u64;
+		std::set<cdata_u128_t>* u128;
+		std::set<cdata_u256_t>* u256;
+		std::set<cdata_u512_t>* u512;
+		std::set<cdata_u1024_t>* u1024;
+		std::set<cdata_u2048_t>* u2048;
+		void* var;
+	}set;
+}__cdata_set_int_t;
 
-#include "cdata/list.h"
-#include "cdata/map.h"
-//#include "cdata/queue.h"
-#include "cdata/set.h"
-
-#endif //__CDATA_H__
+#endif //__CDATA_SET_INT__

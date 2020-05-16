@@ -4,14 +4,17 @@ SUBDIRS =
 
 AUTOMAKE_OPTIONS = no-dependencies
 
-#A test
+#Tests
+check_PROGRAMS= map_test set_test
+TESTS = map_test set_test
+
 map_test_SOURCES= map_test.c
 map_test_CPPFLAGS= -I$(top_srcdir)/src/
 map_test_LDADD= -lpthread ../src/libcdata.la
 
-#Tests
-check_PROGRAMS= map_test
-TESTS = map_test
+set_test_SOURCES= set_test.c
+set_test_CPPFLAGS= -I$(top_srcdir)/src/
+set_test_LDADD= -lpthread ../src/libcdata.la
 
 #Valgrind
 if VALGRIND_ENABLED

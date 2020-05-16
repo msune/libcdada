@@ -24,35 +24,33 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_MAP_H__
-#define __CDATA_MAP_H__
+#ifndef __CDATA_SET_H__
+#define __CDATA_SET_H__
 
 #include <stdbool.h>
 #include <stdint.h>
 #include "utils.h"
 
 /**
-* @file cdata_map.h
+* @file cdata_set.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Map {key, value} data structure. Wraps std::map data structure
+* @brief Set data structure. Wraps std::set data structure
 */
 
 /**
-* cdata map structure
+* cdata set structure
 */
-typedef void cdata_map_t;
+typedef void cdata_set_t;
 
 /**
-* cdata map structure iterator
+* cdata set structure iterator
 *
-* @param map Map ptr
+* @param set Set ptr
 * @param key Key (immutable)
-* @param val Value
 * @param opaque A pointer to an opaque object tat will be passed to the callback
 */
-typedef void (*cdata_map_it)(const cdata_map_t* map, const void* key,
-						void* val,
+typedef void (*cdata_set_it)(const cdata_set_t* set, const void* key,
 						void* opaque);
 
 
@@ -60,83 +58,81 @@ typedef void (*cdata_map_it)(const cdata_map_t* map, const void* key,
 BEGIN_DECLS
 
 /**
-* @brief Create and initialize a map data structure
+* @brief Create and initialize a set data structure
 *
-* Allocate and initialize a map structure (std::map). For key sizes below 8
+* Allocate and initialize a set structure (std::set). For key sizes below 8
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
-cdata_map_t* cdata_map_create(const uint16_t key_size);
+cdata_set_t* cdata_set_create(const uint16_t key_size);
 
 /**
-* Destroy a map structure
+* Destroy a set structure
 */
-int cdata_map_destroy(cdata_map_t* map);
+int cdata_set_destroy(cdata_set_t* set);
 
 /**
-* Clears the contents of the map
+* Clears the contents of the set
 */
-int cdata_map_clear(cdata_map_t* map);
+int cdata_set_clear(cdata_set_t* set);
 
 /**
-* Traverse map
+* Traverse set
 *
-* @param map Map
-* @param func Traverse function for this specific map
+* @param set Set
+* @param func Traverse function for this specific set
 * @param opaque User data (opaque ptr)
 */
-int cdata_map_traverse(const cdata_map_t* map, cdata_map_it func,
+int cdata_set_traverse(const cdata_set_t* set, cdata_set_it func,
 							void* opaque);
 
 /**
-* Reverse traverse map
+* Reverse traverse set
 *
-* @param map Map
-* @param func Traverse function for this specific map
+* @param set Set
+* @param func Traverse function for this specific set
 * @param opaque User data (opaque ptr)
 */
-int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it func,
+int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it func,
 							void* opaque);
 
-//Map properties
+//Set properties
 
 /**
-* Is the map empty
+* Is the set empty
 */
-bool cdata_map_empty(cdata_map_t* map);
+bool cdata_set_empty(cdata_set_t* set);
 
 /**
-* Return the size (number of elements) in the map
+* Return the size (number of elements) in the set
 */
-uint32_t cdata_map_size(cdata_map_t* map);
+uint32_t cdata_set_size(cdata_set_t* set);
 
 //Element manipulation
 
 /**
-* Inserts an element in the map
+* Inserts an element in the set
 *
-* @param map Map pointer
+* @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
-* @param val Pointer to the value
 */
-int cdata_map_insert(cdata_map_t* map, const void* key, void* val);
+int cdata_set_insert(cdata_set_t* set, const void* key);
 
 /**
-* Erase an element in the map
+* Erase an element in the set
 *
-* @param map Map pointer
+* @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
 */
-int cdata_map_erase(cdata_map_t* map, const void* key);
+int cdata_set_erase(cdata_set_t* set, const void* key);
 
 /**
-* Finds a key in the map
+* Finds a key in the set
 *
-* @param map Map pointer
+* @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
-* @param val Pointer to the value
 */
-int cdata_map_find(cdata_map_t* map, const void* key, void** val);
+bool cdata_set_find(cdata_set_t* set, const void* key);
 
 END_DECLS
 
-#endif //__CDATA_MAP_H__
+#endif //__CDATA_SET_H__

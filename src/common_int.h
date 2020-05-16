@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015, Marc Sune Clos
+Copyright (c) 2020, Marc Sune Clos
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
