@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdint.h>
 #include <assert.h>
 #include <string.h>
-#include "cdata_utils.h"
+#include "cdata/utils.h"
 #include <map>
 
 /**

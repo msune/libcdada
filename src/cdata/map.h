@@ -24,12 +24,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_H__
-#define __CDATA_H__
+#ifndef __CDATA_MAP_H__
+#define __CDATA_MAP_H__
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "cdata_utils.h"
+#include "utils.h"
 
 /**
 * @file cdata_map.h
@@ -139,4 +139,4 @@ int cdata_map_find(cdata_map_t* map, const void* key, void** val);
 
 END_DECLS
 
-#endif //__CDATA_H__
+#endif //__CDATA_MAP_H__

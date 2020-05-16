@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "cdata_map.h"
+#include "cdata/map.h"
 #include <assert.h>
 #include <string.h>
 

@@ -4,7 +4,7 @@ MAINTAINERCLEANFILES = Makefile.in
 
 lib_LTLIBRARIES = libcdata.la
 
-include_HEADERS = cdata.h cdata_map.h
+nobase_include_HEADERS = cdata.h cdata/map.h cdata/utils.h
 
 libcdata_la_SOURCES = map.cc
 libcdata_la_LIBADD =
