@@ -1,19 +1,19 @@
 
-`libcdata` - basic data structures in C (`libstdc++` wrapper)
------------------------------------------------------------
+**libcdata** - basic data structures in C (`libstdc++` wrapper)
+---------------------------------------------------------------
 
-`libcdata` is a small library that offers basic data structures (`list`, `set`, `map`...) in a pure C API. It uses
-`libstdc++` as a backend engine. Key features:
+Small library that offers basic data structures (`list`, `set`, `map`...) in a pure C API. Key features:
 
 * Easy to use and portable
-* No MACROs
-* No need to modify your data structures (except, perhaps for `__attribute__((packed))`)
-* Reasonable performance
-
+* Uses stable and well-tested `libstdc++` backend engine for most of the data structures
+* No "magic" MACROs, and no need to modify your data structures (except, perhaps for `__attribute__((packed))`)
+* Reasonable performance (should be comparable to `libstdc++`)
 
 Example
 -------
 ```c
+#include <cdata/list.h>
+
 int x, val=0;
 cdata_list_t* my_list = cdata_list_create(sizeof(int));
 
@@ -46,30 +46,33 @@ assert(cdata_list_size(my_list) == 2);
 cdata_list_traverse(my_list, my_iterator_func, opaque);
 ```
 
-More examples for `map` and `set` here.
+Don't forget to link `-lcdata`. More examples for `map` and `set` in [examples/README.md].
 
 Documentation
--------
+-------------
 
-`libcdata` supports structures as keys (values for lists) of 1-256 bytes, but
-will perform better if they are aligned to {1,2,4,8,32,64,128,256} bytes.
+`libcdata`, by default, will allow to create containers with keys (values for lists)
+of 1-256 bytes, but will perform better if they are aligned to {1,2,4,8,32,64,128,256} bytes.
 
-Support for larger objects will come soon.
+If you need larger keys, or cannot affort the extra padding added by default, you should
+look into `libcdata`'s custom containers [TODO link].
 
 Detailed documentation and examples:
 
-* `list`
-* `map`
-* `set`
+* `list`: equivalent to `std::list` [TODO link]
+* `map`: equivalent to `std::map` [TODO link]
+* `set`: equivalent to `std::set` [TODO link]
 
+Custom container example:
 
-NOTE: `libcdata` is designed to be as easy to use as possible, and might NOT
-be optimal in performance, just good (or as good as `libstc++`). If you have
-_hard_ performance requirements, or you cannot afford the extra padding the
-library adds to the keys to align them to a power of 2 bytes, you should
-consider other libraries or writing your own custom data structures.
+* TODO
 
 `libcdata` (as `libstdc++`) is not thread-safe.
+
+Note: `libcata` is designed to be easy to use. The performance goal is to be _as_ fast as
+`libstdc++`, given that for most structures it is just a simple wrapper. If you have _hard_
+performance or memory requirements, take a look at `libcdata`'s custom containers or
+other libraries.
 
 Installation
 ------------
@@ -82,3 +85,15 @@ Requirements:
 * Autoconf
 * Libtool
 * libstdc++ (C++98)
+
+```
+sh autogen.sh
+cd build
+../configure
+sudo make install
+```
+
+Author
+------
+
+Marc Sune < marcdevel (at) gmail (dot) com>
