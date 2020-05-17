@@ -8,7 +8,7 @@ AUTOMAKE_OPTIONS = no-dependencies
 check_PROGRAMS= list_test map_test set_test
 TESTS = list_test map_test set_test
 
-list_test_SOURCES= list_test.c
+list_test_SOURCES= list_test.c list_custom.cc
 list_test_CPPFLAGS= -I$(top_srcdir)/include/
 list_test_LDADD= -lpthread ../src/libcdata.la
 

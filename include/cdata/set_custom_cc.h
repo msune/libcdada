@@ -177,15 +177,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}
 
 /**
-* @internal Default memcp comparison operator
-*/
-#define __CDATA_SET_CUSTOM_GEN_MEMCP_OP(TYPE) \
-	inline bool operator<(const TYPE & a1, const TYPE & a2){ \
-		return memcmp((const void*)&a1, (const void*)&a2, \
-						sizeof( TYPE )) < 0; \
-	}
-
-/**
 * @brief Auto-generate (instantiate) new custom type set, with TYPE
 *
 * This MACRO shall only be used when a custom operator< wants to be used, and
@@ -208,7 +199,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Auto-generate (instantiate) new custom type set, with TYPE
 */
 #define CDATA_SET_CUSTOM_GEN(TYPE) 	\
-	__CDATA_SET_CUSTOM_GEN_MEMCP_OP(TYPE); \
+	__CDATA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE); \
 	CDATA_SET_CUSTOM_GEN_NO_MEMCP(TYPE)
 
 #undef __CDATA_INTERNAL_INCLUDE

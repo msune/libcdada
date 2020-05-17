@@ -143,4 +143,23 @@ inline bool operator==(const cdata_u2048_t& a1, const cdata_u2048_t& a2){
 	return memcmp((const void*)&a1, (const void*)&a2,
 						sizeof(cdata_u2048_t)) == 0;
 }
+
+//Generators for custom types
+/**
+* @internal Default memcp comparison operator
+*/
+#define __CDATA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE) \
+	inline bool operator<(const TYPE & a1, const TYPE & a2){ \
+		return memcmp((const void*)&a1, (const void*)&a2, \
+						sizeof( TYPE )) < 0; \
+	}
+/**
+* @internal Default memcp comparison operator
+*/
+#define __CDATA_CUSTOM_GEN_MEMCP_EQ_OP(TYPE) \
+	inline bool operator==(const TYPE & a1, const TYPE & a2){ \
+		return memcmp((const void*)&a1, (const void*)&a2, \
+						sizeof( TYPE )) == 0; \
+	}
+
 #endif //__CDATA_COMMON_INT__

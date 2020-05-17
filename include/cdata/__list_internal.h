@@ -67,7 +67,7 @@ typedef struct{
 		std::list<cdata_u512_t>* u512;
 		std::list<cdata_u1024_t>* u1024;
 		std::list<cdata_u2048_t>* u2048;
-		void* var;
+		void* custom;
 	}list;
 	__cdata_list_ops_t* ops;
 }__cdata_list_int_t;

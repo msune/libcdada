@@ -71,11 +71,11 @@ typedef struct{
 	int (*remove)(cdata_list_t* l, const void* val);
 	int (*push)(cdata_list_t* l, const void* val, bool front);
 	int (*pop)(cdata_list_t* l, bool front);
-	int (*sort)(cdata_list_t* l);
-	int (*reverse)(cdata_list_t* l);
-	int (*unique)(cdata_list_t* l);
-	int (*traverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
-	int (*rtraverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
+	void (*sort)(cdata_list_t* l);
+	void (*reverse)(cdata_list_t* l);
+	void (*unique)(cdata_list_t* l);
+	void (*traverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
+	void (*rtraverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
 }__cdata_list_ops_t;
 
 /**
@@ -91,6 +91,21 @@ cdata_list_t* cdata_list_create(const uint16_t val_size);
 */
 cdata_list_t* __cdata_list_create(const uint16_t val_size,
 						__cdata_list_ops_t* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDATA_LIST_CUSTOM_TYPE_DECL(TYPE) \
+	extern __cdata_list_ops_t __cdata_list_autogen_##TYPE
+
+/**
+* @brief Create a list with a custom type, with a dedicated std::list
+*
+* Requires instantiating CDATA_LIST_CUSTOM_GEN() or
+* CDATA_LIST_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdata_list_create_custom(TYPE) \
+	__cdata_list_create(sizeof( TYPE ), & __cdata_list_autogen_##TYPE )
 
 /**
 * Destroy a list structure

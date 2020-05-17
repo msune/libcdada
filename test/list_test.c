@@ -5,6 +5,8 @@
 #include <string.h>
 #include "u552.h"
 
+//Fwd decl
+CDATA_LIST_CUSTOM_TYPE_DECL(test_u552_t);
 
 static uint64_t opaque = 0ULL;
 static cdata_list_t* list = NULL;
@@ -1162,15 +1164,12 @@ void rtrav_u552(const cdata_list_t* s, const void* k, void* o){
 	opaque++;
 }
 
-int test_u552_insert_removal_traverse(){
+int _test_u552_insert_removal_traverse(){
 
 	int i, rv;
 	test_u552_t key;
 
 	memset(&key, 0, sizeof(key));
-
-	list = cdata_list_create(sizeof(key));
-	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdata_list_size(list) == 0);
 	TEST_ASSERT(cdata_list_empty(list) == true);
@@ -1410,6 +1409,20 @@ int test_u552_insert_removal_traverse(){
 	return 0;
 }
 
+int test_u552_insert_removal_traverse(){
+	list = cdata_list_create(sizeof(test_u552_t));
+	TEST_ASSERT(list != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
+
+int test_u552_insert_removal_traverse_custom(){
+	list = cdata_list_create_custom(test_u552_t);
+	TEST_ASSERT(list != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -1424,6 +1437,7 @@ int main(int args, char** argv){
 
 	//Incomplete
 	rv |= test_u552_insert_removal_traverse();
+	rv |= test_u552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
