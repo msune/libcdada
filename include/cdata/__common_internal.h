@@ -27,6 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CDATA_COMMON_INT__
 #define __CDATA_COMMON_INT__
 
+//Internal headers should never be directly included
+#ifndef __CDATA_INTERNAL_INCLUDE
+	#error CDATA internal headers shall not be directly included
+#endif //__CDATA_INTERNAL_INCLUDE
+
+//This header should _always_ be included from C++
+#ifndef __cplusplus
+	#error CDATA autogenreation headers shall be included only from C++ files
+#endif //__cplusplus
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <assert.h>
