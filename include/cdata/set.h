@@ -68,8 +68,8 @@ typedef struct{
 	int (*insert)(void* m, const void* key);
 	int (*erase)(void* m, const void* key);
 	bool (*find)(void* m, const void* key);
-	int (*traverse)(void* m, cdata_set_it f, void* opaque);
-	int (*rtraverse)(void* m, cdata_set_it f, void* opaque);
+	void (*traverse)(void* m, cdata_set_it f, void* opaque);
+	void (*rtraverse)(void* m, cdata_set_it f, void* opaque);
 }__cdata_set_ops_t;
 
 /**
@@ -85,6 +85,21 @@ cdata_set_t* cdata_set_create(const uint16_t key_size);
 */
 cdata_set_t* __cdata_set_create(const uint16_t key_size,
 						__cdata_set_ops_t* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDATA_SET_CUSTOM_TYPE_DECL(TYPE) \
+	extern __cdata_set_ops_t __cdata_set_autogen_##TYPE
+
+/**
+* @brief Create a set with a custom type, with a dedicated std::set
+*
+* Requires instantiating CDATA_SET_CUSTOM_GEN() or
+* CDATA_SET_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdata_set_create_custom(TYPE) \
+	__cdata_set_create(sizeof( TYPE ), & __cdata_set_autogen_##TYPE )
 
 /**
 * Destroy a set structure
