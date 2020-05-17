@@ -32,7 +32,7 @@ assert(val == 11);
 
 //Remove duplicates {10,11,5}
 cdata_list_unique(my_list);
-assert(cdata_list_size() == 3);
+assert(cdata_list_size(my_list) == 3);
 
 //Add {10, 11, 5, 11}
 x=11;
@@ -40,7 +40,7 @@ cdata_list_push_back(my_list, &val);
 
 //Remove all 11s
 cdata_list_remove(my_list, &val);
-assert(cdata_list_size() == 2);
+assert(cdata_list_size(my_list) == 2);
 
 //Traverse list
 cdata_list_traverse(my_list, my_iterator_func, opaque);
