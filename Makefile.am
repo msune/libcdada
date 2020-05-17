@@ -3,7 +3,7 @@ MAINTAINERCLEANFILES = \
 	$(top_srcdir)/configure \
 	$(top_srcdir)/Makefile.in
 
-SUBDIRS = src test
+SUBDIRS = include src test
 
 #Could be improved..
 .PHONY: doc

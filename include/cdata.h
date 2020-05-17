@@ -35,9 +35,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        data structures. Prefer inclusion of individual ones.
 */
 
-#include "cdata/list.h"
-#include "cdata/map.h"
-//#include "cdata/queue.h"
-#include "cdata/set.h"
+#include <cdata/list.h>
+#include <cdata/map.h>
+//#include <cdata/queue.h>
+#include <cdata/set.h>
 
 #endif //__CDATA_H__
