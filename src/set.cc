@@ -6,7 +6,8 @@
 
 using namespace std;
 
-cdata_set_t* cdata_set_create(const uint16_t key_size){
+cdata_set_t* __cdata_set_create(const uint16_t key_size,
+						__cdata_set_ops_t* ops){
 
 	__cdata_set_int_t* m = NULL;
 
@@ -47,9 +48,11 @@ cdata_set_t* cdata_set_create(const uint16_t key_size){
 			m->set.u2048 = new set<cdata_u2048_t>();
 			m->key_len = 256;
 		}else{
-			//Variable
-			//TODO
-			goto ROLLBACK;
+			if(!ops)
+				goto ROLLBACK;
+			m->key_len = m->user_key_len = key_size;
+			m->ops = ops;
+			(*m->ops->create)(m);
 		}
 	}catch(bad_alloc& e){
 		goto ROLLBACK;
@@ -63,7 +66,11 @@ cdata_set_t* cdata_set_create(const uint16_t key_size){
 ROLLBACK:
 	free(m);
 	return NULL;
-};
+}
+
+cdata_set_t* cdata_set_create(const uint16_t key_size){
+	return __cdata_set_create(key_size, NULL);
+}
 
 /**
 * Destroy a set structure
@@ -104,8 +111,8 @@ int cdata_set_destroy(cdata_set_t* set){
 				delete m->set.u2048;
 				break;
 			default:
-				//TODO
-				CDATA_ASSERT(0);
+				CDATA_ASSERT(m->ops);
+				(*m->ops->destroy)(m);
 				break;
 		}
 	}catch(...){
@@ -155,9 +162,9 @@ int cdata_set_clear(cdata_set_t* set){
 				m->set.u2048->clear();
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->clear)(m);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -197,9 +204,8 @@ bool cdata_set_empty(cdata_set_t* set){
 			case 256:
 				return m->set.u2048->empty();
 			default:
-				//Variable
-				//TODO
-				return false;
+				CDATA_ASSERT(m->ops);
+				return (*m->ops->empty)(m);
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -237,9 +243,8 @@ uint32_t cdata_set_size(cdata_set_t* set){
 			case 256:
 				return m->set.u2048->size();
 			default:
-				//Variable
-				//TODO
-				return 0;
+				CDATA_ASSERT(m->ops);
+				return (*m->ops->size)(m);
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -305,9 +310,9 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 								key);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->insert)(m, key);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -373,9 +378,9 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 								key);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->erase)(m, key);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -439,9 +444,9 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 								key);
 				break;
 			default:
-				//Variable
-				//TODO
-				return false;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->find)(m, key);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -504,9 +509,9 @@ int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 								opaque);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->traverse)(m, f, opaque);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -572,9 +577,9 @@ int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 								opaque);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->traverse)(m, f, opaque);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);

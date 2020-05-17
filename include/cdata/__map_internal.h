@@ -49,6 +49,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 * @brief Internals of the map wrapper
 */
+
+/**
+* Main internal structure
+*/
 typedef struct{
 	uint32_t magic_num;
 	uint32_t user_key_len;
@@ -65,6 +69,7 @@ typedef struct{
 		std::map<cdata_u2048_t, void*>* u2048;
 		void* var;
 	}map;
+	__cdata_map_ops_t* ops;
 }__cdata_map_int_t;
 
 template<typename T>

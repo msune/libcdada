@@ -43,6 +43,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 typedef void cdata_list_t;
 
+//In case it's included from C++
+BEGIN_DECLS
+
 /**
 * cdata list structure iterator
 *
@@ -53,9 +56,27 @@ typedef void cdata_list_t;
 typedef void (*cdata_list_it)(const cdata_list_t* list, const void* val,
 						void* opaque);
 
-
-//In case it's included from C++
-BEGIN_DECLS
+/**
+* @internal Function pointer struct for autogen types
+*/
+typedef struct{
+	void (*create)(cdata_list_t* l);
+	void (*destroy)(cdata_list_t* l);
+	void (*clear)(cdata_list_t* l);
+	bool (*empty)(cdata_list_t* l);
+	uint32_t (*size)(cdata_list_t* l);
+	int (*insert)(cdata_list_t* l, const void* val, const uint32_t pos);
+	int (*get)(cdata_list_t* l, const uint32_t pos, void* val);
+	int (*erase)(cdata_list_t* l, const uint32_t pos);
+	int (*remove)(cdata_list_t* l, const void* val);
+	int (*push)(cdata_list_t* l, const void* val, bool front);
+	int (*pop)(cdata_list_t* l, bool front);
+	int (*sort)(cdata_list_t* l);
+	int (*reverse)(cdata_list_t* l);
+	int (*unique)(cdata_list_t* l);
+	int (*traverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
+	int (*rtraverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
+}__cdata_list_ops_t;
 
 /**
 * @brief Create and initialize a list data structure
@@ -64,6 +85,12 @@ BEGIN_DECLS
 * bytes, the optimal val sizes are {1,2,4 or 8 bytes}.
 */
 cdata_list_t* cdata_list_create(const uint16_t val_size);
+
+/**
+* @internal Create and initialize list with ops
+*/
+cdata_list_t* __cdata_list_create(const uint16_t val_size,
+						__cdata_list_ops_t* ops);
 
 /**
 * Destroy a list structure

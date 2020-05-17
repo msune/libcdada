@@ -43,6 +43,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 typedef void cdata_map_t;
 
+//In case it's included from C++
+BEGIN_DECLS
+
 /**
 * cdata map structure iterator
 *
@@ -55,9 +58,21 @@ typedef void (*cdata_map_it)(const cdata_map_t* map, const void* key,
 						void* val,
 						void* opaque);
 
-
-//In case it's included from C++
-BEGIN_DECLS
+/**
+* @internal Function pointer struct for autogen types
+*/
+typedef struct{
+	void (*create)(cdata_map_t* map);
+	void (*destroy)(cdata_map_t* map);
+	void (*clear)(cdata_map_t* map);
+	bool (*empty)(cdata_map_t* map);
+	uint32_t (*size)(cdata_map_t* map);
+	int (*insert)(cdata_map_t* map, const void* key, void* val);
+	int (*erase)(cdata_map_t* map, const void* key);
+	int (*find)(cdata_map_t* map, const void* key, void** val);
+	int (*traverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
+	int (*rtraverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
+}__cdata_map_ops_t;
 
 /**
 * @brief Create and initialize a map data structure
@@ -66,6 +81,12 @@ BEGIN_DECLS
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
 cdata_map_t* cdata_map_create(const uint16_t key_size);
+
+/**
+* @internal Create and initialize map with ops
+*/
+cdata_map_t* __cdata_map_create(const uint16_t key_size,
+						__cdata_map_ops_t* ops);
 
 /**
 * Destroy a map structure

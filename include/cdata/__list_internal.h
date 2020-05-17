@@ -49,6 +49,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 * @brief Internals of the list wrapper
 */
+
+/**
+* Main internal structure
+*/
 typedef struct{
 	uint32_t magic_num;
 	uint32_t user_val_len;
@@ -65,6 +69,7 @@ typedef struct{
 		std::list<cdata_u2048_t>* u2048;
 		void* var;
 	}list;
+	__cdata_list_ops_t* ops;
 }__cdata_list_int_t;
 
 template<typename T>
