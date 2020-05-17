@@ -67,7 +67,7 @@ typedef struct{
 		std::set<cdata_u512_t>* u512;
 		std::set<cdata_u1024_t>* u1024;
 		std::set<cdata_u2048_t>* u2048;
-		void* var;
+		void* custom;
 	}set;
 	__cdata_set_ops_t* ops;
 }__cdata_set_int_t;

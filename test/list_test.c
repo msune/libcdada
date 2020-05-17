@@ -3,6 +3,7 @@
 #include "cdata/list.h"
 #include <assert.h>
 #include <string.h>
+#include "u552.h"
 
 
 static uint64_t opaque = 0ULL;
@@ -1113,12 +1114,6 @@ int test_basics(){
 //
 // Key is not complete
 //
-//69byte type
-typedef struct{
-	uint8_t front[38];
-	uint8_t mid;
-	uint8_t back[30];
-} __attribute__((packed)) test_u552_t;
 
 void trav_u552(const cdata_list_t* s, const void* k, void* o){
 	assert(o == &opaque);

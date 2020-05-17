@@ -20,6 +20,15 @@ cdata_set_t* __cdata_set_create(const uint16_t key_size,
 	m->user_key_len = key_size;
 
 	try{
+		//Custom type
+		if(ops){
+			m->key_len = m->user_key_len = key_size;
+			m->ops = ops;
+			(*m->ops->create)(m);
+			return m;
+		}
+
+		//Regular
 		if(key_size == 1){
 			m->set.u8 = new set<uint8_t>();
 			m->key_len = 1;
@@ -48,11 +57,8 @@ cdata_set_t* __cdata_set_create(const uint16_t key_size,
 			m->set.u2048 = new set<cdata_u2048_t>();
 			m->key_len = 256;
 		}else{
-			if(!ops)
-				goto ROLLBACK;
-			m->key_len = m->user_key_len = key_size;
-			m->ops = ops;
-			(*m->ops->create)(m);
+			//Unsupported; use custom type
+			goto ROLLBACK;
 		}
 	}catch(bad_alloc& e){
 		goto ROLLBACK;
@@ -82,38 +88,41 @@ int cdata_set_destroy(cdata_set_t* set){
 	CDATA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->key_len){
-			case 1:
-				delete m->set.u8;
-				break;
-			case 2:
-				delete m->set.u16;
-				break;
-			case 4:
-				delete m->set.u32;
-				break;
-			case 8:
-				delete m->set.u64;
-				break;
-			case 16:
-				delete m->set.u128;
-				break;
-			case 32:
-				delete m->set.u256;
-				break;
-			case 64:
-				delete m->set.u512;
-				break;
-			case 128:
-				delete m->set.u1024;
-				break;
-			case 256:
-				delete m->set.u2048;
-				break;
-			default:
-				CDATA_ASSERT(m->ops);
-				(*m->ops->destroy)(m);
-				break;
+		if(m->ops){
+			(*m->ops->destroy)(m);
+		}else{
+			switch(m->key_len){
+				case 1:
+					delete m->set.u8;
+					break;
+				case 2:
+					delete m->set.u16;
+					break;
+				case 4:
+					delete m->set.u32;
+					break;
+				case 8:
+					delete m->set.u64;
+					break;
+				case 16:
+					delete m->set.u128;
+					break;
+				case 32:
+					delete m->set.u256;
+					break;
+				case 64:
+					delete m->set.u512;
+					break;
+				case 128:
+					delete m->set.u1024;
+					break;
+				case 256:
+					delete m->set.u2048;
+					break;
+				default:
+					CDATA_ASSERT(0);
+					break;
+			}
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -133,7 +142,8 @@ int cdata_set_clear(cdata_set_t* set){
 	CDATA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				m->set.u8->clear();
 				break;
@@ -161,9 +171,11 @@ int cdata_set_clear(cdata_set_t* set){
 			case 256:
 				m->set.u2048->clear();
 				break;
-			default:
-				CDATA_ASSERT(m->ops);
+			case 0:
 				(*m->ops->clear)(m);
+				break;
+			default:
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(bad_alloc& e){
@@ -184,7 +196,8 @@ bool cdata_set_empty(cdata_set_t* set){
 		return false;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				return m->set.u8->empty();
 			case 2:
@@ -203,9 +216,12 @@ bool cdata_set_empty(cdata_set_t* set){
 				return m->set.u1024->empty();
 			case 256:
 				return m->set.u2048->empty();
-			default:
+			case 0:
 				CDATA_ASSERT(m->ops);
 				return (*m->ops->empty)(m);
+			default:
+				CDATA_ASSERT(0);
+				return false;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -223,7 +239,8 @@ uint32_t cdata_set_size(cdata_set_t* set){
 		return 0;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				return m->set.u8->size();
 			case 2:
@@ -242,9 +259,11 @@ uint32_t cdata_set_size(cdata_set_t* set){
 				return m->set.u1024->size();
 			case 256:
 				return m->set.u2048->size();
-			default:
-				CDATA_ASSERT(m->ops);
+			case 0:
 				return (*m->ops->size)(m);
+			default:
+				CDATA_ASSERT(0);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -267,7 +286,8 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 	//NOTE: we don't want std::set insert "replace semantics", so we return
 	//E_EXISTS if key is present in the set
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				rv = cdata_set_insert_u<uint8_t>(m, m->set.u8,
 									key);
@@ -309,9 +329,11 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 								m->set.u2048,
 								key);
 				break;
-			default:
-				CDATA_ASSERT(m->ops);
+			case 0:
 				rv = (*m->ops->insert)(m, key);
+				break;
+			default:
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(bad_alloc& e){
@@ -335,7 +357,8 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 		return CDATA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				rv = cdata_set_erase_u<uint8_t>(m, m->set.u8,
 									key);
@@ -377,9 +400,11 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 								m->set.u2048,
 								key);
 				break;
-			default:
-				CDATA_ASSERT(m->ops);
+			case 0:
 				rv = (*m->ops->erase)(m, key);
+				break;
+			default:
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(bad_alloc& e){
@@ -401,7 +426,8 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 		return false;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				rv = cdata_set_find_u<uint8_t>(m, m->set.u8,
 									key);
@@ -443,9 +469,11 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 								m->set.u2048,
 								key);
 				break;
-			default:
-				CDATA_ASSERT(m->ops);
+			case 0:
 				rv = (*m->ops->find)(m, key);
+				break;
+			default:
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(...){
@@ -466,7 +494,8 @@ int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 		return CDATA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				cdata_set_traverse_u<uint8_t>(m, m->set.u8, f,
 									opaque);
@@ -508,9 +537,12 @@ int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 								m->set.u2048, f,
 								opaque);
 				break;
-			default:
+			case 0:
 				CDATA_ASSERT(m->ops);
 				(*m->ops->traverse)(m, f, opaque);
+				break;
+			default:
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(...){
@@ -531,7 +563,8 @@ int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 		return CDATA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				cdata_set_rtraverse_u<uint8_t>(m, m->set.u8, f,
 									opaque);
@@ -576,9 +609,11 @@ int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 								m->set.u2048, f,
 								opaque);
 				break;
+			case 0:
+				(*m->ops->rtraverse)(m, f, opaque);
+				break;
 			default:
-				CDATA_ASSERT(m->ops);
-				(*m->ops->traverse)(m, f, opaque);
+				CDATA_ASSERT(0);
 				break;
 		}
 	}catch(...){

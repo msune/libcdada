@@ -16,7 +16,7 @@ map_test_SOURCES= map_test.c
 map_test_CPPFLAGS= -I$(top_srcdir)/include/
 map_test_LDADD= -lpthread ../src/libcdata.la
 
-set_test_SOURCES= set_test.c
+set_test_SOURCES= set_test.c set_custom.cc
 set_test_CPPFLAGS= -I$(top_srcdir)/include/
 set_test_LDADD= -lpthread ../src/libcdata.la
 

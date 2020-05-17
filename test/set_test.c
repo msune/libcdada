@@ -3,7 +3,10 @@
 #include "cdata/set.h"
 #include <assert.h>
 #include <string.h>
+#include "u552.h"
 
+//Fwd decl
+CDATA_SET_CUSTOM_TYPE_DECL(test_u552_t);
 
 static uint64_t opaque = 0ULL;
 static cdata_set_t* set = NULL;
@@ -373,13 +376,6 @@ int test_basics(){
 //
 // Key is not complete
 //
-//69byte type
-typedef struct{
-	uint8_t front[38];
-	uint8_t mid;
-	uint8_t back[30];
-} __attribute__((packed)) test_u552_t;
-
 void trav_u552(const cdata_set_t* s, const void* k, void* o){
 	assert(o == &opaque);
 	assert(set == s);
@@ -396,13 +392,10 @@ void rtrav_u552(const cdata_set_t* s, const void* k, void* o){
 	opaque--;
 }
 
-int test_u552_insert_removal_traverse(){
+int _test_u552_insert_removal_traverse(){
 
 	int i, rv;
 	test_u552_t key = {{0}};
-
-	set = cdata_set_create(sizeof(key));
-	assert(set != NULL);
 
 	assert(cdata_set_size(set) == 0);
 	assert(cdata_set_empty(set) == true);
@@ -472,6 +465,20 @@ int test_u552_insert_removal_traverse(){
 	return 0;
 }
 
+int test_u552_insert_removal_traverse(){
+	set = cdata_set_create(sizeof(test_u552_t));
+	assert(set != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
+
+int test_u552_insert_removal_traverse_custom(){
+	set = cdata_set_create_custom(test_u552_t);
+	assert(set != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -486,6 +493,7 @@ int main(int args, char** argv){
 
 	//Incomplete
 	rv |= test_u552_insert_removal_traverse();
+	rv |= test_u552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
