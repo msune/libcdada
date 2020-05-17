@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "cdata/set.h"
-#include <assert.h>
+#include "common.h"
 #include <string.h>
 #include "u552.h"
 
@@ -12,18 +12,18 @@ static uint64_t opaque = 0ULL;
 static cdata_set_t* set = NULL;
 
 void trav_u64(const cdata_set_t* s, const void* k, void* o){
-	assert(o == &opaque);
-	assert(set == s);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(set == s);
 	uint64_t key = *(uint64_t*)k;
-	assert(opaque == key);
+	TEST_ASSERT(opaque == key);
 	opaque++;
 }
 
 void rtrav_u64(const cdata_set_t* s, const void* k, void* o){
-	assert(o == &opaque);
-	assert(set == s);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(set == s);
 	uint64_t key = *(uint64_t*)k;
-	assert(opaque == key);
+	TEST_ASSERT(opaque == key);
 	opaque--;
 }
 
@@ -39,65 +39,65 @@ int test_u8_insert_removal(){
 	uint8_t key;
 
 	set = cdata_set_create(sizeof(key));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_size(set) == 1);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 1);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Find an invalid value
 	key = 1;
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_set_insert(set, &key);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_set_size(set) == 32);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 32);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
 	key = 22;
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 22); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 22); //Should never pollute
 
 	rv = cdata_set_clear(set);
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -109,65 +109,65 @@ int test_u16_insert_removal(){
 	uint16_t key;
 
 	set = cdata_set_create(sizeof(key));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_size(set) == 1);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 1);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Find an invalid value
 	key = 1;
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_set_insert(set, &key);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_set_size(set) == 32);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 32);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
 	key = 22;
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 22); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 22); //Should never pollute
 
 	rv = cdata_set_clear(set);
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -179,65 +179,65 @@ int test_u32_insert_removal(){
 	uint32_t key;
 
 	set = cdata_set_create(sizeof(key));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_size(set) == 1);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 1);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Find an invalid value
 	key = 1;
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0); //Should never pollute
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_set_insert(set, &key);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_set_size(set) == 32);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 32);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
 	key = 22;
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 22); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 22); //Should never pollute
 
 	rv = cdata_set_clear(set);
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -249,58 +249,58 @@ int test_u64_insert_removal_traverse(){
 	uint64_t key;
 
 	set = cdata_set_create(sizeof(key));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Add one key & get
 	key = 0ULL;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_size(set) == 1);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 1);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0ULL); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0ULL); //Should never pollute
 
 	//Find an invalid value
 	key = 1ULL;
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0ULL;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 0ULL); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 0ULL); //Should never pollute
 
 	//Erase first an invalid
 	key = 1ULL;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0ULL;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_set_insert(set, &key);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_set_size(set) == 32);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 32);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
 	key = 22ULL;
-	assert(cdata_set_find(set, &key) == true);
-	assert(key == 22ULL); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key == 22ULL); //Should never pollute
 
 	//Traverse
 	opaque = 0ULL;
@@ -310,11 +310,11 @@ int test_u64_insert_removal_traverse(){
 	cdata_set_rtraverse(set, &rtrav_u64, &opaque);
 
 	rv = cdata_set_clear(set);
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -327,48 +327,48 @@ int test_basics(){
 
 	//Create
 	set = cdata_set_create(sizeof(int));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Try all APIs with a NULL set/key/val
-	assert(cdata_set_size(NULL) == 0);
-	assert(cdata_set_empty(NULL) == false);
+	TEST_ASSERT(cdata_set_size(NULL) == 0);
+	TEST_ASSERT(cdata_set_empty(NULL) == false);
 	rv = cdata_set_destroy(NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 
 	rv = cdata_set_traverse(NULL, ptr_not_null, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_traverse(set, NULL, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_rtraverse(NULL, ptr_not_null, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_rtraverse(set, NULL, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 
 	rv = cdata_set_insert(NULL, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_insert(set, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_erase(NULL, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_set_erase(set, NULL);
-	assert(rv == CDATA_E_INVALID);
-	assert(cdata_set_find(NULL, ptr_not_null) == false);
-	assert(cdata_set_find(set, NULL) == false);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
+	TEST_ASSERT(cdata_set_find(NULL, ptr_not_null) == false);
+	TEST_ASSERT(cdata_set_find(set, NULL) == false);
 
 	//Now destroy
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	//Create with valid and invalid
 	set = cdata_set_create(256);
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 	set = cdata_set_create(257);
-	assert(set == NULL);
+	TEST_ASSERT(set == NULL);
 
 	return 0;
 }
@@ -377,76 +377,77 @@ int test_basics(){
 // Key is not complete
 //
 void trav_u552(const cdata_set_t* s, const void* k, void* o){
-	assert(o == &opaque);
-	assert(set == s);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(set == s);
 	test_u552_t key = *(test_u552_t*)k;
-	assert(opaque == key.mid);
+	TEST_ASSERT(opaque == key.mid);
 	opaque++;
 }
 
 void rtrav_u552(const cdata_set_t* s, const void* k, void* o){
-	assert(o == &opaque);
-	assert(set == s);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(set == s);
 	test_u552_t key = *(test_u552_t*)k;
-	assert(opaque == key.mid);
+	TEST_ASSERT(opaque == key.mid);
 	opaque--;
 }
 
 int _test_u552_insert_removal_traverse(){
 
 	int i, rv;
-	test_u552_t key = {{0}};
+	test_u552_t key;
+	memset(&key, 0, sizeof(key));
 
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	//Add one key & get
 	key.mid = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_size(set) == 1);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 1);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key.mid == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
 
 	//Find an invalid value
 	key.mid = 1;
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key.mid = 0;
 	rv = cdata_set_insert(set, &key);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
-	assert(cdata_set_find(set, &key) == true);
-	assert(key.mid == 0); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
 
 	//Erase first an invalid
 	key.mid = 1;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key.mid = 0;
 	rv = cdata_set_erase(set, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_set_find(set, &key) == false);
+	TEST_ASSERT(cdata_set_find(set, &key) == false);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdata_set_insert(set, &key);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_set_size(set) == 32);
-	assert(cdata_set_empty(set) == false);
+	TEST_ASSERT(cdata_set_size(set) == 32);
+	TEST_ASSERT(cdata_set_empty(set) == false);
 
 	key.mid = 22;
-	assert(cdata_set_find(set, &key) == true);
-	assert(key.mid == 22); //Should never pollute
+	TEST_ASSERT(cdata_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 22); //Should never pollute
 
 	//Traverse
 	opaque = 0ULL;
@@ -456,25 +457,25 @@ int _test_u552_insert_removal_traverse(){
 	cdata_set_rtraverse(set, &rtrav_u552, &opaque);
 
 	rv = cdata_set_clear(set);
-	assert(cdata_set_size(set) == 0);
-	assert(cdata_set_empty(set) == true);
+	TEST_ASSERT(cdata_set_size(set) == 0);
+	TEST_ASSERT(cdata_set_empty(set) == true);
 
 	rv = cdata_set_destroy(set);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
 
 int test_u552_insert_removal_traverse(){
 	set = cdata_set_create(sizeof(test_u552_t));
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
 	return _test_u552_insert_removal_traverse();
 }
 
 int test_u552_insert_removal_traverse_custom(){
 	set = cdata_set_create_custom(test_u552_t);
-	assert(set != NULL);
+	TEST_ASSERT(set != NULL);
 
 	return _test_u552_insert_removal_traverse();
 }

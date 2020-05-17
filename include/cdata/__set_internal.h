@@ -87,8 +87,10 @@ int cdata_set_insert_u(__cdata_set_int_t* m, std::set<T>* m_u,
 		return CDATA_SUCCESS;
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
 	if(m_u->find(aux) != m_u->end())
@@ -114,8 +116,10 @@ int cdata_set_erase_u(__cdata_set_int_t* m, std::set<T>* m_u,
 		return CDATA_SUCCESS;
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
 	if(m_u->find(aux) == m_u->end())
@@ -135,8 +139,10 @@ bool cdata_set_find_u(__cdata_set_int_t* m, std::set<T>* m_u,
 		return m_u->find(*aux) != m_u->end();
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
 	return m_u->find(aux) != m_u->end();
