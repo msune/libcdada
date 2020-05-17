@@ -252,12 +252,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}
 
 /**
-* @brief Auto-generate (instantiate) new custom type list, with TYPE
-*
-* This MACRO shall only be used when a custom operator< wants to be used, and
-* it has to be defined beforehand.
+* Auto-generate (instantiate) new custom type list, with TYPE
 */
-#define CDATA_LIST_CUSTOM_GEN_NO_MEMCP(TYPE) 	\
+#define CDATA_LIST_CUSTOM_GEN(TYPE) 	\
 	__CDATA_LIST_CUSTOM_CREATE_F(TYPE); \
 	__CDATA_LIST_CUSTOM_DESTROY_F(TYPE); \
 	__CDATA_LIST_CUSTOM_CLEAR_F(TYPE); \
@@ -275,14 +272,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDATA_LIST_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDATA_LIST_CUSTOM_RTRAVERSE_F(TYPE); \
 	__CDATA_LIST_CUSTOM_OPS(TYPE)
-
-/**
-* Auto-generate (instantiate) new custom type list, with TYPE
-*/
-#define CDATA_LIST_CUSTOM_GEN(TYPE) 	\
-	__CDATA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE); \
-	__CDATA_CUSTOM_GEN_MEMCP_EQ_OP(TYPE); \
-	CDATA_LIST_CUSTOM_GEN_NO_MEMCP(TYPE)
 
 #undef __CDATA_INTERNAL_INCLUDE
 

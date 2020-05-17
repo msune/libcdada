@@ -162,4 +162,11 @@ inline bool operator==(const cdata_u2048_t& a1, const cdata_u2048_t& a2){
 						sizeof( TYPE )) == 0; \
 	}
 
+/**
+* Define C++ necessary operators for the type
+*/
+#define CDATA_CUSTOM_GEN_MEMCP_OPERATORS(TYPE) \
+	__CDATA_CUSTOM_GEN_MEMCP_EQ_OP(TYPE); \
+	__CDATA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE)
+
 #endif //__CDATA_COMMON_INT__

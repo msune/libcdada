@@ -24,8 +24,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_LIST_INT__
-#define __CDATA_LIST_INT__
+#ifndef __CDATA_SET_INT__
+#define __CDATA_SET_INT__
 
 //Internal headers should never be directly included
 #ifndef __CDATA_INTERNAL_INCLUDE
@@ -174,4 +174,4 @@ void cdata_set_rtraverse_u(const cdata_set_t* set, std::set<T>* m_u,
 	}
 }
 
-#endif //__CDATA_LIST_INT__
+#endif //__CDATA_SET_INT__
