@@ -20,6 +20,14 @@ cdata_map_t* __cdata_map_create(const uint16_t key_size,
 	m->user_key_len = key_size;
 
 	try{
+		//Custom type
+		if(ops){
+			m->key_len = m->user_key_len = key_size;
+			m->ops = ops;
+			(*m->ops->create)(m);
+			return m;
+		}
+
 		if(key_size == 1){
 			m->map.u8 = new map<uint8_t, void*>();
 			m->key_len = 1;
@@ -48,11 +56,7 @@ cdata_map_t* __cdata_map_create(const uint16_t key_size,
 			m->map.u2048 = new map<cdata_u2048_t, void*>();
 			m->key_len = 256;
 		}else{
-			if(!ops)
-				goto ROLLBACK;
-			m->key_len = m->user_key_len = key_size;
-			m->ops = ops;
-			(*m->ops->create)(m);
+			goto ROLLBACK;
 		}
 	}catch(bad_alloc& e){
 		goto ROLLBACK;
@@ -600,7 +604,7 @@ int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it f,
 				break;
 			default:
 				CDATA_ASSERT(m->ops);
-				(*m->ops->traverse)(m, f, opaque);
+				(*m->ops->rtraverse)(m, f, opaque);
 				break;
 		}
 	}catch(...){

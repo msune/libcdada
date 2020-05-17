@@ -5,6 +5,9 @@
 #include <string.h>
 #include "u552.h"
 
+//Fwd decl
+CDATA_MAP_CUSTOM_TYPE_DECL(test_u552_t);
+
 static uint64_t opaque = 0ULL;
 static cdata_map_t* map = NULL;
 
@@ -469,7 +472,7 @@ void rtrav_u552(const cdata_map_t* m, const void* k,
 	opaque--;
 }
 
-int test_u552_insert_removal_traverse(){
+int _test_u552_insert_removal_traverse(){
 
 	int i, rv;
 	test_u552_t key;
@@ -480,9 +483,6 @@ int test_u552_insert_removal_traverse(){
 
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
-
-	map = cdata_map_create(sizeof(key));
-	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdata_map_size(map) == 0);
 	TEST_ASSERT(cdata_map_empty(map) == true);
@@ -560,6 +560,19 @@ int test_u552_insert_removal_traverse(){
 	return 0;
 }
 
+int test_u552_insert_removal_traverse(){
+	map = cdata_map_create(sizeof(test_u552_t));
+	TEST_ASSERT(map != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
+
+int test_u552_insert_removal_traverse_custom(){
+	map = cdata_map_create_custom(test_u552_t);
+	TEST_ASSERT(map != NULL);
+
+	return _test_u552_insert_removal_traverse();
+}
 
 int main(int args, char** argv){
 
@@ -575,6 +588,7 @@ int main(int args, char** argv){
 
 	//Incomplete
 	rv |= test_u552_insert_removal_traverse();
+	rv |= test_u552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

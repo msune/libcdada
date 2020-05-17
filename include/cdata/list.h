@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdata/utils.h>
 
 /**
-* @file cdata_list.h
+* @file cdata/list.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief List data structure. Wraps std::list data structure

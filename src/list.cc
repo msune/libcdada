@@ -20,6 +20,14 @@ cdata_list_t* __cdata_list_create(const uint16_t val_size,
 	m->user_val_len = val_size;
 
 	try{
+		//Custom type
+		if(ops){
+			m->val_len = m->user_val_len = val_size;
+			m->ops = ops;
+			(*m->ops->create)(m);
+			return m;
+		}
+
 		if(val_size == 1){
 			m->list.u8 = new list<uint8_t>();
 			m->val_len = 1;
@@ -48,11 +56,7 @@ cdata_list_t* __cdata_list_create(const uint16_t val_size,
 			m->list.u2048 = new list<cdata_u2048_t>();
 			m->val_len = 256;
 		}else{
-			if(!ops)
-				goto ROLLBACK;
-			m->val_len = m->user_val_len = val_size;
-			m->ops = ops;
-			(*m->ops->create)(m);
+			goto ROLLBACK;
 		}
 	}catch(bad_alloc& e){
 		goto ROLLBACK;

@@ -2,6 +2,7 @@ MAINTAINERCLEANFILES = Makefile.in
 
 nobase_include_HEADERS = cdata.h cdata/list.h             \
 				cdata/map.h               \
+				cdata/map_custom_cc.h     \
 				cdata/set.h               \
 				cdata/set_custom_cc.h     \
 				cdata/utils.h             \

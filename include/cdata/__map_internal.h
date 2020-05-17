@@ -67,7 +67,7 @@ typedef struct{
 		std::map<cdata_u512_t, void*>* u512;
 		std::map<cdata_u1024_t, void*>* u1024;
 		std::map<cdata_u2048_t, void*>* u2048;
-		void* var;
+		void* custom;
 	}map;
 	__cdata_map_ops_t* ops;
 }__cdata_map_int_t;
