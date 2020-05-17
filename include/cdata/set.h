@@ -43,6 +43,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 typedef void cdata_set_t;
 
+//In case it's included from C++
+BEGIN_DECLS
+
 /**
 * cdata set structure iterator
 *
@@ -53,9 +56,21 @@ typedef void cdata_set_t;
 typedef void (*cdata_set_it)(const cdata_set_t* set, const void* key,
 						void* opaque);
 
-
-//In case it's included from C++
-BEGIN_DECLS
+/**
+* @internal Function pointer struct for autogen types
+*/
+typedef struct{
+	void (*create)(void* m);
+	void (*destroy)(void* m);
+	void (*clear)(void* m);
+	bool (*empty)(void* m);
+	uint32_t (*size)(void* m);
+	int (*insert)(void* m, const void* key);
+	int (*erase)(void* m, const void* key);
+	bool (*find)(void* m, const void* key);
+	int (*traverse)(void* m, cdata_set_it f, void* opaque);
+	int (*rtraverse)(void* m, cdata_set_it f, void* opaque);
+}__cdata_set_ops_t;
 
 /**
 * @brief Create and initialize a set data structure
@@ -64,6 +79,12 @@ BEGIN_DECLS
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
 cdata_set_t* cdata_set_create(const uint16_t key_size);
+
+/**
+* @internal Create and initialize set with ops
+*/
+cdata_set_t* __cdata_set_create(const uint16_t key_size,
+						__cdata_set_ops_t* ops);
 
 /**
 * Destroy a set structure

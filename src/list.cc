@@ -6,7 +6,8 @@
 
 using namespace std;
 
-cdata_list_t* cdata_list_create(const uint16_t val_size){
+cdata_list_t* __cdata_list_create(const uint16_t val_size,
+						__cdata_list_ops_t* ops){
 
 	__cdata_list_int_t* m = NULL;
 
@@ -47,9 +48,11 @@ cdata_list_t* cdata_list_create(const uint16_t val_size){
 			m->list.u2048 = new list<cdata_u2048_t>();
 			m->val_len = 256;
 		}else{
-			//Variable
-			//TODO
-			goto ROLLBACK;
+			if(!ops)
+				goto ROLLBACK;
+			m->val_len = m->user_val_len = val_size;
+			m->ops = ops;
+			(*m->ops->create)(m);
 		}
 	}catch(bad_alloc& e){
 		goto ROLLBACK;
@@ -63,7 +66,11 @@ cdata_list_t* cdata_list_create(const uint16_t val_size){
 ROLLBACK:
 	free(m);
 	return NULL;
-};
+}
+
+cdata_list_t* cdata_list_create(const uint16_t val_size){
+	return __cdata_list_create(val_size, NULL);
+}
 
 /**
 * Destroy a list structure
@@ -104,8 +111,8 @@ int cdata_list_destroy(cdata_list_t* list){
 				delete m->list.u2048;
 				break;
 			default:
-				//TODO
-				CDATA_ASSERT(0);
+				CDATA_ASSERT(m->ops);
+				(*m->ops->destroy)(m);
 				break;
 		}
 	}catch(...){
@@ -155,9 +162,9 @@ int cdata_list_clear(cdata_list_t* list){
 				m->list.u2048->clear();
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->clear)(m);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -197,9 +204,8 @@ bool cdata_list_empty(cdata_list_t* list){
 			case 256:
 				return m->list.u2048->empty();
 			default:
-				//Variable
-				//TODO
-				return false;
+				CDATA_ASSERT(m->ops);
+				return (*m->ops->empty)(m);
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -237,9 +243,8 @@ uint32_t cdata_list_size(cdata_list_t* list){
 			case 256:
 				return m->list.u2048->size();
 			default:
-				//Variable
-				//TODO
-				return 0;
+				CDATA_ASSERT(m->ops);
+				return (*m->ops->size)(m);
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -308,9 +313,9 @@ int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos){
 							val, pos);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->insert)(m, val, pos);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -381,9 +386,9 @@ int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val){
 							pos, val);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->get)(m, pos, val);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -449,9 +454,9 @@ int cdata_list_erase(cdata_list_t* list, const uint32_t pos){
 								pos);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->erase)(m, pos);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -522,9 +527,9 @@ int cdata_list_remove(cdata_list_t* list, const void* val){
 							val);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->remove)(m, val);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -590,9 +595,9 @@ static int cdata_list_push_(cdata_list_t* list, const void* val, bool front){
 								val, front);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->push)(m, val, front);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -663,9 +668,9 @@ static int cdata_list_pop_(cdata_list_t* list, bool front){
 								front);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				rv = (*m->ops->pop)(m, front);
+				break;
 		}
 	}catch(bad_alloc& e){
 		return CDATA_E_MEM;
@@ -722,9 +727,9 @@ int cdata_list_sort(cdata_list_t* list){
 				m->list.u2048->sort();
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->sort)(m);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -771,9 +776,9 @@ int cdata_list_reverse(cdata_list_t* list){
 				m->list.u2048->reverse();
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->reverse)(m);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -820,9 +825,9 @@ int cdata_list_unique(cdata_list_t* list){
 				m->list.u2048->unique();
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->unique)(m);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -886,9 +891,9 @@ int cdata_list_traverse(const cdata_list_t* list, cdata_list_it f,
 								f, opaque);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->traverse)(m, f, opaque);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
@@ -952,9 +957,9 @@ int cdata_list_rtraverse(const cdata_list_t* list, cdata_list_it f,
 								f, opaque);
 				break;
 			default:
-				//Variable
-				//TODO
-				return CDATA_E_UNSUPPORTED;
+				CDATA_ASSERT(m->ops);
+				(*m->ops->rtraverse)(m, f, opaque);
+				break;
 		}
 	}catch(...){
 		CDATA_ASSERT(0);
