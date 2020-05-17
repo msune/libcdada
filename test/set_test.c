@@ -399,7 +399,7 @@ void rtrav_u552(const cdata_set_t* s, const void* k, void* o){
 int test_u552_insert_removal_traverse(){
 
 	int i, rv;
-	test_u552_t key = {0};
+	test_u552_t key = {{0}};
 
 	set = cdata_set_create(sizeof(key));
 	assert(set != NULL);
