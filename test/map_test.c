@@ -588,6 +588,8 @@ int main(int args, char** argv){
 
 	//Incomplete
 	rv |= test_u552_insert_removal_traverse();
+
+	//Custom type
 	rv |= test_u552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
