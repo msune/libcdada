@@ -44,6 +44,7 @@ m4_include([config_m4/valgrind.m4])
 AC_CONFIG_FILES([
 	Makefile
 	include/Makefile
+	examples/Makefile
 	src/Makefile
 	test/Makefile
 ])
