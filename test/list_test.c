@@ -256,6 +256,41 @@ int test_u8_insert_removal(){
 	assert(cdata_list_size(list) == 2);
 	assert(cdata_list_empty(list) == false);
 
+	//Insert 5s {5, 1, 0, 5}
+	key = 5;
+	rv = cdata_list_insert(list, &key, 0);
+	rv |= cdata_list_insert(list, &key, 4);
+	assert(rv == CDATA_SUCCESS);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 3, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	assert(cdata_list_size(list) == 4);
+	assert(cdata_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdata_list_remove(list, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(cdata_list_size(list) == 2);
+	assert(cdata_list_empty(list) == false);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+	assert(key == 0);
+
 	rv = cdata_list_clear(list);
 	assert(rv == CDATA_SUCCESS);
 	assert(cdata_list_size(list) == 0);
@@ -462,6 +497,41 @@ int test_u16_insert_removal(){
 	assert(cdata_list_size(list) == 2);
 	assert(cdata_list_empty(list) == false);
 
+	//Insert 5s {5, 1, 0, 5}
+	key = 5;
+	rv = cdata_list_insert(list, &key, 0);
+	rv |= cdata_list_insert(list, &key, 4);
+	assert(rv == CDATA_SUCCESS);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 3, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	assert(cdata_list_size(list) == 4);
+	assert(cdata_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdata_list_remove(list, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(cdata_list_size(list) == 2);
+	assert(cdata_list_empty(list) == false);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+	assert(key == 0);
+
 	rv = cdata_list_clear(list);
 	assert(rv == CDATA_SUCCESS);
 	assert(cdata_list_size(list) == 0);
@@ -667,6 +737,41 @@ int test_u32_insert_removal(){
 	assert(key == 0);
 	assert(cdata_list_size(list) == 2);
 	assert(cdata_list_empty(list) == false);
+
+	//Insert 5s {5, 1, 0, 5}
+	key = 5;
+	rv = cdata_list_insert(list, &key, 0);
+	rv |= cdata_list_insert(list, &key, 4);
+	assert(rv == CDATA_SUCCESS);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 3, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5);
+	assert(cdata_list_size(list) == 4);
+	assert(cdata_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdata_list_remove(list, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(cdata_list_size(list) == 2);
+	assert(cdata_list_empty(list) == false);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+	assert(key == 0);
 
 	rv = cdata_list_clear(list);
 	assert(rv == CDATA_SUCCESS);
@@ -879,6 +984,41 @@ int test_u64_insert_removal_traverse(){
 	assert(key == 0ULL);
 	assert(cdata_list_size(list) == 2);
 	assert(cdata_list_empty(list) == false);
+
+	//Insert 5s {5, 1, 0, 5}
+	key = 5ULL;
+	rv = cdata_list_insert(list, &key, 0);
+	rv |= cdata_list_insert(list, &key, 4);
+	assert(rv == CDATA_SUCCESS);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5ULL);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1ULL);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0ULL);
+	rv = cdata_list_get(list, 3, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 5ULL);
+	assert(cdata_list_size(list) == 4);
+	assert(cdata_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdata_list_remove(list, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(cdata_list_size(list) == 2);
+	assert(cdata_list_empty(list) == false);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 1ULL);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key == 0ULL);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+	assert(key == 0ULL);
 
 	rv = cdata_list_clear(list);
 	assert(rv == CDATA_SUCCESS);
@@ -1228,6 +1368,41 @@ int test_u552_insert_removal_traverse(){
 	assert(key.mid == 0);
 	assert(cdata_list_size(list) == 2);
 	assert(cdata_list_empty(list) == false);
+
+	//Insert 5s {5, 1, 0, 5}
+	key.mid = 5;
+	rv = cdata_list_insert(list, &key, 0);
+	rv |= cdata_list_insert(list, &key, 4);
+	assert(rv == CDATA_SUCCESS);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 5);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 1);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 0);
+	rv = cdata_list_get(list, 3, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 5);
+	assert(cdata_list_size(list) == 4);
+	assert(cdata_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdata_list_remove(list, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(cdata_list_size(list) == 2);
+	assert(cdata_list_empty(list) == false);
+	rv = cdata_list_get(list, 0, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 1);
+	rv = cdata_list_get(list, 1, &key);
+	assert(rv == CDATA_SUCCESS);
+	assert(key.mid == 0);
+	rv = cdata_list_get(list, 2, &key);
+	assert(rv == CDATA_E_NOT_FOUND);
+	assert(key.mid == 0);
 
 	rv = cdata_list_clear(list);
 	assert(rv == CDATA_SUCCESS);
