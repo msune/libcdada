@@ -35,13 +35,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 //Eror codes
-#define CDATA_SUCCESS        0
-#define CDATA_E_UNKNOWN     -1
-#define CDATA_E_INVALID     -2
-#define CDATA_E_NOT_FOUND   -3
-#define CDATA_E_EXISTS      -4
-#define CDATA_E_MEM         -5
-#define CDATA_E_UNSUPPORTED -6
+#define CDATA_SUCCESS       0
+#define CDATA_E_UNKNOWN     1
+#define CDATA_E_INVALID     2
+#define CDATA_E_NOT_FOUND   3
+#define CDATA_E_EXISTS      4
+#define CDATA_E_MEM         5
+#define CDATA_E_UNSUPPORTED 6
+#define CDATA_E_COUNT       7
 
 #ifdef __cplusplus
 	# define BEGIN_DECLS extern "C" {
@@ -50,5 +51,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	# define BEGIN_DECLS
 	# define END_DECLS
 #endif //__cplusplus
+
+BEGIN_DECLS
+
+/**
+* Get a human-readable description for CDATA errors
+*/
+const char* cdata_strerr(int error);
+
+END_DECLS
 
 #endif //__CDATA_UTILS_H__
