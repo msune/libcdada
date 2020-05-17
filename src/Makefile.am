@@ -1,7 +1,5 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-#SUBDIRS =
-
 lib_LTLIBRARIES = libcdata.la
 
 libcdata_la_SOURCES = list.cc map.cc set.cc

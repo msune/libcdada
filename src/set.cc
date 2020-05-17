@@ -1,6 +1,6 @@
 #include "cdata/set.h"
-#include "common_int.h"
-#include "set_int.h"
+#include "cdata/__common_internal.h"
+#include "cdata/__set_internal.h"
 
 #include <string.h>
 
@@ -249,33 +249,6 @@ uint32_t cdata_set_size(cdata_set_t* set){
 	return 0;
 }
 
-template<typename T>
-int cdata_set_insert_u(__cdata_set_int_t* m, std::set<T>* m_u,
-							const void* key){
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)key;
-
-		if(m_u->find(*aux) != m_u->end())
-			return CDATA_E_EXISTS;
-		m_u->insert(*aux);
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	if(m_u->find(aux) != m_u->end())
-		return CDATA_E_EXISTS;
-
-	m_u->insert(aux);
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_set_insert(cdata_set_t* set, const void* key){
 
 	int rv;
@@ -346,33 +319,6 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 	return rv;
 }
 
-template<typename T>
-int cdata_set_erase_u(__cdata_set_int_t* m, std::set<T>* m_u,
-							const void* key){
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)key;
-
-		if(m_u->find(*aux) == m_u->end())
-			return CDATA_E_NOT_FOUND;
-		m_u->erase(*aux);
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	if(m_u->find(aux) == m_u->end())
-		return CDATA_E_NOT_FOUND;
-
-	m_u->erase(aux);
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_set_erase(cdata_set_t* set, const void* key){
 
 	int rv;
@@ -441,23 +387,6 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 	return rv;
 }
 
-
-template<typename T>
-bool cdata_set_find_u(__cdata_set_int_t* m, std::set<T>* m_u,
-							const void* key){
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-		aux = (T*)key;
-		return m_u->find(*aux) != m_u->end();
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	return m_u->find(aux) != m_u->end();
-}
-
 bool cdata_set_find(cdata_set_t* set, const void* key){
 
 	bool rv;
@@ -520,19 +449,6 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 	}
 
 	return rv;
-}
-
-template<typename T>
-void cdata_set_traverse_u(const cdata_set_t* set, std::set<T>* m_u,
-							cdata_set_it f,
-							void* opaque){
-
-	typename std::set<T>::const_iterator it;
-
-	for(it = m_u->begin(); it != m_u->end(); ++it){
-		const T& t = *it;
-		(*f)(set, &t, opaque);
-	}
 }
 
 int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
@@ -598,19 +514,6 @@ int cdata_set_traverse(const cdata_set_t* set, cdata_set_it f, void* opaque){
 	}
 
 	return CDATA_SUCCESS;
-}
-
-template<typename T>
-void cdata_set_rtraverse_u(const cdata_set_t* set, std::set<T>* m_u,
-							cdata_set_it f,
-							void* opaque){
-
-	typename std::set<T>::const_reverse_iterator it;
-
-	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
-		const T& t = *it;
-		(*f)(set, &t, opaque);
-	}
 }
 
 int cdata_set_rtraverse(const cdata_set_t* set, cdata_set_it f, void* opaque){

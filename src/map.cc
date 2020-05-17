@@ -1,6 +1,6 @@
 #include "cdata/map.h"
-#include "common_int.h"
-#include "map_int.h"
+#include "cdata/__common_internal.h"
+#include "cdata/__map_internal.h"
 
 #include <string.h>
 
@@ -249,34 +249,6 @@ uint32_t cdata_map_size(cdata_map_t* map){
 	return 0;
 }
 
-template<typename T>
-int cdata_map_insert_u(__cdata_map_int_t* m, std::map<T, void*>* m_u,
-								const void* key,
-								void* val){
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)key;
-
-		if(m_u->find(*aux) != m_u->end())
-			return CDATA_E_EXISTS;
-		m_u->insert({*aux, val});
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	if(m_u->find(aux) != m_u->end())
-		return CDATA_E_EXISTS;
-
-	m_u->insert({aux, val});
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_map_insert(cdata_map_t* map, const void* key, void* val){
 
 	int rv;
@@ -356,33 +328,6 @@ int cdata_map_insert(cdata_map_t* map, const void* key, void* val){
 	return rv;
 }
 
-template<typename T>
-int cdata_map_erase_u(__cdata_map_int_t* m, std::map<T, void*>* m_u,
-							const void* key){
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)key;
-
-		if(m_u->find(*aux) == m_u->end())
-			return CDATA_E_NOT_FOUND;
-		m_u->erase(*aux);
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	if(m_u->find(aux) == m_u->end())
-		return CDATA_E_NOT_FOUND;
-
-	m_u->erase(aux);
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_map_erase(cdata_map_t* map, const void* key){
 
 	int rv;
@@ -450,41 +395,6 @@ int cdata_map_erase(cdata_map_t* map, const void* key){
 
 	return rv;
 }
-
-
-template<typename T>
-int cdata_map_find_u(__cdata_map_int_t* m, std::map<T, void*>* m_u,
-							const void* key,
-							void** val){
-	typename std::map<T, void*>::iterator it;
-
-	if(m->key_len == m->user_key_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)key;
-		it = m_u->find(*aux);
-
-		if(it == m_u->end())
-			return CDATA_E_NOT_FOUND;
-
-		*val = it->second;
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, key, m->user_key_len);
-
-	it = m_u->find(aux);
-	if(it == m_u->end())
-		return CDATA_E_NOT_FOUND;
-
-	*val = it->second;
-
-	return CDATA_SUCCESS;
-}
-
 
 int cdata_map_find(cdata_map_t* map, const void* key, void** val){
 
@@ -561,17 +471,6 @@ int cdata_map_find(cdata_map_t* map, const void* key, void** val){
 	return rv;
 }
 
-template<typename T>
-void cdata_map_traverse_u(const cdata_map_t* map, std::map<T, void*>* m_u,
-							cdata_map_it f,
-							void* opaque){
-
-	typename std::map<T, void*>::const_iterator it;
-
-	for(it = m_u->begin(); it != m_u->end(); ++it)
-		(*f)(map, &it->first, it->second, opaque);
-}
-
 int cdata_map_traverse(const cdata_map_t* map, cdata_map_it f,
 							void* opaque){
 
@@ -636,17 +535,6 @@ int cdata_map_traverse(const cdata_map_t* map, cdata_map_it f,
 	}
 
 	return CDATA_SUCCESS;
-}
-
-template<typename T>
-void cdata_map_rtraverse_u(const cdata_map_t* map, std::map<T, void*>* m_u,
-							cdata_map_it f,
-							void* opaque){
-
-	typename std::map<T, void*>::const_reverse_iterator it;
-
-	for(it = m_u->rbegin(); it != m_u->rend(); ++it)
-		(*f)(map, &it->first, it->second, opaque);
 }
 
 int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it f,

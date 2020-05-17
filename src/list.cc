@@ -1,6 +1,6 @@
 #include "cdata/list.h"
-#include "common_int.h"
-#include "list_int.h"
+#include "cdata/__common_internal.h"
+#include "cdata/__list_internal.h"
 
 #include <string.h>
 
@@ -249,39 +249,6 @@ uint32_t cdata_list_size(cdata_list_t* list){
 	return 0;
 }
 
-template<typename T>
-int cdata_list_insert_u(__cdata_list_int_t* m, std::list<T>* m_u,
-							const void* val,
-							const uint32_t pos){
-
-	int i = pos;
-	typename std::list<T>::iterator it;
-
-	it = m_u->begin();
-	for(it = m_u->begin(); i>0; --i){
-		if(++it == m_u->end())
-			break;
-	}
-
-	if(m->val_len == m->user_val_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)val;
-
-		m_u->insert(it, *aux);
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, val, m->user_val_len);
-
-	m_u->insert(it, aux);
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos){
 
 	int rv;
@@ -353,32 +320,6 @@ int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos){
 	}
 
 	return rv;
-}
-
-template<typename T>
-int cdata_list_get_u(__cdata_list_int_t* m, std::list<T>* m_u,
-							const uint32_t pos,
-							void* val){
-
-	int i = pos;
-	typename std::list<T>::iterator it;
-	T* __attribute((__may_alias__)) aux = (T*)val;
-
-	it = m_u->begin();
-	for(it = m_u->begin(); i>0; --i){
-		if(++it == m_u->end())
-			return CDATA_E_NOT_FOUND;
-	}
-
-	if(m->val_len == m->user_val_len){
-		*aux = *it;
-		return CDATA_SUCCESS;
-	}
-
-	//Avoid padding from the wrapper
-	memcpy(aux, &(*it), m->user_val_len);
-
-	return CDATA_SUCCESS;
 }
 
 int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val){
@@ -454,26 +395,6 @@ int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val){
 	return rv;
 }
 
-template<typename T>
-int cdata_list_erase_u(__cdata_list_int_t* m, std::list<T>* m_u,
-							const uint32_t pos){
-	int i = pos;
-	typename std::list<T>::iterator it;
-
-	it = m_u->begin();
-	for(it = m_u->begin(); i>0; --i){
-		if(++it == m_u->end())
-			return CDATA_E_NOT_FOUND;
-	}
-
-	if(it == m_u->end())
-		return CDATA_E_NOT_FOUND;
-
-	m_u->erase(it);
-
-	return CDATA_SUCCESS;
-}
-
 int cdata_list_erase(cdata_list_t* list, const uint32_t pos){
 
 	int rv;
@@ -540,26 +461,6 @@ int cdata_list_erase(cdata_list_t* list, const uint32_t pos){
 	}
 
 	return rv;
-}
-
-template<typename T>
-int cdata_list_remove_u(__cdata_list_int_t* m, std::list<T>* m_u,
-							const void* val){
-
-	if(m->val_len == m->user_val_len){
-		T* __attribute((__may_alias__)) aux;
-		aux = (T*)val;
-		m_u->remove(*aux);
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, val, m->user_val_len);
-
-	m_u->remove(aux);
-
-	return CDATA_SUCCESS;
 }
 
 int cdata_list_remove(cdata_list_t* list, const void* val){
@@ -633,37 +534,6 @@ int cdata_list_remove(cdata_list_t* list, const void* val){
 	}
 
 	return rv;
-}
-
-template<typename T>
-int cdata_list_push_u(__cdata_list_int_t* m, std::list<T>* m_u,
-							const void* val,
-							bool front){
-
-	if(m->val_len == m->user_val_len){
-		T* __attribute((__may_alias__)) aux;
-
-		aux = (T*)val;
-
-		if(front)
-			m_u->push_front(*aux);
-		else
-			m_u->push_back(*aux);
-
-		return CDATA_SUCCESS;
-	}
-
-	//We have to pad the struct
-	T aux = {0};
-	memcpy(&aux, val, m->user_val_len);
-
-	if(front)
-		m_u->push_front(aux);
-	else
-		m_u->push_back(aux);
-
-
-	return CDATA_SUCCESS;
 }
 
 static int cdata_list_push_(cdata_list_t* list, const void* val, bool front){
@@ -740,16 +610,6 @@ int cdata_list_push_front(cdata_list_t* list, const void* val){
 
 int cdata_list_push_back(cdata_list_t* list, const void* val){
 	return cdata_list_push_(list, val, false);
-}
-
-template<typename T>
-int cdata_list_pop_u(__cdata_list_int_t* m, std::list<T>* m_u, bool front){
-
-	if(front)
-		m_u->pop_front();
-	else
-		m_u->pop_back();
-	return CDATA_SUCCESS;
 }
 
 static int cdata_list_pop_(cdata_list_t* list, bool front){
@@ -972,19 +832,6 @@ int cdata_list_unique(cdata_list_t* list){
 	return CDATA_SUCCESS;
 }
 
-template<typename T>
-void cdata_list_traverse_u(const cdata_list_t* list, std::list<T>* m_u,
-							cdata_list_it f,
-							void* opaque){
-
-	typename std::list<T>::const_iterator it;
-
-	for(it = m_u->begin(); it != m_u->end(); ++it){
-		const T& t = *it;
-		(*f)(list, &t, opaque);
-	}
-}
-
 int cdata_list_traverse(const cdata_list_t* list, cdata_list_it f,
 								void* opaque){
 
@@ -1049,19 +896,6 @@ int cdata_list_traverse(const cdata_list_t* list, cdata_list_it f,
 	}
 
 	return CDATA_SUCCESS;
-}
-
-template<typename T>
-void cdata_list_rtraverse_u(const cdata_list_t* list, std::list<T>* m_u,
-							cdata_list_it f,
-							void* opaque){
-
-	typename std::list<T>::const_reverse_iterator it;
-
-	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
-		const T& t = *it;
-		(*f)(list, &t, opaque);
-	}
 }
 
 int cdata_list_rtraverse(const cdata_list_t* list, cdata_list_it f,
