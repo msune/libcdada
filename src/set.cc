@@ -334,6 +334,7 @@ int cdata_set_insert(cdata_set_t* set, const void* key){
 				break;
 			default:
 				CDATA_ASSERT(0);
+				rv = CDATA_E_UNKNOWN;
 				break;
 		}
 	}catch(bad_alloc& e){
@@ -405,6 +406,7 @@ int cdata_set_erase(cdata_set_t* set, const void* key){
 				break;
 			default:
 				CDATA_ASSERT(0);
+				rv = CDATA_E_UNKNOWN;
 				break;
 		}
 	}catch(bad_alloc& e){
@@ -474,6 +476,7 @@ bool cdata_set_find(cdata_set_t* set, const void* key){
 				break;
 			default:
 				CDATA_ASSERT(0);
+				rv = CDATA_E_UNKNOWN;
 				break;
 		}
 	}catch(...){

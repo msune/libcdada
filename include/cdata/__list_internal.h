@@ -96,8 +96,10 @@ int cdata_list_insert_u(__cdata_list_int_t* m, std::list<T>* m_u,
 		return CDATA_SUCCESS;
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, val, m->user_val_len);
 
 	m_u->insert(it, aux);
@@ -162,8 +164,10 @@ int cdata_list_remove_u(__cdata_list_int_t* m, std::list<T>* m_u,
 		return CDATA_SUCCESS;
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, val, m->user_val_len);
 
 	m_u->remove(aux);
@@ -189,9 +193,12 @@ int cdata_list_push_u(__cdata_list_int_t* m, std::list<T>* m_u,
 		return CDATA_SUCCESS;
 	}
 
+	//Note: at this point it can only be a struct
 	//We have to pad the struct
-	T aux = {0};
+	T aux;
+	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, val, m->user_val_len);
+
 
 	if(front)
 		m_u->push_front(aux);

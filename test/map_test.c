@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "cdata/map.h"
-#include <assert.h>
+#include "common.h"
 #include <string.h>
 #include "u552.h"
 
@@ -11,28 +11,28 @@ static cdata_map_t* map = NULL;
 void trav_u64(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
-	assert(o == &opaque);
-	assert(map == m);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(map == m);
 
 	uint64_t key = *(uint64_t*)k;
 	uint32_t val = *(uint32_t*)v;
 
-	assert(val == (((uint32_t)key) | 0x1000));
-	assert(opaque == key);
+	TEST_ASSERT(val == (((uint32_t)key) | 0x1000));
+	TEST_ASSERT(opaque == key);
 	opaque++;
 }
 
 void rtrav_u64(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
-	assert(o == &opaque);
-	assert(map == m);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(map == m);
 
 	uint64_t key = *(uint64_t*)k;
 	uint32_t val = *(uint32_t*)v;
 
-	assert(val == (((uint32_t)key) | 0x1000));
-	assert(opaque == key);
+	TEST_ASSERT(val == (((uint32_t)key) | 0x1000));
+	TEST_ASSERT(opaque == key);
 	opaque--;
 }
 
@@ -53,73 +53,73 @@ int test_u8_insert_removal(){
 		values[i] = i | 0x1000;
 
 	map = cdata_map_create(sizeof(key));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[0]);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_map_size(map) == 1);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 1);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[1]);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_map_insert(map, &key, &values[i]);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_map_size(map) == 32);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 32);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	key = 22;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 22); //Should never pollute
-	assert(tmp == &values[22]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 22); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
 
 	rv = cdata_map_clear(map);
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -136,73 +136,73 @@ int test_u16_insert_removal(){
 		values[i] = i | 0x1000;
 
 	map = cdata_map_create(sizeof(key));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[0]);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_map_size(map) == 1);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 1);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[1]);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_map_insert(map, &key, &values[i]);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_map_size(map) == 32);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 32);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	key = 22;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 22); //Should never pollute
-	assert(tmp == &values[22]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 22); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
 
 	rv = cdata_map_clear(map);
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -219,73 +219,73 @@ int test_u32_insert_removal(){
 		values[i] = i | 0x1000;
 
 	map = cdata_map_create(sizeof(key));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[0]);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_map_size(map) == 1);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 1);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
 	rv = cdata_map_insert(map, &key, &values[1]);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_map_insert(map, &key, &values[i]);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_map_size(map) == 32);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 32);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	key = 22;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 22); //Should never pollute
-	assert(tmp == &values[22]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 22); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
 
 	rv = cdata_map_clear(map);
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -302,66 +302,66 @@ int test_u64_insert_removal_traverse(){
 		values[i] = i | 0x1000;
 
 	map = cdata_map_create(sizeof(key));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0ULL;
 	rv = cdata_map_insert(map, &key, &values[0]);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_map_size(map) == 1);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 1);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0ULL); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0ULL); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1ULL;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0ULL;
 	rv = cdata_map_insert(map, &key, &values[1]);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 0ULL); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 0ULL); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1ULL;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key = 0ULL;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdata_map_insert(map, &key, &values[i]);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_map_size(map) == 32);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 32);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	key = 22ULL;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key == 22ULL); //Should never pollute
-	assert(tmp == &values[22]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key == 22ULL); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
 
 	//Traverse
 	opaque = 0ULL;
@@ -371,11 +371,11 @@ int test_u64_insert_removal_traverse(){
 	cdata_map_rtraverse(map, &rtrav_u64, &opaque);
 
 	rv = cdata_map_clear(map);
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
@@ -388,52 +388,52 @@ int test_basics(){
 
 	//Create
 	map = cdata_map_create(sizeof(int));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Try all APIs with a NULL map/key/val
-	assert(cdata_map_size(NULL) == 0);
-	assert(cdata_map_empty(NULL) == false);
+	TEST_ASSERT(cdata_map_size(NULL) == 0);
+	TEST_ASSERT(cdata_map_empty(NULL) == false);
 	rv = cdata_map_destroy(NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 
 	rv = cdata_map_traverse(NULL, ptr_not_null, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_traverse(map, NULL, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_rtraverse(NULL, ptr_not_null, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_rtraverse(map, NULL, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 
 	rv = cdata_map_insert(NULL, ptr_not_null, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_insert(map, NULL, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_erase(NULL, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_erase(map, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_find(NULL, ptr_not_null, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_find(map, NULL, ptr_not_null);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 	rv = cdata_map_find(map, ptr_not_null, NULL);
-	assert(rv == CDATA_E_INVALID);
+	TEST_ASSERT(rv == CDATA_E_INVALID);
 
 	//Now destroy
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	//Create with valid and invalid
 	map = cdata_map_create(256);
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 	map = cdata_map_create(257);
-	assert(map == NULL);
+	TEST_ASSERT(map == NULL);
 
 	return 0;
 }
@@ -444,28 +444,28 @@ int test_basics(){
 void trav_u552(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
-	assert(o == &opaque);
-	assert(map == m);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(map == m);
 
 	test_u552_t key = *(test_u552_t*)k;
 	uint32_t val = *(uint32_t*)v;
 
-	assert(val == (((uint32_t)key.mid) | 0x1000));
-	assert(opaque == key.mid);
+	TEST_ASSERT(val == (((uint32_t)key.mid) | 0x1000));
+	TEST_ASSERT(opaque == key.mid);
 	opaque++;
 }
 
 void rtrav_u552(const cdata_map_t* m, const void* k,
 						void* v,
 						void* o){
-	assert(o == &opaque);
-	assert(map == m);
+	TEST_ASSERT(o == &opaque);
+	TEST_ASSERT(map == m);
 
 	test_u552_t key = *(test_u552_t*)k;
 	uint32_t val = *(uint32_t*)v;
 
-	assert(val == (((uint32_t)key.mid) | 0x1000));
-	assert(opaque == key.mid);
+	TEST_ASSERT(val == (((uint32_t)key.mid) | 0x1000));
+	TEST_ASSERT(opaque == key.mid);
 	opaque--;
 }
 
@@ -476,72 +476,72 @@ int test_u552_insert_removal_traverse(){
 	uint32_t values[32];
 	void* tmp;
 
-	assert(sizeof(test_u552_t) == 69);
+	TEST_ASSERT(sizeof(test_u552_t) == 69);
 
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
 	map = cdata_map_create(sizeof(key));
-	assert(map != NULL);
+	TEST_ASSERT(map != NULL);
 
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	//Add one key & get
 	memset(&key, 0, sizeof(key));
 	rv = cdata_map_insert(map, &key, &values[0]);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
-	assert(cdata_map_size(map) == 1);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 1);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key.mid == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key.mid = 1;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key.mid = 0;
 	rv = cdata_map_insert(map, &key, &values[1]);
-	assert(rv == CDATA_E_EXISTS);
+	TEST_ASSERT(rv == CDATA_E_EXISTS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key.mid == 0); //Should never pollute
-	assert(tmp == &values[0]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key.mid = 1;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	key.mid = 0;
 	rv = cdata_map_erase(map, &key);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdata_map_insert(map, &key, &values[i]);
-		assert(rv == CDATA_SUCCESS);
+		TEST_ASSERT(rv == CDATA_SUCCESS);
 	}
 
-	assert(cdata_map_size(map) == 32);
-	assert(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdata_map_size(map) == 32);
+	TEST_ASSERT(cdata_map_empty(map) == false);
 
 	key.mid = 22;
 	rv = cdata_map_find(map, &key, &tmp);
-	assert(rv == CDATA_SUCCESS);
-	assert(key.mid == 22); //Should never pollute
-	assert(tmp == &values[22]);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
+	TEST_ASSERT(key.mid == 22); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
 
 	//Traverse
 	opaque = 0ULL;
@@ -551,11 +551,11 @@ int test_u552_insert_removal_traverse(){
 	cdata_map_rtraverse(map, &rtrav_u552, &opaque);
 
 	rv = cdata_map_clear(map);
-	assert(cdata_map_size(map) == 0);
-	assert(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdata_map_size(map) == 0);
+	TEST_ASSERT(cdata_map_empty(map) == true);
 
 	rv = cdata_map_destroy(map);
-	assert(rv == CDATA_SUCCESS);
+	TEST_ASSERT(rv == CDATA_SUCCESS);
 
 	return 0;
 }
