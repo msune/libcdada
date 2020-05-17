@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdata/utils.h>
 
 /**
-* @file cdata_map.h
+* @file cdata/map.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Map {key, value} data structure. Wraps std::map data structure
@@ -70,8 +70,8 @@ typedef struct{
 	int (*insert)(cdata_map_t* map, const void* key, void* val);
 	int (*erase)(cdata_map_t* map, const void* key);
 	int (*find)(cdata_map_t* map, const void* key, void** val);
-	int (*traverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
-	int (*rtraverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
+	void (*traverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
+	void (*rtraverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
 }__cdata_map_ops_t;
 
 /**
@@ -87,6 +87,21 @@ cdata_map_t* cdata_map_create(const uint16_t key_size);
 */
 cdata_map_t* __cdata_map_create(const uint16_t key_size,
 						__cdata_map_ops_t* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDATA_MAP_CUSTOM_TYPE_DECL(TYPE) \
+	extern __cdata_map_ops_t __cdata_map_autogen_##TYPE
+
+/**
+* @brief Create a map with a custom type, with a dedicated std::map
+*
+* Requires instantiating CDATA_MAP_CUSTOM_GEN() or
+* CDATA_MAP_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdata_map_create_custom(TYPE) \
+	__cdata_map_create(sizeof( TYPE ), & __cdata_map_autogen_##TYPE )
 
 /**
 * Destroy a map structure

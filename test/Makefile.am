@@ -12,7 +12,7 @@ list_test_SOURCES= list_test.c
 list_test_CPPFLAGS= -I$(top_srcdir)/include/
 list_test_LDADD= -lpthread ../src/libcdata.la
 
-map_test_SOURCES= map_test.c
+map_test_SOURCES= map_test.c map_custom.cc
 map_test_CPPFLAGS= -I$(top_srcdir)/include/
 map_test_LDADD= -lpthread ../src/libcdata.la
 

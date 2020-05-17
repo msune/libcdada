@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <map>
 
 /**
-* @file common_int.h
+* @file cdata/common_int.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Common MACROs and utility functions

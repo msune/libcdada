@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <set>
 
 /**
-* @file set_internal.h
+* @file cdata/set_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Internals of the set wrapper

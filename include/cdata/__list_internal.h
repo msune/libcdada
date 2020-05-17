@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <list>
 
 /**
-* @file list_internal.h
+* @file cdata/list_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Internals of the list wrapper

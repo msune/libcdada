@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdata/utils.h>
 
 /**
-* @file cdata_set.h
+* @file cdata/set.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Set data structure. Wraps std::set data structure
