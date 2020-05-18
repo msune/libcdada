@@ -1,6 +1,6 @@
-#include "cdata/utils.h"
+#include "cdada/utils.h"
 
-static const char* cdata_err_str[CDATA_E_COUNT] = {
+static const char* cdada_err_str[CDADA_E_COUNT] = {
 	"Success",
 	"Unknown error",
 	"Invalid input",
@@ -10,6 +10,6 @@ static const char* cdata_err_str[CDATA_E_COUNT] = {
 	"Feature unsupported"
 };
 
-const char* cdata_strerr(int err){
-	return err >= CDATA_E_COUNT? "Invalid code" : cdata_err_str[err];
+const char* cdada_strerr(int err){
+	return err >= CDADA_E_COUNT? "Invalid code" : cdada_err_str[err];
 }

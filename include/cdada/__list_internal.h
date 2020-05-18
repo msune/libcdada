@@ -24,27 +24,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_LIST_INT__
-#define __CDATA_LIST_INT__
+#ifndef __CDADA_LIST_INT__
+#define __CDADA_LIST_INT__
 
 //Internal headers should never be directly included
-#ifndef __CDATA_INTERNAL_INCLUDE
-	#error CDATA internal headers shall not be directly included
-#endif //__CDATA_INTERNAL_INCLUDE
+#ifndef __CDADA_INTERNAL_INCLUDE
+	#error CDADA internal headers shall not be directly included
+#endif //__CDADA_INTERNAL_INCLUDE
 
 //This header should _always_ be included from C++
 #ifndef __cplusplus
-	#error CDATA autogenreation headers shall be included only from C++ files
+	#error CDADA autogenreation headers shall be included only from C++ files
 #endif //__cplusplus
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cdata/utils.h>
-#include <cdata/__common_internal.h>
+#include <cdada/utils.h>
+#include <cdada/__common_internal.h>
 #include <list>
 
 /**
-* @file cdata/list_internal.h
+* @file cdada/list_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Internals of the list wrapper
@@ -62,18 +62,18 @@ typedef struct{
 		std::list<uint16_t>* u16;
 		std::list<uint32_t>* u32;
 		std::list<uint64_t>* u64;
-		std::list<cdata_u128_t>* u128;
-		std::list<cdata_u256_t>* u256;
-		std::list<cdata_u512_t>* u512;
-		std::list<cdata_u1024_t>* u1024;
-		std::list<cdata_u2048_t>* u2048;
+		std::list<cdada_u128_t>* u128;
+		std::list<cdada_u256_t>* u256;
+		std::list<cdada_u512_t>* u512;
+		std::list<cdada_u1024_t>* u1024;
+		std::list<cdada_u2048_t>* u2048;
 		void* custom;
 	}list;
-	__cdata_list_ops_t* ops;
-}__cdata_list_int_t;
+	__cdada_list_ops_t* ops;
+}__cdada_list_int_t;
 
 template<typename T>
-int cdata_list_insert_u(__cdata_list_int_t* m, std::list<T>* m_u,
+int cdada_list_insert_u(__cdada_list_int_t* m, std::list<T>* m_u,
 							const void* val,
 							const uint32_t pos){
 
@@ -93,7 +93,7 @@ int cdata_list_insert_u(__cdata_list_int_t* m, std::list<T>* m_u,
 
 		m_u->insert(it, *aux);
 
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Note: at this point it can only be a struct
@@ -104,11 +104,11 @@ int cdata_list_insert_u(__cdata_list_int_t* m, std::list<T>* m_u,
 
 	m_u->insert(it, aux);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_list_get_u(__cdata_list_int_t* m, std::list<T>* m_u,
+int cdada_list_get_u(__cdada_list_int_t* m, std::list<T>* m_u,
 							const uint32_t pos,
 							void* val){
 
@@ -119,22 +119,22 @@ int cdata_list_get_u(__cdata_list_int_t* m, std::list<T>* m_u,
 	it = m_u->begin();
 	for(it = m_u->begin(); i>0; --i){
 		if(++it == m_u->end())
-			return CDATA_E_NOT_FOUND;
+			return CDADA_E_NOT_FOUND;
 	}
 
 	if(m->val_len == m->user_val_len){
 		*aux = *it;
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Avoid padding from the wrapper
 	memcpy(aux, &(*it), m->user_val_len);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_list_erase_u(__cdata_list_int_t* m, std::list<T>* m_u,
+int cdada_list_erase_u(__cdada_list_int_t* m, std::list<T>* m_u,
 							const uint32_t pos){
 	int i = pos;
 	typename std::list<T>::iterator it;
@@ -142,26 +142,26 @@ int cdata_list_erase_u(__cdata_list_int_t* m, std::list<T>* m_u,
 	it = m_u->begin();
 	for(it = m_u->begin(); i>0; --i){
 		if(++it == m_u->end())
-			return CDATA_E_NOT_FOUND;
+			return CDADA_E_NOT_FOUND;
 	}
 
 	if(it == m_u->end())
-		return CDATA_E_NOT_FOUND;
+		return CDADA_E_NOT_FOUND;
 
 	m_u->erase(it);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_list_remove_u(__cdata_list_int_t* m, std::list<T>* m_u,
+int cdada_list_remove_u(__cdada_list_int_t* m, std::list<T>* m_u,
 							const void* val){
 
 	if(m->val_len == m->user_val_len){
 		T* __attribute((__may_alias__)) aux;
 		aux = (T*)val;
 		m_u->remove(*aux);
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Note: at this point it can only be a struct
@@ -172,11 +172,11 @@ int cdata_list_remove_u(__cdata_list_int_t* m, std::list<T>* m_u,
 
 	m_u->remove(aux);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_list_push_u(__cdata_list_int_t* m, std::list<T>* m_u,
+int cdada_list_push_u(__cdada_list_int_t* m, std::list<T>* m_u,
 							const void* val,
 							bool front){
 
@@ -190,7 +190,7 @@ int cdata_list_push_u(__cdata_list_int_t* m, std::list<T>* m_u,
 		else
 			m_u->push_back(*aux);
 
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Note: at this point it can only be a struct
@@ -206,22 +206,22 @@ int cdata_list_push_u(__cdata_list_int_t* m, std::list<T>* m_u,
 		m_u->push_back(aux);
 
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_list_pop_u(__cdata_list_int_t* m, std::list<T>* m_u, bool front){
+int cdada_list_pop_u(__cdada_list_int_t* m, std::list<T>* m_u, bool front){
 
 	if(front)
 		m_u->pop_front();
 	else
 		m_u->pop_back();
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-void cdata_list_traverse_u(const cdata_list_t* list, std::list<T>* m_u,
-							cdata_list_it f,
+void cdada_list_traverse_u(const cdada_list_t* list, std::list<T>* m_u,
+							cdada_list_it f,
 							void* opaque){
 
 	typename std::list<T>::const_iterator it;
@@ -233,8 +233,8 @@ void cdata_list_traverse_u(const cdata_list_t* list, std::list<T>* m_u,
 }
 
 template<typename T>
-void cdata_list_rtraverse_u(const cdata_list_t* list, std::list<T>* m_u,
-							cdata_list_it f,
+void cdada_list_rtraverse_u(const cdada_list_t* list, std::list<T>* m_u,
+							cdada_list_it f,
 							void* opaque){
 
 	typename std::list<T>::const_reverse_iterator it;
@@ -245,4 +245,4 @@ void cdata_list_rtraverse_u(const cdata_list_t* list, std::list<T>* m_u,
 	}
 }
 
-#endif //__CDATA_LIST_INT__
+#endif //__CDADA_LIST_INT__

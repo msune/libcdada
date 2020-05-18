@@ -1,17 +1,17 @@
 #include <stdlib.h>
 
-#include "cdata/map.h"
+#include "cdada/map.h"
 #include "common.h"
 #include <string.h>
 #include "u552.h"
 
 //Fwd decl
-CDATA_MAP_CUSTOM_TYPE_DECL(test_u552_t);
+CDADA_MAP_CUSTOM_TYPE_DECL(test_u552_t);
 
 static uint64_t opaque = 0ULL;
-static cdata_map_t* map = NULL;
+static cdada_map_t* map = NULL;
 
-void trav_u64(const cdata_map_t* m, const void* k,
+void trav_u64(const cdada_map_t* m, const void* k,
 						void* v,
 						void* o){
 	TEST_ASSERT(o == &opaque);
@@ -25,7 +25,7 @@ void trav_u64(const cdata_map_t* m, const void* k,
 	opaque++;
 }
 
-void rtrav_u64(const cdata_map_t* m, const void* k,
+void rtrav_u64(const cdada_map_t* m, const void* k,
 						void* v,
 						void* o){
 	TEST_ASSERT(o == &opaque);
@@ -55,74 +55,74 @@ int test_u8_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdata_map_create(sizeof(key));
+	map = cdada_map_create(sizeof(key));
 	TEST_ASSERT(map != NULL);
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[0]);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	TEST_ASSERT(cdata_map_size(map) == 1);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[1]);
-	TEST_ASSERT(rv == CDATA_E_EXISTS);
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	key = 0;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
-		rv = cdata_map_insert(map, &key, &values[i]);
-		TEST_ASSERT(rv == CDATA_SUCCESS);
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
 
-	TEST_ASSERT(cdata_map_size(map) == 32);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
 	key = 22;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 22); //Should never pollute
 	TEST_ASSERT(tmp == &values[22]);
 
-	rv = cdata_map_clear(map);
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	return 0;
 }
@@ -138,74 +138,74 @@ int test_u16_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdata_map_create(sizeof(key));
+	map = cdada_map_create(sizeof(key));
 	TEST_ASSERT(map != NULL);
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[0]);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	TEST_ASSERT(cdata_map_size(map) == 1);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[1]);
-	TEST_ASSERT(rv == CDATA_E_EXISTS);
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	key = 0;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
-		rv = cdata_map_insert(map, &key, &values[i]);
-		TEST_ASSERT(rv == CDATA_SUCCESS);
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
 
-	TEST_ASSERT(cdata_map_size(map) == 32);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
 	key = 22;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 22); //Should never pollute
 	TEST_ASSERT(tmp == &values[22]);
 
-	rv = cdata_map_clear(map);
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	return 0;
 }
@@ -221,74 +221,74 @@ int test_u32_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdata_map_create(sizeof(key));
+	map = cdada_map_create(sizeof(key));
 	TEST_ASSERT(map != NULL);
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[0]);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	TEST_ASSERT(cdata_map_size(map) == 1);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0;
-	rv = cdata_map_insert(map, &key, &values[1]);
-	TEST_ASSERT(rv == CDATA_E_EXISTS);
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	key = 0;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
-		rv = cdata_map_insert(map, &key, &values[i]);
-		TEST_ASSERT(rv == CDATA_SUCCESS);
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
 
-	TEST_ASSERT(cdata_map_size(map) == 32);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
 	key = 22;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 22); //Should never pollute
 	TEST_ASSERT(tmp == &values[22]);
 
-	rv = cdata_map_clear(map);
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	return 0;
 }
@@ -304,81 +304,81 @@ int test_u64_insert_removal_traverse(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdata_map_create(sizeof(key));
+	map = cdada_map_create(sizeof(key));
 	TEST_ASSERT(map != NULL);
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Add one key & get
 	key = 0ULL;
-	rv = cdata_map_insert(map, &key, &values[0]);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	TEST_ASSERT(cdata_map_size(map) == 1);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0ULL); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key = 1ULL;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key = 0ULL;
-	rv = cdata_map_insert(map, &key, &values[1]);
-	TEST_ASSERT(rv == CDATA_E_EXISTS);
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0ULL); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key = 1ULL;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	key = 0ULL;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
-		rv = cdata_map_insert(map, &key, &values[i]);
-		TEST_ASSERT(rv == CDATA_SUCCESS);
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
 
-	TEST_ASSERT(cdata_map_size(map) == 32);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
 	key = 22ULL;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 22ULL); //Should never pollute
 	TEST_ASSERT(tmp == &values[22]);
 
 	//Traverse
 	opaque = 0ULL;
-	cdata_map_traverse(map, &trav_u64, &opaque);
+	cdada_map_traverse(map, &trav_u64, &opaque);
 
 	opaque = 31ULL;
-	cdata_map_rtraverse(map, &rtrav_u64, &opaque);
+	cdada_map_rtraverse(map, &rtrav_u64, &opaque);
 
-	rv = cdata_map_clear(map);
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	return 0;
 }
@@ -390,52 +390,52 @@ int test_basics(){
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
-	map = cdata_map_create(sizeof(int));
+	map = cdada_map_create(sizeof(int));
 	TEST_ASSERT(map != NULL);
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Try all APIs with a NULL map/key/val
-	TEST_ASSERT(cdata_map_size(NULL) == 0);
-	TEST_ASSERT(cdata_map_empty(NULL) == false);
-	rv = cdata_map_destroy(NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
+	TEST_ASSERT(cdada_map_size(NULL) == 0);
+	TEST_ASSERT(cdada_map_empty(NULL) == false);
+	rv = cdada_map_destroy(NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
-	rv = cdata_map_traverse(NULL, ptr_not_null, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_traverse(map, NULL, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_rtraverse(NULL, ptr_not_null, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_rtraverse(map, NULL, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
+	rv = cdada_map_traverse(NULL, ptr_not_null, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_traverse(map, NULL, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_rtraverse(NULL, ptr_not_null, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_rtraverse(map, NULL, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
-	rv = cdata_map_insert(NULL, ptr_not_null, ptr_not_null);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_insert(map, NULL, ptr_not_null);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_erase(NULL, ptr_not_null);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_erase(map, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_find(NULL, ptr_not_null, ptr_not_null);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_find(map, NULL, ptr_not_null);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
-	rv = cdata_map_find(map, ptr_not_null, NULL);
-	TEST_ASSERT(rv == CDATA_E_INVALID);
+	rv = cdada_map_insert(NULL, ptr_not_null, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_insert(map, NULL, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_erase(NULL, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_erase(map, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_find(NULL, ptr_not_null, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_find(map, NULL, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_map_find(map, ptr_not_null, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	//Now destroy
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	//Create with valid and invalid
-	map = cdata_map_create(256);
+	map = cdada_map_create(256);
 	TEST_ASSERT(map != NULL);
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
-	map = cdata_map_create(257);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	map = cdada_map_create(257);
 	TEST_ASSERT(map == NULL);
 
 	return 0;
@@ -444,7 +444,7 @@ int test_basics(){
 //
 // Key is not complete
 //
-void trav_u552(const cdata_map_t* m, const void* k,
+void trav_u552(const cdada_map_t* m, const void* k,
 						void* v,
 						void* o){
 	TEST_ASSERT(o == &opaque);
@@ -458,7 +458,7 @@ void trav_u552(const cdata_map_t* m, const void* k,
 	opaque++;
 }
 
-void rtrav_u552(const cdata_map_t* m, const void* k,
+void rtrav_u552(const cdada_map_t* m, const void* k,
 						void* v,
 						void* o){
 	TEST_ASSERT(o == &opaque);
@@ -484,91 +484,91 @@ int _test_u552_insert_removal_traverse(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
 	//Add one key & get
 	memset(&key, 0, sizeof(key));
-	rv = cdata_map_insert(map, &key, &values[0]);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	TEST_ASSERT(cdata_map_size(map) == 1);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Find an invalid value
 	key.mid = 1;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Trying to add the same key should return E_EXISTS, &repeat query
 	key.mid = 0;
-	rv = cdata_map_insert(map, &key, &values[1]);
-	TEST_ASSERT(rv == CDATA_E_EXISTS);
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 0); //Should never pollute
 	TEST_ASSERT(tmp == &values[0]);
 
 	//Erase first an invalid
 	key.mid = 1;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	key.mid = 0;
-	rv = cdata_map_erase(map, &key);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_E_NOT_FOUND);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
-		rv = cdata_map_insert(map, &key, &values[i]);
-		TEST_ASSERT(rv == CDATA_SUCCESS);
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
 
-	TEST_ASSERT(cdata_map_size(map) == 32);
-	TEST_ASSERT(cdata_map_empty(map) == false);
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
 
 	key.mid = 22;
-	rv = cdata_map_find(map, &key, &tmp);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 22); //Should never pollute
 	TEST_ASSERT(tmp == &values[22]);
 
 	//Traverse
 	opaque = 0ULL;
-	cdata_map_traverse(map, &trav_u552, &opaque);
+	cdada_map_traverse(map, &trav_u552, &opaque);
 
 	opaque = 31ULL;
-	cdata_map_rtraverse(map, &rtrav_u552, &opaque);
+	cdada_map_rtraverse(map, &rtrav_u552, &opaque);
 
-	rv = cdata_map_clear(map);
-	TEST_ASSERT(cdata_map_size(map) == 0);
-	TEST_ASSERT(cdata_map_empty(map) == true);
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
 
-	rv = cdata_map_destroy(map);
-	TEST_ASSERT(rv == CDATA_SUCCESS);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	return 0;
 }
 
 int test_u552_insert_removal_traverse(){
-	map = cdata_map_create(sizeof(test_u552_t));
+	map = cdada_map_create(sizeof(test_u552_t));
 	TEST_ASSERT(map != NULL);
 
 	return _test_u552_insert_removal_traverse();
 }
 
 int test_u552_insert_removal_traverse_custom(){
-	map = cdata_map_create_custom(test_u552_t);
+	map = cdada_map_create_custom(test_u552_t);
 	TEST_ASSERT(map != NULL);
 
 	return _test_u552_insert_removal_traverse();

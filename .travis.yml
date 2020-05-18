@@ -59,8 +59,8 @@ script:
   - sudo ldconfig
   - echo "Building examples with installed headers and libs.."
   - mkdir -p examples_sys && cd examples_sys
-  - $CC ../../examples/list_u32.c -lcdata -o list_u32_sys
-  - $CC ../../examples/map_struct.c -lcdata -o map_struct_sys
+  - $CC ../../examples/list_u32.c -lcdada -o list_u32_sys
+  - $CC ../../examples/map_struct.c -lcdada -o map_struct_sys
   - echo "Running examples (sys)..."
   - valgrind --leak-check=full ./list_u32_sys
   - valgrind --leak-check=full ./map_struct_sys

@@ -24,37 +24,37 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_MAP_H__
-#define __CDATA_MAP_H__
+#ifndef __CDADA_MAP_H__
+#define __CDADA_MAP_H__
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cdata/utils.h>
+#include <cdada/utils.h>
 
 /**
-* @file cdata/map.h
+* @file cdada/map.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Map {key, value} data structure. Wraps std::map data structure
 */
 
 /**
-* cdata map structure
+* cdada map structure
 */
-typedef void cdata_map_t;
+typedef void cdada_map_t;
 
 //In case it's included from C++
 BEGIN_DECLS
 
 /**
-* cdata map structure iterator
+* cdada map structure iterator
 *
 * @param map Map ptr
 * @param key Key (immutable)
 * @param val Value
 * @param opaque A pointer to an opaque object tat will be passed to the callback
 */
-typedef void (*cdata_map_it)(const cdata_map_t* map, const void* key,
+typedef void (*cdada_map_it)(const cdada_map_t* map, const void* key,
 						void* val,
 						void* opaque);
 
@@ -62,17 +62,17 @@ typedef void (*cdata_map_it)(const cdata_map_t* map, const void* key,
 * @internal Function pointer struct for autogen types
 */
 typedef struct{
-	void (*create)(cdata_map_t* map);
-	void (*destroy)(cdata_map_t* map);
-	void (*clear)(cdata_map_t* map);
-	bool (*empty)(cdata_map_t* map);
-	uint32_t (*size)(cdata_map_t* map);
-	int (*insert)(cdata_map_t* map, const void* key, void* val);
-	int (*erase)(cdata_map_t* map, const void* key);
-	int (*find)(cdata_map_t* map, const void* key, void** val);
-	void (*traverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
-	void (*rtraverse)(cdata_map_t* map, cdata_map_it f, void* opaque);
-}__cdata_map_ops_t;
+	void (*create)(cdada_map_t* map);
+	void (*destroy)(cdada_map_t* map);
+	void (*clear)(cdada_map_t* map);
+	bool (*empty)(cdada_map_t* map);
+	uint32_t (*size)(cdada_map_t* map);
+	int (*insert)(cdada_map_t* map, const void* key, void* val);
+	int (*erase)(cdada_map_t* map, const void* key);
+	int (*find)(cdada_map_t* map, const void* key, void** val);
+	void (*traverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
+	void (*rtraverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
+}__cdada_map_ops_t;
 
 /**
 * @brief Create and initialize a map data structure
@@ -80,38 +80,38 @@ typedef struct{
 * Allocate and initialize a map structure (std::map). For key sizes below 8
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
-cdata_map_t* cdata_map_create(const uint16_t key_size);
+cdada_map_t* cdada_map_create(const uint16_t key_size);
 
 /**
 * @internal Create and initialize map with ops
 */
-cdata_map_t* __cdata_map_create(const uint16_t key_size,
-						__cdata_map_ops_t* ops);
+cdada_map_t* __cdada_map_create(const uint16_t key_size,
+						__cdada_map_ops_t* ops);
 
 /**
 * Forward declare custom time ops
 */
-#define CDATA_MAP_CUSTOM_TYPE_DECL(TYPE) \
-	extern __cdata_map_ops_t __cdata_map_autogen_##TYPE
+#define CDADA_MAP_CUSTOM_TYPE_DECL(TYPE) \
+	extern __cdada_map_ops_t __cdada_map_autogen_##TYPE
 
 /**
 * @brief Create a map with a custom type, with a dedicated std::map
 *
-* Requires instantiating CDATA_MAP_CUSTOM_GEN() or
-* CDATA_MAP_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+* Requires instantiating CDADA_MAP_CUSTOM_GEN() or
+* CDADA_MAP_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
 */
-#define cdata_map_create_custom(TYPE) \
-	__cdata_map_create(sizeof( TYPE ), & __cdata_map_autogen_##TYPE )
+#define cdada_map_create_custom(TYPE) \
+	__cdada_map_create(sizeof( TYPE ), & __cdada_map_autogen_##TYPE )
 
 /**
 * Destroy a map structure
 */
-int cdata_map_destroy(cdata_map_t* map);
+int cdada_map_destroy(cdada_map_t* map);
 
 /**
 * Clears the contents of the map
 */
-int cdata_map_clear(cdata_map_t* map);
+int cdada_map_clear(cdada_map_t* map);
 
 /**
 * Traverse map
@@ -120,7 +120,7 @@ int cdata_map_clear(cdata_map_t* map);
 * @param func Traverse function for this specific map
 * @param opaque User data (opaque ptr)
 */
-int cdata_map_traverse(const cdata_map_t* map, cdata_map_it func,
+int cdada_map_traverse(const cdada_map_t* map, cdada_map_it func,
 							void* opaque);
 
 /**
@@ -130,7 +130,7 @@ int cdata_map_traverse(const cdata_map_t* map, cdata_map_it func,
 * @param func Traverse function for this specific map
 * @param opaque User data (opaque ptr)
 */
-int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it func,
+int cdada_map_rtraverse(const cdada_map_t* map, cdada_map_it func,
 							void* opaque);
 
 //Map properties
@@ -138,12 +138,12 @@ int cdata_map_rtraverse(const cdata_map_t* map, cdata_map_it func,
 /**
 * Is the map empty
 */
-bool cdata_map_empty(cdata_map_t* map);
+bool cdada_map_empty(cdada_map_t* map);
 
 /**
 * Return the size (number of elements) in the map
 */
-uint32_t cdata_map_size(cdata_map_t* map);
+uint32_t cdada_map_size(cdada_map_t* map);
 
 //Element manipulation
 
@@ -154,7 +154,7 @@ uint32_t cdata_map_size(cdata_map_t* map);
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
 */
-int cdata_map_insert(cdata_map_t* map, const void* key, void* val);
+int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 
 /**
 * Erase an element in the map
@@ -162,7 +162,7 @@ int cdata_map_insert(cdata_map_t* map, const void* key, void* val);
 * @param map Map pointer
 * @param key Key. The key type _must_ have all bytes initialized
 */
-int cdata_map_erase(cdata_map_t* map, const void* key);
+int cdada_map_erase(cdada_map_t* map, const void* key);
 
 /**
 * Finds a key in the map
@@ -171,8 +171,8 @@ int cdata_map_erase(cdata_map_t* map, const void* key);
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
 */
-int cdata_map_find(cdata_map_t* map, const void* key, void** val);
+int cdada_map_find(cdada_map_t* map, const void* key, void** val);
 
 END_DECLS
 
-#endif //__CDATA_MAP_H__
+#endif //__CDADA_MAP_H__

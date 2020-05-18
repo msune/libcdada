@@ -24,41 +24,20 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_UTILS_H__
-#define __CDATA_UTILS_H__
+#ifndef __CDADA_H__
+#define __CDADA_H__
 
 /**
-* @file cdata_utils.h
+* @file cdada.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Several misc. utilities
+* @brief libcdada meta header file. This header includes headers from _all_
+*        data structures. Prefer inclusion of individual ones.
 */
 
-//Eror codes
-#define CDATA_SUCCESS       0
-#define CDATA_E_UNKNOWN     1
-#define CDATA_E_INVALID     2
-#define CDATA_E_NOT_FOUND   3
-#define CDATA_E_EXISTS      4
-#define CDATA_E_MEM         5
-#define CDATA_E_UNSUPPORTED 6
-#define CDATA_E_COUNT       7
+#include <cdada/list.h>
+#include <cdada/map.h>
+//#include <cdada/queue.h>
+#include <cdada/set.h>
 
-#ifdef __cplusplus
-	# define BEGIN_DECLS extern "C" {
-	# define END_DECLS   }
-#else
-	# define BEGIN_DECLS
-	# define END_DECLS
-#endif //__cplusplus
-
-BEGIN_DECLS
-
-/**
-* Get a human-readable description for CDATA errors
-*/
-const char* cdata_strerr(int error);
-
-END_DECLS
-
-#endif //__CDATA_UTILS_H__
+#endif //__CDADA_H__

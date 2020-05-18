@@ -24,27 +24,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_SET_INT__
-#define __CDATA_SET_INT__
+#ifndef __CDADA_SET_INT__
+#define __CDADA_SET_INT__
 
 //Internal headers should never be directly included
-#ifndef __CDATA_INTERNAL_INCLUDE
-	#error CDATA internal headers shall not be directly included
-#endif //__CDATA_INTERNAL_INCLUDE
+#ifndef __CDADA_INTERNAL_INCLUDE
+	#error CDADA internal headers shall not be directly included
+#endif //__CDADA_INTERNAL_INCLUDE
 
 //This header should _always_ be included from C++
 #ifndef __cplusplus
-	#error CDATA autogenreation headers shall be included only from C++ files
+	#error CDADA autogenreation headers shall be included only from C++ files
 #endif //__cplusplus
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cdata/utils.h>
-#include <cdata/__common_internal.h>
+#include <cdada/utils.h>
+#include <cdada/__common_internal.h>
 #include <set>
 
 /**
-* @file cdata/set_internal.h
+* @file cdada/set_internal.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief Internals of the set wrapper
@@ -62,18 +62,18 @@ typedef struct{
 		std::set<uint16_t>* u16;
 		std::set<uint32_t>* u32;
 		std::set<uint64_t>* u64;
-		std::set<cdata_u128_t>* u128;
-		std::set<cdata_u256_t>* u256;
-		std::set<cdata_u512_t>* u512;
-		std::set<cdata_u1024_t>* u1024;
-		std::set<cdata_u2048_t>* u2048;
+		std::set<cdada_u128_t>* u128;
+		std::set<cdada_u256_t>* u256;
+		std::set<cdada_u512_t>* u512;
+		std::set<cdada_u1024_t>* u1024;
+		std::set<cdada_u2048_t>* u2048;
 		void* custom;
 	}set;
-	__cdata_set_ops_t* ops;
-}__cdata_set_int_t;
+	__cdada_set_ops_t* ops;
+}__cdada_set_int_t;
 
 template<typename T>
-int cdata_set_insert_u(__cdata_set_int_t* m, std::set<T>* m_u,
+int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -81,10 +81,10 @@ int cdata_set_insert_u(__cdata_set_int_t* m, std::set<T>* m_u,
 		aux = (T*)key;
 
 		if(m_u->find(*aux) != m_u->end())
-			return CDATA_E_EXISTS;
+			return CDADA_E_EXISTS;
 		m_u->insert(*aux);
 
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Note: at this point it can only be a struct
@@ -94,15 +94,15 @@ int cdata_set_insert_u(__cdata_set_int_t* m, std::set<T>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	if(m_u->find(aux) != m_u->end())
-		return CDATA_E_EXISTS;
+		return CDADA_E_EXISTS;
 
 	m_u->insert(aux);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-int cdata_set_erase_u(__cdata_set_int_t* m, std::set<T>* m_u,
+int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -110,10 +110,10 @@ int cdata_set_erase_u(__cdata_set_int_t* m, std::set<T>* m_u,
 		aux = (T*)key;
 
 		if(m_u->find(*aux) == m_u->end())
-			return CDATA_E_NOT_FOUND;
+			return CDADA_E_NOT_FOUND;
 		m_u->erase(*aux);
 
-		return CDATA_SUCCESS;
+		return CDADA_SUCCESS;
 	}
 
 	//Note: at this point it can only be a struct
@@ -123,15 +123,15 @@ int cdata_set_erase_u(__cdata_set_int_t* m, std::set<T>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	if(m_u->find(aux) == m_u->end())
-		return CDATA_E_NOT_FOUND;
+		return CDADA_E_NOT_FOUND;
 
 	m_u->erase(aux);
 
-	return CDATA_SUCCESS;
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
-bool cdata_set_find_u(__cdata_set_int_t* m, std::set<T>* m_u,
+bool cdada_set_find_u(__cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -149,8 +149,8 @@ bool cdata_set_find_u(__cdata_set_int_t* m, std::set<T>* m_u,
 }
 
 template<typename T>
-void cdata_set_traverse_u(const cdata_set_t* set, std::set<T>* m_u,
-							cdata_set_it f,
+void cdada_set_traverse_u(const cdada_set_t* set, std::set<T>* m_u,
+							cdada_set_it f,
 							void* opaque){
 
 	typename std::set<T>::const_iterator it;
@@ -162,8 +162,8 @@ void cdata_set_traverse_u(const cdata_set_t* set, std::set<T>* m_u,
 }
 
 template<typename T>
-void cdata_set_rtraverse_u(const cdata_set_t* set, std::set<T>* m_u,
-							cdata_set_it f,
+void cdada_set_rtraverse_u(const cdada_set_t* set, std::set<T>* m_u,
+							cdada_set_it f,
 							void* opaque){
 
 	typename std::set<T>::const_reverse_iterator it;
@@ -174,4 +174,4 @@ void cdata_set_rtraverse_u(const cdata_set_t* set, std::set<T>* m_u,
 	}
 }
 
-#endif //__CDATA_SET_INT__
+#endif //__CDADA_SET_INT__

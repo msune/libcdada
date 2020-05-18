@@ -1,5 +1,5 @@
 m4_include([VERSION]) #Force reconf on VERSION change
-AC_INIT(LIBCDATA, m4_esyscmd_s(cat VERSION), marcdevel@gmail.com, libcdata, http://github.com/msune/libcdata)
+AC_INIT(LIBCDADA, m4_esyscmd_s(cat VERSION), marcdevel@gmail.com, libcdada, http://github.com/msune/libcdada)
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])

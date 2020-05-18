@@ -24,59 +24,59 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDATA_LIST_H__
-#define __CDATA_LIST_H__
+#ifndef __CDADA_LIST_H__
+#define __CDADA_LIST_H__
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cdata/utils.h>
+#include <cdada/utils.h>
 
 /**
-* @file cdata/list.h
+* @file cdada/list.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
 * @brief List data structure. Wraps std::list data structure
 */
 
 /**
-* cdata list structure
+* cdada list structure
 */
-typedef void cdata_list_t;
+typedef void cdada_list_t;
 
 //In case it's included from C++
 BEGIN_DECLS
 
 /**
-* cdata list structure iterator
+* cdada list structure iterator
 *
 * @param list List ptr
 * @param val Val (immutable)
 * @param opaque A pointer to an opaque object tat will be passed to the callback
 */
-typedef void (*cdata_list_it)(const cdata_list_t* list, const void* val,
+typedef void (*cdada_list_it)(const cdada_list_t* list, const void* val,
 						void* opaque);
 
 /**
 * @internal Function pointer struct for autogen types
 */
 typedef struct{
-	void (*create)(cdata_list_t* l);
-	void (*destroy)(cdata_list_t* l);
-	void (*clear)(cdata_list_t* l);
-	bool (*empty)(cdata_list_t* l);
-	uint32_t (*size)(cdata_list_t* l);
-	int (*insert)(cdata_list_t* l, const void* val, const uint32_t pos);
-	int (*get)(cdata_list_t* l, const uint32_t pos, void* val);
-	int (*erase)(cdata_list_t* l, const uint32_t pos);
-	int (*remove)(cdata_list_t* l, const void* val);
-	int (*push)(cdata_list_t* l, const void* val, bool front);
-	int (*pop)(cdata_list_t* l, bool front);
-	void (*sort)(cdata_list_t* l);
-	void (*reverse)(cdata_list_t* l);
-	void (*unique)(cdata_list_t* l);
-	void (*traverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
-	void (*rtraverse)(cdata_list_t* l, cdata_list_it f, void* opaque);
-}__cdata_list_ops_t;
+	void (*create)(cdada_list_t* l);
+	void (*destroy)(cdada_list_t* l);
+	void (*clear)(cdada_list_t* l);
+	bool (*empty)(cdada_list_t* l);
+	uint32_t (*size)(cdada_list_t* l);
+	int (*insert)(cdada_list_t* l, const void* val, const uint32_t pos);
+	int (*get)(cdada_list_t* l, const uint32_t pos, void* val);
+	int (*erase)(cdada_list_t* l, const uint32_t pos);
+	int (*remove)(cdada_list_t* l, const void* val);
+	int (*push)(cdada_list_t* l, const void* val, bool front);
+	int (*pop)(cdada_list_t* l, bool front);
+	void (*sort)(cdada_list_t* l);
+	void (*reverse)(cdada_list_t* l);
+	void (*unique)(cdada_list_t* l);
+	void (*traverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
+	void (*rtraverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
+}__cdada_list_ops_t;
 
 /**
 * @brief Create and initialize a list data structure
@@ -84,38 +84,38 @@ typedef struct{
 * Allocate and initialize a list structure (std::list). For val sizes below 8
 * bytes, the optimal val sizes are {1,2,4 or 8 bytes}.
 */
-cdata_list_t* cdata_list_create(const uint16_t val_size);
+cdada_list_t* cdada_list_create(const uint16_t val_size);
 
 /**
 * @internal Create and initialize list with ops
 */
-cdata_list_t* __cdata_list_create(const uint16_t val_size,
-						__cdata_list_ops_t* ops);
+cdada_list_t* __cdada_list_create(const uint16_t val_size,
+						__cdada_list_ops_t* ops);
 
 /**
 * Forward declare custom time ops
 */
-#define CDATA_LIST_CUSTOM_TYPE_DECL(TYPE) \
-	extern __cdata_list_ops_t __cdata_list_autogen_##TYPE
+#define CDADA_LIST_CUSTOM_TYPE_DECL(TYPE) \
+	extern __cdada_list_ops_t __cdada_list_autogen_##TYPE
 
 /**
 * @brief Create a list with a custom type, with a dedicated std::list
 *
-* Requires instantiating CDATA_LIST_CUSTOM_GEN() or
-* CDATA_LIST_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+* Requires instantiating CDADA_LIST_CUSTOM_GEN() or
+* CDADA_LIST_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
 */
-#define cdata_list_create_custom(TYPE) \
-	__cdata_list_create(sizeof( TYPE ), & __cdata_list_autogen_##TYPE )
+#define cdada_list_create_custom(TYPE) \
+	__cdada_list_create(sizeof( TYPE ), & __cdada_list_autogen_##TYPE )
 
 /**
 * Destroy a list structure
 */
-int cdata_list_destroy(cdata_list_t* list);
+int cdada_list_destroy(cdada_list_t* list);
 
 /**
 * Clears the contents of the list
 */
-int cdata_list_clear(cdata_list_t* list);
+int cdada_list_clear(cdada_list_t* list);
 
 /**
 * Traverse list
@@ -124,7 +124,7 @@ int cdata_list_clear(cdata_list_t* list);
 * @param func Traverse function for this specific list
 * @param opaque User data (opaque ptr)
 */
-int cdata_list_traverse(const cdata_list_t* list, cdata_list_it func,
+int cdada_list_traverse(const cdada_list_t* list, cdada_list_it func,
 							void* opaque);
 
 /**
@@ -134,7 +134,7 @@ int cdata_list_traverse(const cdata_list_t* list, cdata_list_it func,
 * @param func Traverse function for this specific list
 * @param opaque User data (opaque ptr)
 */
-int cdata_list_rtraverse(const cdata_list_t* list, cdata_list_it func,
+int cdada_list_rtraverse(const cdada_list_t* list, cdada_list_it func,
 							void* opaque);
 
 //List properties
@@ -142,12 +142,12 @@ int cdata_list_rtraverse(const cdata_list_t* list, cdata_list_it func,
 /**
 * Is the list empty
 */
-bool cdata_list_empty(cdata_list_t* list);
+bool cdada_list_empty(cdada_list_t* list);
 
 /**
 * Return the size (number of elements) in the list
 */
-uint32_t cdata_list_size(cdata_list_t* list);
+uint32_t cdada_list_size(cdada_list_t* list);
 
 //Element manipulation
 
@@ -158,7 +158,7 @@ uint32_t cdata_list_size(cdata_list_t* list);
 * @param val Value
 * @param pos Position in the list
 */
-int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos);
+int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos);
 
 /**
 * Get an element at a position
@@ -167,7 +167,7 @@ int cdata_list_insert(cdata_list_t* list, const void* val, const uint32_t pos);
 * @param pos Position in the list
 * @param val Value if found
 */
-int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val);
+int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val);
 
 /**
 * Erase an element from the list in a specific position
@@ -175,7 +175,7 @@ int cdata_list_get(cdata_list_t* list, const uint32_t pos, void* val);
 * @param list List pointer
 * @param pos Position in the list
 */
-int cdata_list_erase(cdata_list_t* list, uint32_t pos);
+int cdada_list_erase(cdada_list_t* list, uint32_t pos);
 
 /**
 * Remove elements with a specific value
@@ -183,7 +183,7 @@ int cdata_list_erase(cdata_list_t* list, uint32_t pos);
 * @param list List pointer
 * @param val Val. The val type _must_ have all bytes initialized
 */
-int cdata_list_remove(cdata_list_t* list, const void* val);
+int cdada_list_remove(cdada_list_t* list, const void* val);
 
 /**
 * Push front
@@ -192,7 +192,7 @@ int cdata_list_remove(cdata_list_t* list, const void* val);
 * @param val Val. The val type _must_ have all bytes initialized
 * @param pos Position in the list
 */
-int cdata_list_push_front(cdata_list_t* list, const void* val);
+int cdada_list_push_front(cdada_list_t* list, const void* val);
 
 /**
 * Push back
@@ -200,7 +200,7 @@ int cdata_list_push_front(cdata_list_t* list, const void* val);
 * @param list List pointer
 * @param val Val. The val type _must_ have all bytes initialized
 */
-int cdata_list_push_back(cdata_list_t* list, const void* val);
+int cdada_list_push_back(cdada_list_t* list, const void* val);
 
 /**
 * Pop front
@@ -208,7 +208,7 @@ int cdata_list_push_back(cdata_list_t* list, const void* val);
 * @param list List pointer
 * @param val Val. The val type _must_ have all bytes initialized
 */
-int cdata_list_pop_front(cdata_list_t* list);
+int cdada_list_pop_front(cdada_list_t* list);
 
 /**
 * Pop back
@@ -216,29 +216,29 @@ int cdata_list_pop_front(cdata_list_t* list);
 * @param list List pointer
 * @param val Val. The val type _must_ have all bytes initialized
 */
-int cdata_list_pop_back(cdata_list_t* list);
+int cdada_list_pop_back(cdada_list_t* list);
 
 /**
 * Sort
 *
 * @param list List pointer
 */
-int cdata_list_sort(cdata_list_t* list);
+int cdada_list_sort(cdada_list_t* list);
 
 /**
 * Reverse order of elements
 *
 * @param list List pointer
 */
-int cdata_list_reverse(cdata_list_t* list);
+int cdada_list_reverse(cdada_list_t* list);
 
 /**
 * Remove duplicate values
 *
 * @param list List pointer
 */
-int cdata_list_unique(cdata_list_t* list);
+int cdada_list_unique(cdada_list_t* list);
 
 END_DECLS
 
-#endif //__CDATA_LIST_H__
+#endif //__CDADA_LIST_H__
