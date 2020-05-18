@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/msune/libcdata.svg?branch=master)](https://travis-ci.org/msune/libcdata)
 
 **libcdata** - basic data structures in C (`libstdc++` wrapper)
 ---------------------------------------------------------------
