@@ -2,6 +2,7 @@
 #include "cdata/__common_internal.h"
 #include "cdata/__list_internal.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 using namespace std;
