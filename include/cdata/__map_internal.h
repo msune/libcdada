@@ -83,7 +83,7 @@ int cdata_map_insert_u(__cdata_map_int_t* m, std::map<T, void*>* m_u,
 
 		if(m_u->find(*aux) != m_u->end())
 			return CDATA_E_EXISTS;
-		m_u->insert({*aux, val});
+		m_u->insert(std::pair<T, void*>(*aux, val));
 
 		return CDATA_SUCCESS;
 	}
@@ -97,7 +97,7 @@ int cdata_map_insert_u(__cdata_map_int_t* m, std::map<T, void*>* m_u,
 	if(m_u->find(aux) != m_u->end())
 		return CDATA_E_EXISTS;
 
-	m_u->insert({aux, val});
+	m_u->insert(std::pair<T, void*>(aux, val));
 
 	return CDATA_SUCCESS;
 }
