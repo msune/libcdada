@@ -1,0 +1,66 @@
+language: c
+dist: bionic
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - sourceline: ppa:ubuntu-toolchain-r/test
+    packages:
+      - valgrind
+      - gcc-4.8
+      - g++-4.8
+      - gcc-5
+      - g++-5
+      - gcc-6
+      - g++-6
+      - gcc-8
+      - g++-8
+      - gcc-9
+      - g++-9
+      - gcc-10
+      - g++-10
+      - clang
+
+env:
+  - CC=gcc; CXX=g++; CONFIG_FLAGS="--enable-debug --disable-silent-rules"
+  - CC=gcc; CXX=g++; CONFIG_FLAGS="--disable-silent-rules" #Default is 7
+
+  - CC=gcc-4.8; CXX=g++-4.8; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=gcc-5; CXX=g++-5; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=gcc-6; CXX=g++-6; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=gcc-8; CXX=g++-8; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=gcc-9; CXX=g++-9; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=gcc-10; CXX=g++-10; CONFIG_FLAGS="--disable-silent-rules"
+  - CC=clang; CXX=clang++; CONFIG_FLAGS="--disable-silent-rules"
+
+
+script:
+  - echo "Compilers:"
+  - echo $CC
+  - echo $CXX
+  - echo "Env:"
+  - echo $CONFIG_FLAGS
+  - echo "Building in-tree"
+  - ./autogen.sh
+  - ./configure $CONFIG_FLAGS || (cat config.log && /bin/false)
+  - make
+  - make maintainer-clean
+  - echo "Building out-tree"
+  - ./autogen.sh
+  - cd build
+  - ../configure $CONFIG_FLAGS || (cat config.log && /bin/false)
+  - make check || ((for f in `find test/ -name "*.log"`; do cat $f; done;) && /bin/false)
+  - echo "Running examples..."
+  - valgrind --leak-check=full examples/list_u32
+  - valgrind --leak-check=full examples/map_struct
+  - echo "Installing in the system.."
+  - sudo make install
+  - sudo ldconfig
+  - echo "Building examples with installed headers and libs.."
+  - mkdir -p examples_sys && cd examples_sys
+  - $CC ../../examples/list_u32.c -lcdata -o list_u32_sys
+  - $CC ../../examples/map_struct.c -lcdata -o map_struct_sys
+  - echo "Running examples (sys)..."
+  - valgrind --leak-check=full ./list_u32_sys
+  - valgrind --leak-check=full ./map_struct_sys
