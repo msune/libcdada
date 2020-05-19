@@ -125,6 +125,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
 		return cdada_list_get_u< TYPE > (s, p, pos, val);\
 	}
+
+/**
+* @internal Custom type first_last f
+*/
+#define __CDADA_LIST_CUSTOM_FIRST_LAST_F(TYPE) \
+	int __cdada_list_autogen_first_last_##TYPE (void* m, bool first, \
+							void* key){ \
+		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
+		__CDADA_STD_LIST_TYPE(TYPE)* p = \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+		return cdada_list_first_last_u< TYPE > (s, p, first, key);\
+	}
+
 /**
 * @internal Custom type erase f
 */
@@ -240,6 +253,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		.size = __cdada_list_autogen_size_##TYPE, \
 		.insert = __cdada_list_autogen_insert_##TYPE, \
 		.get = __cdada_list_autogen_get_##TYPE, \
+		.first_last = __cdada_list_autogen_first_last_##TYPE, \
 		.erase = __cdada_list_autogen_erase_##TYPE, \
 		.remove = __cdada_list_autogen_remove_##TYPE, \
 		.push = __cdada_list_autogen_push_##TYPE, \
@@ -262,6 +276,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_LIST_CUSTOM_SIZE_F(TYPE); \
 	__CDADA_LIST_CUSTOM_INSERT_F(TYPE); \
 	__CDADA_LIST_CUSTOM_GET_F(TYPE); \
+	__CDADA_LIST_CUSTOM_FIRST_LAST_F(TYPE); \
 	__CDADA_LIST_CUSTOM_ERASE_F(TYPE); \
 	__CDADA_LIST_CUSTOM_REMOVE_F(TYPE); \
 	__CDADA_LIST_CUSTOM_PUSH_F(TYPE); \

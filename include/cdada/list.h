@@ -131,6 +131,20 @@ int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos);
 int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val);
 
 /**
+* Get the first element in the list
+* @param list Map pointer
+* @param val Value if found
+*/
+int cdada_list_first(cdada_list_t* list, void* val);
+
+/**
+* Get the last element in the list
+* @param list Map pointer
+* @param val Value if found
+*/
+int cdada_list_last(cdada_list_t* list, void* val);
+
+/**
 * Erase an element from the list in a specific position
 *
 * @param list List pointer

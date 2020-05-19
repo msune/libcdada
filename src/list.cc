@@ -405,6 +405,86 @@ int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val){
 	return rv;
 }
 
+static int __cdada_list_first_last(cdada_list_t* list, bool first, void* key){
+
+	int rv;
+	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
+
+	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
+		return false;
+
+	try{
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
+			case 1:
+				rv = cdada_list_first_last_u<uint8_t>(m,
+								m->list.u8,
+								first, key);
+				break;
+			case 2:
+				rv = cdada_list_first_last_u<uint16_t>(m,
+								m->list.u16,
+								first, key);
+				break;
+			case 4:
+				rv = cdada_list_first_last_u<uint32_t>(m,
+								m->list.u32,
+								first, key);
+				break;
+			case 8:
+				rv = cdada_list_first_last_u<uint64_t>(m,
+								m->list.u64,
+								first, key);
+				break;
+			case 16:
+				rv = cdada_list_first_last_u<cdada_u128_t>(m,
+								m->list.u128,
+								first, key);
+				break;
+			case 32:
+				rv = cdada_list_first_last_u<cdada_u256_t>(m,
+								m->list.u256,
+								first, key);
+				break;
+			case 64:
+				rv = cdada_list_first_last_u<cdada_u512_t>(m,
+								m->list.u512,
+								first, key);
+				break;
+			case 128:
+				rv = cdada_list_first_last_u<cdada_u1024_t>(m,
+								m->list.u1024,
+								first, key);
+				break;
+			case 256:
+				rv = cdada_list_first_last_u<cdada_u2048_t>(m,
+								m->list.u2048,
+								first, key);
+				break;
+			case 0:
+				rv = (*m->ops->first_last)(m, first, key);
+				break;
+			default:
+				CDADA_ASSERT(0);
+				rv = CDADA_E_UNKNOWN;
+				break;
+		}
+	}catch(...){
+		CDADA_ASSERT(0);
+		return false;
+	}
+
+	return rv;
+}
+
+int cdada_list_first(cdada_list_t* list, void* key){
+	return __cdada_list_first_last(list, true, key);
+}
+
+int cdada_list_last(cdada_list_t* list, void* key){
+	return __cdada_list_first_last(list, false, key);
+}
+
 int cdada_list_erase(cdada_list_t* list, const uint32_t pos){
 
 	int rv;

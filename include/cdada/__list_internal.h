@@ -61,6 +61,7 @@ typedef struct __cdada_list_ops{
 	uint32_t (*size)(cdada_list_t* l);
 	int (*insert)(cdada_list_t* l, const void* val, const uint32_t pos);
 	int (*get)(cdada_list_t* l, const uint32_t pos, void* val);
+	int (*first_last)(cdada_list_t* l, bool first, void* val);
 	int (*erase)(cdada_list_t* l, const uint32_t pos);
 	int (*remove)(cdada_list_t* l, const void* val);
 	int (*push)(cdada_list_t* l, const void* val, bool front);
@@ -151,6 +152,38 @@ int cdada_list_get_u(__cdada_list_int_t* m, std::list<T>* m_u,
 
 	//Avoid padding from the wrapper
 	memcpy(aux, &(*it), m->user_val_len);
+
+	return CDADA_SUCCESS;
+}
+
+template<typename T>
+int cdada_list_first_last_u(__cdada_list_int_t* m, std::list<T>* m_u,
+							bool first,
+							void* key){
+	T* __attribute((__may_alias__)) aux;
+	aux = (T*)key;
+
+	if(first){
+		typename std::list<T>::const_iterator it;
+		it = m_u->begin();
+		if(it == m_u->end())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->val_len == m->user_val_len)
+			*aux = *it;
+		else
+			memcpy(aux, &(*it), m->user_val_len);
+	}else{
+		typename std::list<T>::const_reverse_iterator rit;
+		rit = m_u->rbegin();
+		if(rit == m_u->rend())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->val_len == m->user_val_len)
+			*aux = *rit;
+		else
+			memcpy(aux, &(*rit), m->user_val_len);
+	}
 
 	return CDADA_SUCCESS;
 }
