@@ -1,4 +1,4 @@
-`libcdata` examples
+`libcdada` examples
 -------------------
 
 Two simple examples and one advanced are provided:

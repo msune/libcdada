@@ -101,14 +101,11 @@ int main(int args, char** argv){
 				cdada_map_empty(m)? "is empty" : "has elements",
 				cdada_map_size(m));
 
-
 	//Cleanup
-	memset(&key, 0, sizeof(my_key_t)); //Let's not leave trailing chars
-	snprintf(key.corridor, 20, "left");
-	snprintf(key.shelf, 20, "4th");
-	snprintf(key.item, 24, "Lenovo T440s");
-	cdada_map_find(m, &key, (void**)&val);
-	free(val);
+	while(cdada_map_first(m, &key, (void**)&val) == CDADA_SUCCESS){
+		free(val);
+		cdada_map_erase(m, &key);
+	}
 
 	//Don't leak
 	cdada_map_destroy(m);

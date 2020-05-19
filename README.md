@@ -5,10 +5,10 @@
 
 Small library that offers basic data structures (`list`, `set`, `map`...) in a pure C API. Key features:
 
-* Easy to use and portable
-* Uses stable and well-tested `libstdc++` backend engine for most of the data structures
-* No "magic" MACROs, and no need to modify your data structures (except, perhaps for `__attribute__((packed))`)
-* Reasonable performance (should be comparable to `libstdc++`)
+* Easy to use, portable
+* No "magic" MACROs, and no need to modify your data structures (except, perhaps, for `__attribute__((packed))`)
+* Stable and well-tested backend engine (`libstdc++`) for most of the data structures
+* Reasonable performance - comparable to `libstdc++`)
 
 Example
 -------
@@ -35,6 +35,10 @@ assert(val == 11);
 cdada_list_unique(my_list);
 assert(cdada_list_size(my_list) == 3);
 
+//First/last
+cdada_list_first(my_list, &val);
+assert(val == 10);
+
 //Add {10, 11, 5, 11}
 x=11;
 cdada_list_push_back(my_list, &val);
@@ -47,33 +51,28 @@ assert(cdada_list_size(my_list) == 2);
 cdada_list_traverse(my_list, my_iterator_func, opaque);
 ```
 
-Don't forget to link `-lcdada`. More examples for `map` and `set` in [examples/README.md].
+More examples `map` and `set` and custom containers in the [examples](examples/) folder.
 
 Documentation
 -------------
 
-`libcdada`, by default, will allow to create containers with keys (values for lists)
-of 1-256 bytes, but will perform better if they are aligned to {1,2,4,8,32,64,128,256} bytes.
+Public API:
 
-If you need larger keys, or cannot affort the extra padding added by default, you should
-look into `libcdada`'s custom containers [TODO link].
-
-Detailed documentation and examples:
-
-* `list`: equivalent to `std::list` [TODO link]
-* `map`: equivalent to `std::map` [TODO link]
-* `set`: equivalent to `std::set` [TODO link]
-
-Custom container example:
-
-* TODO
+* [list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
+* [map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
+* [set.h](include/cdada/set.h): a set of objects, with unique values hashmap (equivalent to `std::set`)
+* [util.h](include/cdada/util.h): error codes and utility functions
 
 `libcdada` (as `libstdc++`) is not thread-safe.
 
-Note: `libcdada` is designed to be easy to use. The performance goal is to be _as_ fast as
-`libstdc++`, given that for most structures it is just a simple wrapper. If you have _hard_
-performance or memory requirements, take a look at `libcdada`'s custom containers or
-other libraries.
+Default containers support 1-256 bytes keys (values for lists), but they will
+perform better when aligned to {1,2,4,8,32,64,128,256} bytes - keys are padded to
+a power of 2 bytes.
+
+For larger keys, optimal memory usage and performance, use `libcdada`'s custom containers [TODO link].
+They support any key size (including < 256), and they are equivalent to `std::container<your_type>`.
+The only difference with regular containers is that a special `_create()` function is used. The
+rest of APIs apply.
 
 Installation
 ------------
