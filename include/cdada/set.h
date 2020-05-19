@@ -38,6 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief Set data structure. Wraps std::set data structure
 */
 
+//Fwd decl
+struct __cdada_set_ops;
+
 /**
 * cdada set structure
 */
@@ -57,49 +60,12 @@ typedef void (*cdada_set_it)(const cdada_set_t* set, const void* key,
 						void* opaque);
 
 /**
-* @internal Function pointer struct for autogen types
-*/
-typedef struct{
-	void (*create)(void* m);
-	void (*destroy)(void* m);
-	void (*clear)(void* m);
-	bool (*empty)(void* m);
-	uint32_t (*size)(void* m);
-	int (*insert)(void* m, const void* key);
-	int (*erase)(void* m, const void* key);
-	bool (*find)(void* m, const void* key);
-	void (*traverse)(void* m, cdada_set_it f, void* opaque);
-	void (*rtraverse)(void* m, cdada_set_it f, void* opaque);
-}__cdada_set_ops_t;
-
-/**
 * @brief Create and initialize a set data structure
 *
 * Allocate and initialize a set structure (std::set). For key sizes below 8
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
 cdada_set_t* cdada_set_create(const uint16_t key_size);
-
-/**
-* @internal Create and initialize set with ops
-*/
-cdada_set_t* __cdada_set_create(const uint16_t key_size,
-						__cdada_set_ops_t* ops);
-
-/**
-* Forward declare custom time ops
-*/
-#define CDADA_SET_CUSTOM_TYPE_DECL(TYPE) \
-	extern __cdada_set_ops_t __cdada_set_autogen_##TYPE
-
-/**
-* @brief Create a set with a custom type, with a dedicated std::set
-*
-* Requires instantiating CDADA_SET_CUSTOM_GEN() or
-* CDADA_SET_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
-*/
-#define cdada_set_create_custom(TYPE) \
-	__cdada_set_create(sizeof( TYPE ), & __cdada_set_autogen_##TYPE )
 
 /**
 * Destroy a set structure
@@ -168,6 +134,29 @@ int cdada_set_erase(cdada_set_t* set, const void* key);
 * @param key Key. The key type _must_ have all bytes initialized
 */
 bool cdada_set_find(cdada_set_t* set, const void* key);
+
+//Custom types
+
+/**
+* @internal Create and initialize set with ops
+*/
+cdada_set_t* __cdada_set_create(const uint16_t key_size,
+						struct __cdada_set_ops* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDADA_SET_CUSTOM_TYPE_DECL(TYPE) \
+	extern struct __cdada_set_ops __cdada_set_autogen_##TYPE
+
+/**
+* @brief Create a set with a custom type, with a dedicated std::set
+*
+* Requires instantiating CDADA_SET_CUSTOM_GEN() or
+* CDADA_SET_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdada_set_create_custom(TYPE) \
+	__cdada_set_create(sizeof( TYPE ), & __cdada_set_autogen_##TYPE )
 
 END_DECLS
 

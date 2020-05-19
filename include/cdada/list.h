@@ -38,6 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief List data structure. Wraps std::list data structure
 */
 
+//Fwd decl
+struct __cdada_list_ops;
+
 /**
 * cdada list structure
 */
@@ -56,27 +59,6 @@ BEGIN_DECLS
 typedef void (*cdada_list_it)(const cdada_list_t* list, const void* val,
 						void* opaque);
 
-/**
-* @internal Function pointer struct for autogen types
-*/
-typedef struct{
-	void (*create)(cdada_list_t* l);
-	void (*destroy)(cdada_list_t* l);
-	void (*clear)(cdada_list_t* l);
-	bool (*empty)(cdada_list_t* l);
-	uint32_t (*size)(cdada_list_t* l);
-	int (*insert)(cdada_list_t* l, const void* val, const uint32_t pos);
-	int (*get)(cdada_list_t* l, const uint32_t pos, void* val);
-	int (*erase)(cdada_list_t* l, const uint32_t pos);
-	int (*remove)(cdada_list_t* l, const void* val);
-	int (*push)(cdada_list_t* l, const void* val, bool front);
-	int (*pop)(cdada_list_t* l, bool front);
-	void (*sort)(cdada_list_t* l);
-	void (*reverse)(cdada_list_t* l);
-	void (*unique)(cdada_list_t* l);
-	void (*traverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
-	void (*rtraverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
-}__cdada_list_ops_t;
 
 /**
 * @brief Create and initialize a list data structure
@@ -85,27 +67,6 @@ typedef struct{
 * bytes, the optimal val sizes are {1,2,4 or 8 bytes}.
 */
 cdada_list_t* cdada_list_create(const uint16_t val_size);
-
-/**
-* @internal Create and initialize list with ops
-*/
-cdada_list_t* __cdada_list_create(const uint16_t val_size,
-						__cdada_list_ops_t* ops);
-
-/**
-* Forward declare custom time ops
-*/
-#define CDADA_LIST_CUSTOM_TYPE_DECL(TYPE) \
-	extern __cdada_list_ops_t __cdada_list_autogen_##TYPE
-
-/**
-* @brief Create a list with a custom type, with a dedicated std::list
-*
-* Requires instantiating CDADA_LIST_CUSTOM_GEN() or
-* CDADA_LIST_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
-*/
-#define cdada_list_create_custom(TYPE) \
-	__cdada_list_create(sizeof( TYPE ), & __cdada_list_autogen_##TYPE )
 
 /**
 * Destroy a list structure
@@ -238,6 +199,29 @@ int cdada_list_reverse(cdada_list_t* list);
 * @param list List pointer
 */
 int cdada_list_unique(cdada_list_t* list);
+
+//Custom types
+
+/**
+* @internal Create and initialize list with ops
+*/
+cdada_list_t* __cdada_list_create(const uint16_t val_size,
+						struct __cdada_list_ops* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDADA_LIST_CUSTOM_TYPE_DECL(TYPE) \
+	extern struct __cdada_list_ops __cdada_list_autogen_##TYPE
+
+/**
+* @brief Create a list with a custom type, with a dedicated std::list
+*
+* Requires instantiating CDADA_LIST_CUSTOM_GEN() or
+* CDADA_LIST_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdada_list_create_custom(TYPE) \
+	__cdada_list_create(sizeof( TYPE ), & __cdada_list_autogen_##TYPE )
 
 END_DECLS
 

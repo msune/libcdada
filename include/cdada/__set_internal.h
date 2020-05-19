@@ -51,7 +51,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
-* Main internal structure
+* @internal Function pointer struct for autogen types
+*/
+typedef struct __cdada_set_ops{
+	void (*create)(void* m);
+	void (*destroy)(void* m);
+	void (*clear)(void* m);
+	bool (*empty)(void* m);
+	uint32_t (*size)(void* m);
+	int (*insert)(void* m, const void* key);
+	int (*erase)(void* m, const void* key);
+	bool (*find)(void* m, const void* key);
+	void (*traverse)(void* m, cdada_set_it f, void* opaque);
+	void (*rtraverse)(void* m, cdada_set_it f, void* opaque);
+}__cdada_set_ops_t;
+
+/**
+* @internal Main internal structure
 */
 typedef struct{
 	uint32_t magic_num;

@@ -51,7 +51,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
-* Main internal structure
+* @internal Function pointer struct for autogen types
+*/
+typedef struct __cdada_map_ops{
+	void (*create)(cdada_map_t* map);
+	void (*destroy)(cdada_map_t* map);
+	void (*clear)(cdada_map_t* map);
+	bool (*empty)(cdada_map_t* map);
+	uint32_t (*size)(cdada_map_t* map);
+	int (*insert)(cdada_map_t* map, const void* key, void* val);
+	int (*erase)(cdada_map_t* map, const void* key);
+	int (*find)(cdada_map_t* map, const void* key, void** val);
+	void (*traverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
+	void (*rtraverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
+}__cdada_map_ops_t;
+
+
+/**
+* @internal Main internal structure
 */
 typedef struct{
 	uint32_t magic_num;

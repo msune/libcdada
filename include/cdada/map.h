@@ -38,6 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief Map {key, value} data structure. Wraps std::map data structure
 */
 
+//Fwd decl
+struct __cdada_map_ops;
+
 /**
 * cdada map structure
 */
@@ -59,49 +62,12 @@ typedef void (*cdada_map_it)(const cdada_map_t* map, const void* key,
 						void* opaque);
 
 /**
-* @internal Function pointer struct for autogen types
-*/
-typedef struct{
-	void (*create)(cdada_map_t* map);
-	void (*destroy)(cdada_map_t* map);
-	void (*clear)(cdada_map_t* map);
-	bool (*empty)(cdada_map_t* map);
-	uint32_t (*size)(cdada_map_t* map);
-	int (*insert)(cdada_map_t* map, const void* key, void* val);
-	int (*erase)(cdada_map_t* map, const void* key);
-	int (*find)(cdada_map_t* map, const void* key, void** val);
-	void (*traverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
-	void (*rtraverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
-}__cdada_map_ops_t;
-
-/**
 * @brief Create and initialize a map data structure
 *
 * Allocate and initialize a map structure (std::map). For key sizes below 8
 * bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
 */
 cdada_map_t* cdada_map_create(const uint16_t key_size);
-
-/**
-* @internal Create and initialize map with ops
-*/
-cdada_map_t* __cdada_map_create(const uint16_t key_size,
-						__cdada_map_ops_t* ops);
-
-/**
-* Forward declare custom time ops
-*/
-#define CDADA_MAP_CUSTOM_TYPE_DECL(TYPE) \
-	extern __cdada_map_ops_t __cdada_map_autogen_##TYPE
-
-/**
-* @brief Create a map with a custom type, with a dedicated std::map
-*
-* Requires instantiating CDADA_MAP_CUSTOM_GEN() or
-* CDADA_MAP_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
-*/
-#define cdada_map_create_custom(TYPE) \
-	__cdada_map_create(sizeof( TYPE ), & __cdada_map_autogen_##TYPE )
 
 /**
 * Destroy a map structure
@@ -172,6 +138,29 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 * @param val Pointer to the value
 */
 int cdada_map_find(cdada_map_t* map, const void* key, void** val);
+
+//Custom types
+
+/**
+* @internal Create and initialize map with ops
+*/
+cdada_map_t* __cdada_map_create(const uint16_t key_size,
+						struct __cdada_map_ops* ops);
+
+/**
+* Forward declare custom time ops
+*/
+#define CDADA_MAP_CUSTOM_TYPE_DECL(TYPE) \
+	extern struct __cdada_map_ops __cdada_map_autogen_##TYPE
+
+/**
+* @brief Create a map with a custom type, with a dedicated std::map
+*
+* Requires instantiating CDADA_MAP_CUSTOM_GEN() or
+* CDADA_MAP_CUSTOM_GEN_NO_MEMCP() once in a C++ compilation unit
+*/
+#define cdada_map_create_custom(TYPE) \
+	__cdada_map_create(sizeof( TYPE ), & __cdada_map_autogen_##TYPE )
 
 END_DECLS
 
