@@ -102,12 +102,12 @@ int cdada_set_rtraverse(const cdada_set_t* set, cdada_set_it func,
 /**
 * Is the set empty
 */
-bool cdada_set_empty(cdada_set_t* set);
+bool cdada_set_empty(const cdada_set_t* set);
 
 /**
 * Return the size (number of elements) in the set
 */
-uint32_t cdada_set_size(cdada_set_t* set);
+uint32_t cdada_set_size(const cdada_set_t* set);
 
 //Element manipulation
 
@@ -133,21 +133,21 @@ int cdada_set_erase(cdada_set_t* set, const void* key);
 * @param set Set pointer
 * @param key Key
 */
-bool cdada_set_find(cdada_set_t* set, const void* key);
+bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
 * Get the first element in the set
 * @param set Map pointer
 * @param key Key
 */
-int cdada_set_first(cdada_set_t* set, void* key);
+int cdada_set_first(const cdada_set_t* set, void* key);
 
 /**
 * Get the last element in the set
 * @param set Map pointer
 * @param key Key
 */
-int cdada_set_last(cdada_set_t* set, void* key);
+int cdada_set_last(const cdada_set_t* set, void* key);
 
 //Custom types
 

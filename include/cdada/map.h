@@ -104,12 +104,12 @@ int cdada_map_rtraverse(const cdada_map_t* map, cdada_map_it func,
 /**
 * Is the map empty
 */
-bool cdada_map_empty(cdada_map_t* map);
+bool cdada_map_empty(const cdada_map_t* map);
 
 /**
 * Return the size (number of elements) in the map
 */
-uint32_t cdada_map_size(cdada_map_t* map);
+uint32_t cdada_map_size(const cdada_map_t* map);
 
 //Element manipulation
 
@@ -137,7 +137,7 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 * @param key Key
 * @param val Pointer to the value
 */
-int cdada_map_find(cdada_map_t* map, const void* key, void** val);
+int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
 
 /**
 * Get the first element in the map
@@ -145,7 +145,7 @@ int cdada_map_find(cdada_map_t* map, const void* key, void** val);
 * @param key Key
 * @param val Pointer to the value
 */
-int cdada_map_first(cdada_map_t* map, void* key, void** val);
+int cdada_map_first(const cdada_map_t* map, void* key, void** val);
 
 /**
 * Get the last element in the map
@@ -153,7 +153,7 @@ int cdada_map_first(cdada_map_t* map, void* key, void** val);
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
 */
-int cdada_map_last(cdada_map_t* map, void* key, void** val);
+int cdada_map_last(const cdada_map_t* map, void* key, void** val);
 
 //Custom types
 

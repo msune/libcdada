@@ -57,11 +57,11 @@ typedef struct __cdada_list_ops{
 	void (*create)(cdada_list_t* l);
 	void (*destroy)(cdada_list_t* l);
 	void (*clear)(cdada_list_t* l);
-	bool (*empty)(cdada_list_t* l);
-	uint32_t (*size)(cdada_list_t* l);
+	bool (*empty)(const cdada_list_t* l);
+	uint32_t (*size)(const cdada_list_t* l);
 	int (*insert)(cdada_list_t* l, const void* val, const uint32_t pos);
-	int (*get)(cdada_list_t* l, const uint32_t pos, void* val);
-	int (*first_last)(cdada_list_t* l, bool first, void* val);
+	int (*get)(const cdada_list_t* l, const uint32_t pos, void* val);
+	int (*first_last)(const cdada_list_t* l, bool first, void* val);
 	int (*erase)(cdada_list_t* l, const uint32_t pos);
 	int (*remove)(cdada_list_t* l, const void* val);
 	int (*push)(cdada_list_t* l, const void* val, bool front);
@@ -69,8 +69,8 @@ typedef struct __cdada_list_ops{
 	void (*sort)(cdada_list_t* l);
 	void (*reverse)(cdada_list_t* l);
 	void (*unique)(cdada_list_t* l);
-	void (*traverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
-	void (*rtraverse)(cdada_list_t* l, cdada_list_it f, void* opaque);
+	void (*traverse)(const cdada_list_t* l, cdada_list_it f, void* opaque);
+	void (*rtraverse)(const cdada_list_t* l, cdada_list_it f, void* opaque);
 }__cdada_list_ops_t;
 
 /**
@@ -131,7 +131,7 @@ int cdada_list_insert_u(__cdada_list_int_t* m, std::list<T>* m_u,
 }
 
 template<typename T>
-int cdada_list_get_u(__cdada_list_int_t* m, std::list<T>* m_u,
+int cdada_list_get_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 							const uint32_t pos,
 							void* val){
 
@@ -157,7 +157,7 @@ int cdada_list_get_u(__cdada_list_int_t* m, std::list<T>* m_u,
 }
 
 template<typename T>
-int cdada_list_first_last_u(__cdada_list_int_t* m, std::list<T>* m_u,
+int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 							bool first,
 							void* key){
 	T* __attribute((__may_alias__)) aux;

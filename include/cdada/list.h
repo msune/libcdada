@@ -103,12 +103,12 @@ int cdada_list_rtraverse(const cdada_list_t* list, cdada_list_it func,
 /**
 * Is the list empty
 */
-bool cdada_list_empty(cdada_list_t* list);
+bool cdada_list_empty(const cdada_list_t* list);
 
 /**
 * Return the size (number of elements) in the list
 */
-uint32_t cdada_list_size(cdada_list_t* list);
+uint32_t cdada_list_size(const cdada_list_t* list);
 
 //Element manipulation
 
@@ -128,21 +128,21 @@ int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos);
 * @param pos Position in the list
 * @param val Value if found
 */
-int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val);
+int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val);
 
 /**
 * Get the first element in the list
 * @param list Map pointer
 * @param val Value if found
 */
-int cdada_list_first(cdada_list_t* list, void* val);
+int cdada_list_first(const cdada_list_t* list, void* val);
 
 /**
 * Get the last element in the list
 * @param list Map pointer
 * @param val Value if found
 */
-int cdada_list_last(cdada_list_t* list, void* val);
+int cdada_list_last(const cdada_list_t* list, void* val);
 
 /**
 * Erase an element from the list in a specific position

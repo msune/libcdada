@@ -181,7 +181,7 @@ int cdada_map_clear(cdada_map_t* map){
 	return CDADA_SUCCESS;
 }
 
-bool cdada_map_empty(cdada_map_t* map){
+bool cdada_map_empty(const cdada_map_t* map){
 
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
@@ -220,7 +220,7 @@ bool cdada_map_empty(cdada_map_t* map){
 	return false;
 }
 
-uint32_t cdada_map_size(cdada_map_t* map){
+uint32_t cdada_map_size(const cdada_map_t* map){
 
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
@@ -406,7 +406,7 @@ int cdada_map_erase(cdada_map_t* map, const void* key){
 	return rv;
 }
 
-int cdada_map_find(cdada_map_t* map, const void* key, void** val){
+int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 
 	int rv;
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
@@ -481,7 +481,7 @@ int cdada_map_find(cdada_map_t* map, const void* key, void** val){
 	return rv;
 }
 
-static int __cdada_map_first_last(cdada_map_t* map, bool first, void* key,
+static int __cdada_map_first_last(const cdada_map_t* map, bool first, void* key,
 								void** val){
 
 	int rv;
@@ -570,11 +570,11 @@ static int __cdada_map_first_last(cdada_map_t* map, bool first, void* key,
 	return rv;
 }
 
-int cdada_map_first(cdada_map_t* map, void* key, void** val){
+int cdada_map_first(const cdada_map_t* map, void* key, void** val){
 	return __cdada_map_first_last(map, true, key, val);
 }
 
-int cdada_map_last(cdada_map_t* map, void* key, void** val){
+int cdada_map_last(const cdada_map_t* map, void* key, void** val){
 	return __cdada_map_first_last(map, false, key, val);
 }
 

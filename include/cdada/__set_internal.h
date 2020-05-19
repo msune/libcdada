@@ -57,14 +57,14 @@ typedef struct __cdada_set_ops{
 	void (*create)(cdada_set_t* m);
 	void (*destroy)(cdada_set_t* m);
 	void (*clear)(cdada_set_t* m);
-	bool (*empty)(cdada_set_t* m);
-	uint32_t (*size)(cdada_set_t* m);
+	bool (*empty)(const cdada_set_t* m);
+	uint32_t (*size)(const cdada_set_t* m);
 	int (*insert)(cdada_set_t* m, const void* key);
 	int (*erase)(cdada_set_t* m, const void* key);
-	bool (*find)(cdada_set_t* m, const void* key);
-	int (*first_last)(cdada_set_t* map, bool first, void* key);
-	void (*traverse)(cdada_set_t* m, cdada_set_it f, void* opaque);
-	void (*rtraverse)(cdada_set_t* m, cdada_set_it f, void* opaque);
+	bool (*find)(const cdada_set_t* m, const void* key);
+	int (*first_last)(const cdada_set_t* map, bool first, void* key);
+	void (*traverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
+	void (*rtraverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
 }__cdada_set_ops_t;
 
 /**
@@ -148,7 +148,7 @@ int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
 }
 
 template<typename T>
-bool cdada_set_find_u(__cdada_set_int_t* m, std::set<T>* m_u,
+bool cdada_set_find_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -166,7 +166,7 @@ bool cdada_set_find_u(__cdada_set_int_t* m, std::set<T>* m_u,
 }
 
 template<typename T>
-int cdada_set_first_last_u(__cdada_set_int_t* m, std::set<T>* m_u,
+int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 							bool first,
 							void* key){
 	T* __attribute((__may_alias__)) aux;

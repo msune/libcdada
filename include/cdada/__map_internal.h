@@ -57,14 +57,15 @@ typedef struct __cdada_map_ops{
 	void (*create)(cdada_map_t* map);
 	void (*destroy)(cdada_map_t* map);
 	void (*clear)(cdada_map_t* map);
-	bool (*empty)(cdada_map_t* map);
-	uint32_t (*size)(cdada_map_t* map);
+	bool (*empty)(const cdada_map_t* map);
+	uint32_t (*size)(const cdada_map_t* map);
 	int (*insert)(cdada_map_t* map, const void* key, void* val);
 	int (*erase)(cdada_map_t* map, const void* key);
-	int (*find)(cdada_map_t* map, const void* key, void** val);
-	int (*first_last)(cdada_map_t* map, bool first, void* key, void** val);
-	void (*traverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
-	void (*rtraverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
+	int (*find)(const cdada_map_t* map, const void* key, void** val);
+	int (*first_last)(const cdada_map_t* map, bool first, void* key,
+								void** val);
+	void (*traverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
+	void (*rtraverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
 }__cdada_map_ops_t;
 
 
@@ -150,10 +151,10 @@ int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 }
 
 template<typename T>
-int cdada_map_find_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
+int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 							const void* key,
 							void** val){
-	typename std::map<T, void*>::iterator it;
+	typename std::map<T, void*>::const_iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -185,7 +186,7 @@ int cdada_map_find_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 }
 
 template<typename T>
-int cdada_map_first_last_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
+int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 							bool first,
 							void* key,
 							void** val){

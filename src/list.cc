@@ -181,7 +181,7 @@ int cdada_list_clear(cdada_list_t* list){
 	return CDADA_SUCCESS;
 }
 
-bool cdada_list_empty(cdada_list_t* list){
+bool cdada_list_empty(const cdada_list_t* list){
 
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
@@ -220,7 +220,7 @@ bool cdada_list_empty(cdada_list_t* list){
 	return false;
 }
 
-uint32_t cdada_list_size(cdada_list_t* list){
+uint32_t cdada_list_size(const cdada_list_t* list){
 
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
@@ -332,7 +332,7 @@ int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos){
 	return rv;
 }
 
-int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val){
+int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val){
 
 	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
@@ -405,7 +405,8 @@ int cdada_list_get(cdada_list_t* list, const uint32_t pos, void* val){
 	return rv;
 }
 
-static int __cdada_list_first_last(cdada_list_t* list, bool first, void* key){
+static int __cdada_list_first_last(const cdada_list_t* list, bool first,
+								void* key){
 
 	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
@@ -477,11 +478,11 @@ static int __cdada_list_first_last(cdada_list_t* list, bool first, void* key){
 	return rv;
 }
 
-int cdada_list_first(cdada_list_t* list, void* key){
+int cdada_list_first(const cdada_list_t* list, void* key){
 	return __cdada_list_first_last(list, true, key);
 }
 
-int cdada_list_last(cdada_list_t* list, void* key){
+int cdada_list_last(const cdada_list_t* list, void* key){
 	return __cdada_list_first_last(list, false, key);
 }
 

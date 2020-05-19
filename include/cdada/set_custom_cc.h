@@ -86,7 +86,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type empty f
 */
 #define __CDADA_SET_CUSTOM_EMPTY_F(TYPE) \
-	bool __cdada_set_autogen_empty_##TYPE (void* m){ \
+	bool __cdada_set_autogen_empty_##TYPE (const void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
@@ -96,7 +96,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type size f
 */
 #define __CDADA_SET_CUSTOM_SIZE_F(TYPE) \
-	uint32_t __cdada_set_autogen_size_##TYPE (void* m){ \
+	uint32_t __cdada_set_autogen_size_##TYPE (const void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
@@ -127,7 +127,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type find f
 */
 #define __CDADA_SET_CUSTOM_FIND_F(TYPE) \
-	bool __cdada_set_autogen_find_##TYPE (void* m, const void* key){ \
+	bool __cdada_set_autogen_find_##TYPE (const void* m, const void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
@@ -138,7 +138,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type first_last f
 */
 #define __CDADA_SET_CUSTOM_FIRST_LAST_F(TYPE) \
-	int __cdada_set_autogen_first_last_##TYPE (void* m, bool first, \
+	int __cdada_set_autogen_first_last_##TYPE (const void* m, bool first, \
 							void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
@@ -150,8 +150,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type traverse f
 */
 #define __CDADA_SET_CUSTOM_TRAVERSE_F(TYPE) \
-	void __cdada_set_autogen_traverse_##TYPE (void* m, cdada_set_it f, \
-								void* opaque){ \
+	void __cdada_set_autogen_traverse_##TYPE (const void* m, \
+							cdada_set_it f, \
+							void* opaque){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
@@ -162,8 +163,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Custom type rtraverse f
 */
 #define __CDADA_SET_CUSTOM_RTRAVERSE_F(TYPE) \
-	void __cdada_set_autogen_rtraverse_##TYPE (void* m, cdada_set_it f, \
-								void* opaque){ \
+	void __cdada_set_autogen_rtraverse_##TYPE (const void* m, \
+							cdada_set_it f, \
+							void* opaque){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \

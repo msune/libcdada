@@ -189,7 +189,7 @@ int cdada_set_clear(cdada_set_t* set){
 	return CDADA_SUCCESS;
 }
 
-bool cdada_set_empty(cdada_set_t* set){
+bool cdada_set_empty(const cdada_set_t* set){
 
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
@@ -232,7 +232,7 @@ bool cdada_set_empty(cdada_set_t* set){
 	return false;
 }
 
-uint32_t cdada_set_size(cdada_set_t* set){
+uint32_t cdada_set_size(const cdada_set_t* set){
 
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
@@ -420,7 +420,7 @@ int cdada_set_erase(cdada_set_t* set, const void* key){
 	return rv;
 }
 
-bool cdada_set_find(cdada_set_t* set, const void* key){
+bool cdada_set_find(const cdada_set_t* set, const void* key){
 
 	bool rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
@@ -488,7 +488,8 @@ bool cdada_set_find(cdada_set_t* set, const void* key){
 	return rv;
 }
 
-static int __cdada_set_first_last(cdada_set_t* set, bool first, void* key){
+static int __cdada_set_first_last(const cdada_set_t* set, bool first,
+								void* key){
 
 	int rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
@@ -560,11 +561,11 @@ static int __cdada_set_first_last(cdada_set_t* set, bool first, void* key){
 	return rv;
 }
 
-int cdada_set_first(cdada_set_t* set, void* key){
+int cdada_set_first(const cdada_set_t* set, void* key){
 	return __cdada_set_first_last(set, true, key);
 }
 
-int cdada_set_last(cdada_set_t* set, void* key){
+int cdada_set_last(const cdada_set_t* set, void* key){
 	return __cdada_set_first_last(set, false, key);
 }
 
