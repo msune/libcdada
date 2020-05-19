@@ -134,10 +134,26 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 * Finds a key in the map
 *
 * @param map Map pointer
-* @param key Key. The key type _must_ have all bytes initialized
+* @param key Key
 * @param val Pointer to the value
 */
 int cdada_map_find(cdada_map_t* map, const void* key, void** val);
+
+/**
+* Get the first element in the map
+* @param map Map pointer
+* @param key Key
+* @param val Pointer to the value
+*/
+int cdada_map_first(cdada_map_t* map, void* key, void** val);
+
+/**
+* Get the last element in the map
+* @param map Map pointer
+* @param key Key. The key type _must_ have all bytes initialized
+* @param val Pointer to the value
+*/
+int cdada_map_last(cdada_map_t* map, void* key, void** val);
 
 //Custom types
 

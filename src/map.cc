@@ -481,6 +481,103 @@ int cdada_map_find(cdada_map_t* map, const void* key, void** val){
 	return rv;
 }
 
+static int __cdada_map_first_last(cdada_map_t* map, bool first, void* key,
+								void** val){
+
+	int rv;
+	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
+
+	CDADA_CHECK_MAGIC(m);
+
+	if(unlikely(!key || val == NULL))
+		return CDADA_E_INVALID;
+
+	try{
+		switch(m->key_len){
+			case 1:
+				rv = cdada_map_first_last_u<uint8_t>(m,
+								m->map.u8,
+								first,
+								key,
+								val);
+				break;
+			case 2:
+				rv = cdada_map_first_last_u<uint16_t>(m,
+								m->map.u16,
+								first,
+								key,
+								val);
+				break;
+			case 4:
+				rv = cdada_map_first_last_u<uint32_t>(m,
+								m->map.u32,
+								first,
+								key,
+								val);
+				break;
+			case 8:
+				rv = cdada_map_first_last_u<uint64_t>(m,
+								m->map.u64,
+								first,
+								key,
+								val);
+				break;
+			case 16:
+				rv = cdada_map_first_last_u<cdada_u128_t>(m,
+								m->map.u128,
+								first,
+								key,
+								val);
+				break;
+			case 32:
+				rv = cdada_map_first_last_u<cdada_u256_t>(m,
+								m->map.u256,
+								first,
+								key,
+								val);
+				break;
+			case 64:
+				rv = cdada_map_first_last_u<cdada_u512_t>(m,
+								m->map.u512,
+								first,
+								key,
+								val);
+				break;
+			case 128:
+				rv = cdada_map_first_last_u<cdada_u1024_t>(m,
+								m->map.u1024,
+								first,
+								key,
+								val);
+				break;
+			case 256:
+				rv = cdada_map_first_last_u<cdada_u2048_t>(m,
+								m->map.u2048,
+								first,
+								key,
+								val);
+				break;
+			default:
+				CDADA_ASSERT(m->ops);
+				rv = (*m->ops->first_last)(m, first, key, val);
+				break;
+		}
+	}catch(...){
+		CDADA_ASSERT(0);
+		return CDADA_E_UNKNOWN;
+	}
+
+	return rv;
+}
+
+int cdada_map_first(cdada_map_t* map, void* key, void** val){
+	return __cdada_map_first_last(map, true, key, val);
+}
+
+int cdada_map_last(cdada_map_t* map, void* key, void** val){
+	return __cdada_map_first_last(map, false, key, val);
+}
+
 int cdada_map_traverse(const cdada_map_t* map, cdada_map_it f,
 							void* opaque){
 

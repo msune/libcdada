@@ -62,6 +62,7 @@ typedef struct __cdada_map_ops{
 	int (*insert)(cdada_map_t* map, const void* key, void* val);
 	int (*erase)(cdada_map_t* map, const void* key);
 	int (*find)(cdada_map_t* map, const void* key, void** val);
+	int (*first_last)(cdada_map_t* map, bool first, void* key, void** val);
 	void (*traverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
 	void (*rtraverse)(cdada_map_t* map, cdada_map_it f, void* opaque);
 }__cdada_map_ops_t;
@@ -179,6 +180,43 @@ int cdada_map_find_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 		return CDADA_E_NOT_FOUND;
 
 	*val = it->second;
+
+	return CDADA_SUCCESS;
+}
+
+template<typename T>
+int cdada_map_first_last_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
+							bool first,
+							void* key,
+							void** val){
+	T* __attribute((__may_alias__)) aux;
+	aux = (T*)key;
+
+	if(first){
+		typename std::map<T, void*>::const_iterator it;
+		it = m_u->begin();
+		if(it == m_u->end())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->key_len == m->user_key_len)
+			*aux = it->first;
+		else
+			memcpy(aux, &it->first, m->user_key_len);
+
+		*val = it->second;
+	}else{
+		typename std::map<T, void*>::const_reverse_iterator rit;
+		rit = m_u->rbegin();
+		if(rit == m_u->rend())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->key_len == m->user_key_len)
+			*aux = rit->first;
+		else
+			memcpy(aux, &rit->first, m->user_key_len);
+
+		*val = rit->second;
+	}
 
 	return CDADA_SUCCESS;
 }
