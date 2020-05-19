@@ -54,16 +54,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @internal Function pointer struct for autogen types
 */
 typedef struct __cdada_set_ops{
-	void (*create)(void* m);
-	void (*destroy)(void* m);
-	void (*clear)(void* m);
-	bool (*empty)(void* m);
-	uint32_t (*size)(void* m);
-	int (*insert)(void* m, const void* key);
-	int (*erase)(void* m, const void* key);
-	bool (*find)(void* m, const void* key);
-	void (*traverse)(void* m, cdada_set_it f, void* opaque);
-	void (*rtraverse)(void* m, cdada_set_it f, void* opaque);
+	void (*create)(cdada_set_t* m);
+	void (*destroy)(cdada_set_t* m);
+	void (*clear)(cdada_set_t* m);
+	bool (*empty)(cdada_set_t* m);
+	uint32_t (*size)(cdada_set_t* m);
+	int (*insert)(cdada_set_t* m, const void* key);
+	int (*erase)(cdada_set_t* m, const void* key);
+	bool (*find)(cdada_set_t* m, const void* key);
+	int (*first_last)(cdada_set_t* map, bool first, void* key);
+	void (*traverse)(cdada_set_t* m, cdada_set_it f, void* opaque);
+	void (*rtraverse)(cdada_set_t* m, cdada_set_it f, void* opaque);
 }__cdada_set_ops_t;
 
 /**
@@ -162,6 +163,38 @@ bool cdada_set_find_u(__cdada_set_int_t* m, std::set<T>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	return m_u->find(aux) != m_u->end();
+}
+
+template<typename T>
+int cdada_set_first_last_u(__cdada_set_int_t* m, std::set<T>* m_u,
+							bool first,
+							void* key){
+	T* __attribute((__may_alias__)) aux;
+	aux = (T*)key;
+
+	if(first){
+		typename std::set<T>::const_iterator it;
+		it = m_u->begin();
+		if(it == m_u->end())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->key_len == m->user_key_len)
+			*aux = *it;
+		else
+			memcpy(aux, &(*it), m->user_key_len);
+	}else{
+		typename std::set<T>::const_reverse_iterator rit;
+		rit = m_u->rbegin();
+		if(rit == m_u->rend())
+			return CDADA_E_NOT_FOUND;
+
+		if(m->key_len == m->user_key_len)
+			*aux = *rit;
+		else
+			memcpy(aux, &(*rit), m->user_key_len);
+	}
+
+	return CDADA_SUCCESS;
 }
 
 template<typename T>

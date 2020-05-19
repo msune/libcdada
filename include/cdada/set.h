@@ -131,9 +131,23 @@ int cdada_set_erase(cdada_set_t* set, const void* key);
 * Finds a key in the set
 *
 * @param set Set pointer
-* @param key Key. The key type _must_ have all bytes initialized
+* @param key Key
 */
 bool cdada_set_find(cdada_set_t* set, const void* key);
+
+/**
+* Get the first element in the set
+* @param set Map pointer
+* @param key Key
+*/
+int cdada_set_first(cdada_set_t* set, void* key);
+
+/**
+* Get the last element in the set
+* @param set Map pointer
+* @param key Key
+*/
+int cdada_set_last(cdada_set_t* set, void* key);
 
 //Custom types
 

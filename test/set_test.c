@@ -43,11 +43,20 @@ int test_u8_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
 	key = 0;
 	rv = cdada_set_insert(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
 
 	TEST_ASSERT(cdada_set_size(set) == 1);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -84,6 +93,14 @@ int test_u8_insert_removal(){
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31);
 
 	TEST_ASSERT(cdada_set_size(set) == 32);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -113,11 +130,20 @@ int test_u16_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
 	key = 0;
 	rv = cdada_set_insert(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
 
 	TEST_ASSERT(cdada_set_size(set) == 1);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -154,6 +180,14 @@ int test_u16_insert_removal(){
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31);
 
 	TEST_ASSERT(cdada_set_size(set) == 32);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -183,11 +217,20 @@ int test_u32_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
 	key = 0;
 	rv = cdada_set_insert(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
 
 	TEST_ASSERT(cdada_set_size(set) == 1);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -224,6 +267,14 @@ int test_u32_insert_removal(){
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31);
 
 	TEST_ASSERT(cdada_set_size(set) == 32);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -253,11 +304,20 @@ int test_u64_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
 	key = 0ULL;
 	rv = cdada_set_insert(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0ULL);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0ULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 1);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -294,6 +354,14 @@ int test_u64_insert_removal_traverse(){
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0ULL);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31ULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 32);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -400,11 +468,20 @@ int _test_u552_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
 	key.mid = 0;
 	rv = cdada_set_insert(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
 
 	TEST_ASSERT(cdada_set_size(set) == 1);
 	TEST_ASSERT(cdada_set_empty(set) == false);
@@ -441,6 +518,14 @@ int _test_u552_insert_removal_traverse(){
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31);
 
 	TEST_ASSERT(cdada_set_size(set) == 32);
 	TEST_ASSERT(cdada_set_empty(set) == false);

@@ -135,6 +135,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 
 /**
+* @internal Custom type first_last f
+*/
+#define __CDADA_SET_CUSTOM_FIRST_LAST_F(TYPE) \
+	int __cdada_set_autogen_first_last_##TYPE (void* m, bool first, \
+							void* key){ \
+		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
+		__CDADA_STD_SET_TYPE(TYPE)* p = \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+		return cdada_set_first_last_u< TYPE > (s, p, first, key);\
+	}
+
+/**
 * @internal Custom type traverse f
 */
 #define __CDADA_SET_CUSTOM_TRAVERSE_F(TYPE) \
@@ -172,6 +184,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		.insert = __cdada_set_autogen_insert_##TYPE, \
 		.erase = __cdada_set_autogen_erase_##TYPE, \
 		.find = __cdada_set_autogen_find_##TYPE, \
+		.first_last = __cdada_set_autogen_first_last_##TYPE, \
 		.traverse = __cdada_set_autogen_traverse_##TYPE, \
 		.rtraverse = __cdada_set_autogen_rtraverse_##TYPE, \
 		}
@@ -188,6 +201,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_SET_CUSTOM_INSERT_F(TYPE); \
 	__CDADA_SET_CUSTOM_ERASE_F(TYPE); \
 	__CDADA_SET_CUSTOM_FIND_F(TYPE); \
+	__CDADA_SET_CUSTOM_FIRST_LAST_F(TYPE); \
 	__CDADA_SET_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDADA_SET_CUSTOM_RTRAVERSE_F(TYPE); \
 	__CDADA_SET_CUSTOM_OPS(TYPE)
