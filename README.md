@@ -69,10 +69,10 @@ Default containers support 1-256 bytes keys (values for lists), but they will
 perform better when aligned to {1,2,4,8,32,64,128,256} bytes - keys are padded to
 a power of 2 bytes.
 
-For larger keys, optimal memory usage and performance, use `libcdada`'s custom containers [TODO link].
-They support any key size (including < 256), and they are equivalent to `std::container<your_type>`.
-The only difference with regular containers is that a special `_create()` function is used. The
-rest of APIs apply.
+#### Custom containers
+
+For larger keys (any length), optimal memory usage and performance take a look at `libcdada`'s
+**[custom containers](doc/Custom.md)**.
 
 Installation
 ------------
