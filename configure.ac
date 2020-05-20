@@ -28,6 +28,10 @@ CFLAGS="-std=gnu89 -Werror -Wall $CFLAGS"
 CXXFLAGS="-Werror -Wall $CXXFLAGS"
 AC_DEFINE([__STDC_FORMAT_MACROS], [], [Description])
 
+# Check for Python3
+AM_PATH_PYTHON([3],, [:])
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
+
 # Debug
 m4_include([config_m4/debug.m4])
 
@@ -47,6 +51,7 @@ AC_CONFIG_FILES([
 	examples/Makefile
 	src/Makefile
 	test/Makefile
+	tools/Makefile
 ])
 
 AC_OUTPUT

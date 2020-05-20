@@ -1,0 +1,420 @@
+#!/usr/bin/env python3
+
+"""
+libcdada code generator (custom types)
+
+Generate C++ wrappers to use with libcdata.
+
+https://github.com/msune/libcdada
+LICENSE: BSD 2-clause
+"""
+
+import sys
+
+MEMCMP_OP="""
+inline bool operator<(const TT_TYPE_TT & a1, const TT_TYPE_TT & a2){
+    return memcmp((const void*)&a1, (const void*)&a2,
+                                        sizeof( TT_TYPE_TT )) < 0;
+}
+inline bool operator==(const TT_TYPE_TT & a1, const TT_TYPE_TT & a2){
+    return memcmp((const void*)&a1, (const void*)&a2,
+                                        sizeof( TT_TYPE_TT )) == 0;
+}
+"""
+
+LIST="""
+
+//Operator
+void __cdada_list_autogen_create_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	s->list.custom = (void*)new std::list<TT_TYPE_TT>();
+}
+void __cdada_list_autogen_destroy_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	delete p;
+}
+void __cdada_list_autogen_clear_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	p->clear();
+}
+bool __cdada_list_autogen_empty_TT_TYPE_TT (const void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return p->empty();
+}
+uint32_t __cdada_list_autogen_size_TT_TYPE_TT (const void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return p->size();
+}
+int __cdada_list_autogen_insert_TT_TYPE_TT (void* m, const void* val,
+						const uint32_t pos){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_insert_u<TT_TYPE_TT> (s, p, val, pos);
+}
+int __cdada_list_autogen_get_TT_TYPE_TT (const void* m, const uint32_t pos,
+						void* val){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_get_u<TT_TYPE_TT> (s, p, pos, val);
+}
+int __cdada_list_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
+						void* key){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_first_last_u<TT_TYPE_TT> (s, p, first, key);
+}
+int __cdada_list_autogen_erase_TT_TYPE_TT (void* m, const uint32_t pos){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_erase_u<TT_TYPE_TT> (s, p, pos);
+}
+int __cdada_list_autogen_remove_TT_TYPE_TT (void* m, const void* val){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_remove_u<TT_TYPE_TT> (s, p, val);
+}
+int __cdada_list_autogen_push_TT_TYPE_TT (void* m, const void* val,
+							bool front){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_push_u<TT_TYPE_TT> (s, p, val, front);
+}
+int __cdada_list_autogen_pop_TT_TYPE_TT (void* m, bool front){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_pop_u<TT_TYPE_TT> (s, p, front);
+}
+void __cdada_list_autogen_sort_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	p->sort();
+}
+void __cdada_list_autogen_reverse_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	p->reverse();
+}
+void __cdada_list_autogen_unique_TT_TYPE_TT (void* m){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	p->unique();
+}
+void __cdada_list_autogen_traverse_TT_TYPE_TT (const void* m,
+						cdada_list_it f,
+						void* opaque){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_traverse_u<TT_TYPE_TT> (s, p, f, opaque);
+}
+void __cdada_list_autogen_rtraverse_TT_TYPE_TT (const void* m,
+						cdada_list_it f,
+						void* opaque){
+	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
+	std::list<TT_TYPE_TT>* p =
+			(std::list<TT_TYPE_TT>*)s->list.custom;
+	return cdada_list_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
+}
+__cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
+	.create  = __cdada_list_autogen_create_TT_TYPE_TT,
+	.destroy = __cdada_list_autogen_destroy_TT_TYPE_TT,
+	.clear = __cdada_list_autogen_clear_TT_TYPE_TT,
+	.empty = __cdada_list_autogen_empty_TT_TYPE_TT,
+	.size = __cdada_list_autogen_size_TT_TYPE_TT,
+	.insert = __cdada_list_autogen_insert_TT_TYPE_TT,
+	.get = __cdada_list_autogen_get_TT_TYPE_TT,
+	.first_last = __cdada_list_autogen_first_last_TT_TYPE_TT,
+	.erase = __cdada_list_autogen_erase_TT_TYPE_TT,
+	.remove = __cdada_list_autogen_remove_TT_TYPE_TT,
+	.push = __cdada_list_autogen_push_TT_TYPE_TT,
+	.pop = __cdada_list_autogen_pop_TT_TYPE_TT,
+	.sort = __cdada_list_autogen_sort_TT_TYPE_TT,
+	.reverse = __cdada_list_autogen_reverse_TT_TYPE_TT,
+	.unique = __cdada_list_autogen_unique_TT_TYPE_TT,
+	.traverse = __cdada_list_autogen_traverse_TT_TYPE_TT,
+	.rtraverse = __cdada_list_autogen_rtraverse_TT_TYPE_TT,
+};
+"""
+
+MAP ="""
+void __cdada_map_autogen_create_TT_TYPE_TT (void* m){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	s->map.custom = (void*)new std::map<TT_TYPE_TT, void*>();
+}
+void __cdada_map_autogen_destroy_TT_TYPE_TT (void* m){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	delete p;
+}
+void __cdada_map_autogen_clear_TT_TYPE_TT (void* m){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	p->clear();
+}
+bool __cdada_map_autogen_empty_TT_TYPE_TT (const void* m){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return p->empty();
+}
+uint32_t __cdada_map_autogen_size_TT_TYPE_TT (const void* m){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return p->size();
+}
+int __cdada_map_autogen_insert_TT_TYPE_TT (void* m, const void* key,
+						void* val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val);
+}
+int __cdada_map_autogen_erase_TT_TYPE_TT (void* m, const void* key){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_erase_u<TT_TYPE_TT> (s, p, key);
+}
+int __cdada_map_autogen_find_TT_TYPE_TT (const void* m, const void* key,
+						void** val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_find_u<TT_TYPE_TT> (s, p, key, val);
+}
+int __cdada_map_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
+						void* key,
+						void** val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_first_last_u<TT_TYPE_TT> (s, p, first, key, val);
+}
+void __cdada_map_autogen_traverse_TT_TYPE_TT (const void* m,
+						cdada_map_it f,
+						void* opaque){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_traverse_u<TT_TYPE_TT> (s, p, f, opaque);
+}
+void __cdada_map_autogen_rtraverse_TT_TYPE_TT (const void* m,
+						cdada_map_it f,
+						void* opaque){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
+}
+__cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
+	.create  = __cdada_map_autogen_create_TT_TYPE_TT,
+	.destroy = __cdada_map_autogen_destroy_TT_TYPE_TT,
+	.clear = __cdada_map_autogen_clear_TT_TYPE_TT,
+	.empty = __cdada_map_autogen_empty_TT_TYPE_TT,
+	.size = __cdada_map_autogen_size_TT_TYPE_TT,
+	.insert = __cdada_map_autogen_insert_TT_TYPE_TT,
+	.erase = __cdada_map_autogen_erase_TT_TYPE_TT,
+	.find = __cdada_map_autogen_find_TT_TYPE_TT,
+	.first_last = __cdada_map_autogen_first_last_TT_TYPE_TT,
+	.traverse = __cdada_map_autogen_traverse_TT_TYPE_TT,
+	.rtraverse = __cdada_map_autogen_rtraverse_TT_TYPE_TT,
+};
+"""
+
+SET ="""
+void __cdada_set_autogen_create_TT_TYPE_TT (void* m){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	s->set.custom = (void*)new std::set<TT_TYPE_TT>();
+}
+void __cdada_set_autogen_destroy_TT_TYPE_TT (void* m){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	delete p;
+}
+void __cdada_set_autogen_clear_TT_TYPE_TT (void* m){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	p->clear();
+}
+bool __cdada_set_autogen_empty_TT_TYPE_TT (const void* m){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return p->empty();
+}
+uint32_t __cdada_set_autogen_size_TT_TYPE_TT (const void* m){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return p->size();
+}
+int __cdada_set_autogen_insert_TT_TYPE_TT (void* m, const void* key){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_insert_u< TT_TYPE_TT > (s, p, key);
+}
+int __cdada_set_autogen_erase_TT_TYPE_TT (void* m, const void* key){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p =(std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_erase_u< TT_TYPE_TT > (s, p, key);
+}
+bool __cdada_set_autogen_find_TT_TYPE_TT (const void* m, const void* key){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_find_u< TT_TYPE_TT > (s, p, key);
+}
+int __cdada_set_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
+							void* key){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_first_last_u< TT_TYPE_TT > (s, p, first, key);
+}
+void __cdada_set_autogen_traverse_TT_TYPE_TT (const void* m,
+							cdada_set_it f,
+							void* opaque){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_traverse_u< TT_TYPE_TT > (s, p, f, opaque);
+}
+void __cdada_set_autogen_rtraverse_TT_TYPE_TT (const void* m,
+							cdada_set_it f,
+							void* opaque){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_rtraverse_u< TT_TYPE_TT > (s, p, f, opaque);
+}
+__cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
+	.create  = __cdada_set_autogen_create_TT_TYPE_TT,
+	.destroy = __cdada_set_autogen_destroy_TT_TYPE_TT,
+	.clear = __cdada_set_autogen_clear_TT_TYPE_TT,
+	.empty = __cdada_set_autogen_empty_TT_TYPE_TT,
+	.size = __cdada_set_autogen_size_TT_TYPE_TT,
+	.insert = __cdada_set_autogen_insert_TT_TYPE_TT,
+	.erase = __cdada_set_autogen_erase_TT_TYPE_TT,
+	.find = __cdada_set_autogen_find_TT_TYPE_TT,
+	.first_last = __cdada_set_autogen_first_last_TT_TYPE_TT,
+	.traverse = __cdada_set_autogen_traverse_TT_TYPE_TT,
+	.rtraverse = __cdada_set_autogen_rtraverse_TT_TYPE_TT,
+};
+"""
+
+def parse_input(types):
+    t = {}
+    valid_types = ["list", "map", "set"]
+    for s in types:
+        if ":" not in s:
+            print("ERROR: invalid format. Types should be CONTAINER:USER_TYPE. E.g. set::my_struct_t")
+            sys.exit(1)
+        a = s.split(":")[0]
+        b = s.split(":")[1]
+        if a not in valid_types:
+            print("ERROR: invalid container type. Types should be {}".format(valid_types))
+            sys.exit(1)
+        t[a] = b
+    return t
+
+def generate(container, user_type):
+    if container == "set":
+        s_u = SET
+    elif container == "map":
+        s_u = MAP
+    elif container == "list":
+        s_u = LIST
+    s_u = "//BEGIN {} for {} (std::{}<{}>)\n".format(container, user_type, container, user_type) + s_u
+    s_u = s_u.replace("TT_TYPE_TT", user_type)
+    s_u = s_u+"\n//END {} for {} (std::{}<{}>)\n\n".format(container, user_type, container, user_type)
+    print("  cdada_{} for type '{}' => std::{}<{}>".format(container, user_type, container, user_type))
+    return s_u
+
+DESCRIPTION="libcdada code generator (custom types)"
+EPILOG="""
+Generate C++ wrappers to use with libcdata.
+
+1. Invoke generator with the types you want to support
+
+  ~/ cdada-gen set:foo_t map:bar_t
+
+2. Add header includes for types 'foo_t', 'bar_t' in the place holder
+
+  ~/ vi autogen_cdada.cc
+
+3. Add to your build system
+
+  ~/ g++ -c autogen_cdada.cc
+
+4. Link your application; make sure to link against -lcdada:
+
+  ~/ gcc <your files> autogen_cdada.o -o your_app -lcdada
+
+"""
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter, epilog=EPILOG)
+    parser.add_argument('types', metavar='types', type=str, nargs='+',
+                    help='types to generate; CONTAINER1:USER_TYPE1 CONTAINER2:USER_TYPE2')
+    parser.add_argument("-o", "--output", default="autogen_cdada.cc", help="Output file")
+    args = parser.parse_args()
+
+    f = open(args.output, "w")
+
+    f.write("/*****************************************************************************/\n")
+    f.write("/*                      BEGIN libcdada AUTOGENERATED C++ file                */\n")
+    f.write("/*****************************************************************************/\n")
+    f.write("// File autogenerated from cmd: {}\n".format(str(sys.argv)))
+    s=""
+    types = parse_input(args.types)
+
+    if len(types) == 0:
+        print("ERROR: you have to specify at least one type")
+        sys.exit(1)
+
+    print("Generating...")
+    user_types = []
+    for t in types:
+        s = s+generate(t, types[t])
+        user_types.append(types[t])
+
+    unique_user_types = set(user_types)
+
+    f.write("// Add your header includes for types {} here\n\n\n\n".format(str(unique_user_types)))
+    f.write("///////////////////////////////////////////////////////////////////////////////\n")
+    f.write("///                       DO NOT MODIFY AFTER THIS LINE                     ///\n")
+    f.write("///////////////////////////////////////////////////////////////////////////////\n\n")
+    f.write("#include <string.h>\n")
+    f.write("#include <cdada/list_custom_cc.h>\n")
+    f.write("#include <cdada/map_custom_cc.h>\n")
+    f.write("#include <cdada/set_custom_cc.h>\n\n")
+    f.write("//C++ comparison operators for user stypes (memcmp)\n")
+
+    for user_type in unique_user_types:
+        ut = MEMCMP_OP
+        ut = ut.replace("TT_TYPE_TT", user_type)
+        f.write(ut)
+    f.write("\n")
+    f.write("//Cdata wrappers\n\n")
+    f.write(s)
+
+    f.write("/*****************************************************************************/\n")
+    f.write("/*                       END libcdada AUTOGENERATED C++ file                 */\n")
+    f.write("/*****************************************************************************/\n")
+

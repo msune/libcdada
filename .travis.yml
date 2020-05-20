@@ -64,3 +64,10 @@ script:
   - echo "Running examples (sys)..."
   - valgrind --leak-check=full ./list_u32_sys
   - valgrind --leak-check=full ./map_struct_sys
+  - echo "Test code generator (sys)..."
+  - cdada-gen -o a.cc set:test_u552_t map:test_u552_t list:test_u552_t
+  - echo "#include \"../../test/u552.h\"" >> b.cc
+  - cat a.cc >> b.cc
+  - $CXX -c b.cc -o b.o
+  - $CC ../../test/combined_test.c b.o -lcdada -lstdc++ -o b
+  - valgrind --leak-check=full ./b
