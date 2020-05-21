@@ -47,7 +47,7 @@ struct __cdada_set_ops;
 typedef void cdada_set_t;
 
 //In case it's included from C++
-BEGIN_DECLS
+CDADA_BEGIN_DECLS
 
 /**
 * cdada set structure iterator
@@ -172,6 +172,6 @@ cdada_set_t* __cdada_set_create(const uint16_t key_size,
 #define cdada_set_create_custom(TYPE) \
 	__cdada_set_create(sizeof( TYPE ), & __cdada_set_autogen_##TYPE )
 
-END_DECLS
+CDADA_END_DECLS
 
 #endif //__CDADA_SET_H__

@@ -47,7 +47,7 @@ struct __cdada_list_ops;
 typedef void cdada_list_t;
 
 //In case it's included from C++
-BEGIN_DECLS
+CDADA_BEGIN_DECLS
 
 /**
 * cdada list structure iterator
@@ -237,6 +237,6 @@ cdada_list_t* __cdada_list_create(const uint16_t val_size,
 #define cdada_list_create_custom(TYPE) \
 	__cdada_list_create(sizeof( TYPE ), & __cdada_list_autogen_##TYPE )
 
-END_DECLS
+CDADA_END_DECLS
 
 #endif //__CDADA_LIST_H__

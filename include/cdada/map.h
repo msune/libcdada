@@ -47,7 +47,7 @@ struct __cdada_map_ops;
 typedef void cdada_map_t;
 
 //In case it's included from C++
-BEGIN_DECLS
+CDADA_BEGIN_DECLS
 
 /**
 * cdada map structure iterator
@@ -178,6 +178,6 @@ cdada_map_t* __cdada_map_create(const uint16_t key_size,
 #define cdada_map_create_custom(TYPE) \
 	__cdada_map_create(sizeof( TYPE ), & __cdada_map_autogen_##TYPE )
 
-END_DECLS
+CDADA_END_DECLS
 
 #endif //__CDADA_MAP_H__

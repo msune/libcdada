@@ -45,20 +45,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CDADA_E_COUNT       7
 
 #ifdef __cplusplus
-	# define BEGIN_DECLS extern "C" {
-	# define END_DECLS   }
+	# define CDADA_BEGIN_DECLS extern "C" {
+	# define CDADA_END_DECLS   }
 #else
-	# define BEGIN_DECLS
-	# define END_DECLS
+	# define CDADA_BEGIN_DECLS
+	# define CDADA_END_DECLS
 #endif //__cplusplus
 
-BEGIN_DECLS
+CDADA_BEGIN_DECLS
 
 /**
 * Get a human-readable description for CDADA errors
 */
 const char* cdada_strerr(int error);
 
-END_DECLS
+CDADA_END_DECLS
 
 #endif //__CDADA_UTILS_H__
