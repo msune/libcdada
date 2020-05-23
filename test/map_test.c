@@ -4,9 +4,11 @@
 #include "common.h"
 #include <string.h>
 #include "u552.h"
+#include "u3552.h"
 
 //Fwd decl
 CDADA_MAP_CUSTOM_TYPE_DECL(test_u552_t);
+CDADA_MAP_CUSTOM_TYPE_DECL(test_u3552_t);
 
 static uint64_t opaque = 0ULL;
 static cdada_map_t* map = NULL;
@@ -676,6 +678,118 @@ int test_u552_insert_removal_traverse_custom(){
 	return _test_u552_insert_removal_traverse();
 }
 
+int test_u3552_insert_removal_traverse_custom(){
+
+	int i, rv;
+	test_u3552_t key;
+	uint32_t values[32];
+	void* tmp;
+
+	map = cdada_map_create_custom(test_u3552_t);
+	TEST_ASSERT(map != NULL);
+
+	TEST_ASSERT(sizeof(test_u3552_t) == 444);
+
+	for(i=0;i<32;++i)
+		values[i] = i | 0x1000;
+
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
+	TEST_ASSERT(cdada_map_first(map, &key, &tmp) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_map_last(map, &key, &tmp) == CDADA_E_NOT_FOUND);
+
+	//Add one key & get
+	memset(&key, 0, sizeof(key));
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_map_first(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	TEST_ASSERT(tmp == &values[0]);
+	rv = cdada_map_last(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	TEST_ASSERT(tmp == &values[0]);
+
+	TEST_ASSERT(cdada_map_size(map) == 1);
+	TEST_ASSERT(cdada_map_empty(map) == false);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
+
+	//Find an invalid value
+	key.mid = 1;
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+
+	//Trying to add the same key should return E_EXISTS, &repeat query
+	key.mid = 0;
+	rv = cdada_map_insert(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[0]);
+
+	//Erase first an invalid
+	key.mid = 1;
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+
+	key.mid = 0;
+	rv = cdada_map_erase(map, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+
+	//Now add all objects
+	for(i=0;i<32;++i){
+		key.mid = i;
+		rv = cdada_map_insert(map, &key, &values[i]);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+
+	rv = cdada_map_first(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	TEST_ASSERT(tmp == &values[0]);
+
+	rv = cdada_map_last(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31);
+	TEST_ASSERT(tmp == &values[31]);
+
+	TEST_ASSERT(cdada_map_size(map) == 32);
+	TEST_ASSERT(cdada_map_empty(map) == false);
+
+	key.mid = 22;
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 22); //Should never pollute
+	TEST_ASSERT(tmp == &values[22]);
+
+	//Traverse
+	opaque = 0ULL;
+	cdada_map_traverse(map, &trav_u552, &opaque);
+
+	opaque = 31ULL;
+	cdada_map_rtraverse(map, &rtrav_u552, &opaque);
+
+	rv = cdada_map_clear(map);
+	TEST_ASSERT(cdada_map_size(map) == 0);
+	TEST_ASSERT(cdada_map_empty(map) == true);
+
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -693,6 +807,7 @@ int main(int args, char** argv){
 
 	//Custom type
 	rv |= test_u552_insert_removal_traverse_custom();
+	rv |= test_u3552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

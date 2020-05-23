@@ -95,12 +95,15 @@ template<typename T>
 int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 								const void* key,
 								void* val){
+	typename std::map<T, void*>::iterator it;
+
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
 
 		aux = (T*)key;
 
-		if(m_u->find(*aux) != m_u->end())
+		it = m_u->find(*aux);
+		if(unlikely(it != m_u->end()))
 			return CDADA_E_EXISTS;
 		m_u->insert(std::pair<T, void*>(*aux, val));
 
@@ -113,7 +116,8 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
-	if(m_u->find(aux) != m_u->end())
+	it = m_u->find(aux);
+	if(unlikely(it != m_u->end()))
 		return CDADA_E_EXISTS;
 
 	m_u->insert(std::pair<T, void*>(aux, val));
@@ -124,12 +128,15 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 template<typename T>
 int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 							const void* key){
+	typename std::map<T, void*>::iterator it;
+
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
 
 		aux = (T*)key;
 
-		if(m_u->find(*aux) == m_u->end())
+		it = m_u->find(*aux);
+		if(unlikely(it == m_u->end()))
 			return CDADA_E_NOT_FOUND;
 		m_u->erase(*aux);
 
@@ -142,7 +149,8 @@ int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
-	if(m_u->find(aux) == m_u->end())
+	it = m_u->find(aux);
+	if(unlikely(it == m_u->end()))
 		return CDADA_E_NOT_FOUND;
 
 	m_u->erase(aux);

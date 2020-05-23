@@ -87,7 +87,8 @@ int cdada_map_destroy(cdada_map_t* map){
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				delete m->map.u8;
 				break;
@@ -115,10 +116,13 @@ int cdada_map_destroy(cdada_map_t* map){
 			case 256:
 				delete m->map.u2048;
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->destroy)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -138,7 +142,8 @@ int cdada_map_clear(cdada_map_t* map){
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				m->map.u8->clear();
 				break;
@@ -166,10 +171,13 @@ int cdada_map_clear(cdada_map_t* map){
 			case 256:
 				m->map.u2048->clear();
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->clear)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
@@ -189,7 +197,8 @@ bool cdada_map_empty(const cdada_map_t* map){
 		return false;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				return m->map.u8->empty();
 			case 2:
@@ -208,15 +217,15 @@ bool cdada_map_empty(const cdada_map_t* map){
 				return m->map.u1024->empty();
 			case 256:
 				return m->map.u2048->empty();
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->empty)(m);
+			default:
+				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return false;
-	}
+	}catch(...){}
 
+	CDADA_ASSERT(0);
 	return false;
 }
 
@@ -228,7 +237,8 @@ uint32_t cdada_map_size(const cdada_map_t* map){
 		return 0;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				return m->map.u8->size();
 			case 2:
@@ -247,21 +257,20 @@ uint32_t cdada_map_size(const cdada_map_t* map){
 				return m->map.u1024->size();
 			case 256:
 				return m->map.u2048->size();
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->size)(m);
+			default:
+				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return 0;
-	}
+	}catch(...){}
 
+	CDADA_ASSERT(0);
 	return 0;
 }
 
 int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
 
-	int rv;
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
 	CDADA_CHECK_MAGIC(m);
@@ -272,75 +281,68 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
 	//NOTE: we don't want std::map insert "replace semantics", so we return
 	//E_EXISTS if key is present in the map
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
-				rv = cdada_map_insert_u<uint8_t>(m, m->map.u8,
+				return cdada_map_insert_u<uint8_t>(m, m->map.u8,
 									key,
 									val);
-				break;
 			case 2:
-				rv = cdada_map_insert_u<uint16_t>(m, m->map.u16,
-									key,
-									val);
-				break;
+				return cdada_map_insert_u<uint16_t>(m,
+								m->map.u16,
+								key,
+								val);
 			case 4:
-				rv = cdada_map_insert_u<uint32_t>(m, m->map.u32,
-									key,
-									val);
-				break;
+				return cdada_map_insert_u<uint32_t>(m,
+								m->map.u32,
+								key,
+								val);
 			case 8:
-				rv = cdada_map_insert_u<uint64_t>(m, m->map.u64,
-									key,
-									val);
-				break;
+				return cdada_map_insert_u<uint64_t>(m,
+								m->map.u64,
+								key,
+								val);
 			case 16:
-				rv = cdada_map_insert_u<cdada_u128_t>(m,
+				return cdada_map_insert_u<cdada_u128_t>(m,
 								m->map.u128,
 								key,
 								val);
-				break;
 			case 32:
-				rv = cdada_map_insert_u<cdada_u256_t>(m,
+				return cdada_map_insert_u<cdada_u256_t>(m,
 								m->map.u256,
 								key,
 								val);
-				break;
 			case 64:
-				rv = cdada_map_insert_u<cdada_u512_t>(m,
+				return cdada_map_insert_u<cdada_u512_t>(m,
 								m->map.u512,
 								key,
 								val);
-				break;
 			case 128:
-				rv = cdada_map_insert_u<cdada_u1024_t>(m,
+				return cdada_map_insert_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								key,
 								val);
-				break;
 			case 256:
-				rv = cdada_map_insert_u<cdada_u2048_t>(m,
+				return cdada_map_insert_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								key,
 								val);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->insert)(m, key, val);
+				return (*m->ops->insert)(m, key, val);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_map_erase(cdada_map_t* map, const void* key){
 
-	int rv;
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
 	CDADA_CHECK_MAGIC(m);
@@ -349,66 +351,59 @@ int cdada_map_erase(cdada_map_t* map, const void* key){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
-				rv = cdada_map_erase_u<uint8_t>(m, m->map.u8,
+				return cdada_map_erase_u<uint8_t>(m, m->map.u8,
 									key);
-				break;
 			case 2:
-				rv = cdada_map_erase_u<uint16_t>(m, m->map.u16,
-									key);
-				break;
+				return cdada_map_erase_u<uint16_t>(m,
+								m->map.u16,
+								key);
 			case 4:
-				rv = cdada_map_erase_u<uint32_t>(m, m->map.u32,
-									key);
-				break;
+				return cdada_map_erase_u<uint32_t>(m,
+								m->map.u32,
+								key);
 			case 8:
-				rv = cdada_map_erase_u<uint64_t>(m, m->map.u64,
-									key);
-				break;
+				return cdada_map_erase_u<uint64_t>(m,
+								m->map.u64,
+								key);
 			case 16:
-				rv = cdada_map_erase_u<cdada_u128_t>(m,
+				return cdada_map_erase_u<cdada_u128_t>(m,
 								m->map.u128,
 								key);
-				break;
 			case 32:
-				rv = cdada_map_erase_u<cdada_u256_t>(m,
+				return cdada_map_erase_u<cdada_u256_t>(m,
 								m->map.u256,
 								key);
-				break;
 			case 64:
-				rv = cdada_map_erase_u<cdada_u512_t>(m,
+				return cdada_map_erase_u<cdada_u512_t>(m,
 								m->map.u512,
 								key);
-				break;
 			case 128:
-				rv = cdada_map_erase_u<cdada_u1024_t>(m,
+				return cdada_map_erase_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								key);
-				break;
 			case 256:
-				rv = cdada_map_erase_u<cdada_u2048_t>(m,
+				return cdada_map_erase_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								key);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->erase)(m, key);
+				return (*m->ops->erase)(m, key);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 
-	int rv;
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
 	CDADA_CHECK_MAGIC(m);
@@ -417,74 +412,65 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
-				rv = cdada_map_find_u<uint8_t>(m, m->map.u8,
+				return cdada_map_find_u<uint8_t>(m, m->map.u8,
 									key,
 									val);
-				break;
 			case 2:
-				rv = cdada_map_find_u<uint16_t>(m, m->map.u16,
+				return cdada_map_find_u<uint16_t>(m, m->map.u16,
 									key,
 									val);
-				break;
 			case 4:
-				rv = cdada_map_find_u<uint32_t>(m, m->map.u32,
+				return cdada_map_find_u<uint32_t>(m, m->map.u32,
 									key,
 									val);
-				break;
 			case 8:
-				rv = cdada_map_find_u<uint64_t>(m, m->map.u64,
+				return cdada_map_find_u<uint64_t>(m, m->map.u64,
 									key,
 									val);
-				break;
 			case 16:
-				rv = cdada_map_find_u<cdada_u128_t>(m,
+				return cdada_map_find_u<cdada_u128_t>(m,
 								m->map.u128,
 								key,
 								val);
-				break;
 			case 32:
-				rv = cdada_map_find_u<cdada_u256_t>(m,
+				return cdada_map_find_u<cdada_u256_t>(m,
 								m->map.u256,
 								key,
 								val);
-				break;
 			case 64:
-				rv = cdada_map_find_u<cdada_u512_t>(m,
+				return cdada_map_find_u<cdada_u512_t>(m,
 								m->map.u512,
 								key,
 								val);
-				break;
 			case 128:
-				rv = cdada_map_find_u<cdada_u1024_t>(m,
+				return cdada_map_find_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								key,
 								val);
-				break;
 			case 256:
-				rv = cdada_map_find_u<cdada_u2048_t>(m,
+				return cdada_map_find_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								key,
 								val);
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->find)(m, key, val);
+				return (*m->ops->find)(m, key, val);
+			default:
 				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 static int __cdada_map_first_last(const cdada_map_t* map, bool first, void* key,
 								void** val){
 
-	int rv;
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
 	CDADA_CHECK_MAGIC(m);
@@ -493,81 +479,73 @@ static int __cdada_map_first_last(const cdada_map_t* map, bool first, void* key,
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
-				rv = cdada_map_first_last_u<uint8_t>(m,
+				return cdada_map_first_last_u<uint8_t>(m,
 								m->map.u8,
 								first,
 								key,
 								val);
-				break;
 			case 2:
-				rv = cdada_map_first_last_u<uint16_t>(m,
+				return cdada_map_first_last_u<uint16_t>(m,
 								m->map.u16,
 								first,
 								key,
 								val);
-				break;
 			case 4:
-				rv = cdada_map_first_last_u<uint32_t>(m,
+				return cdada_map_first_last_u<uint32_t>(m,
 								m->map.u32,
 								first,
 								key,
 								val);
-				break;
 			case 8:
-				rv = cdada_map_first_last_u<uint64_t>(m,
+				return cdada_map_first_last_u<uint64_t>(m,
 								m->map.u64,
 								first,
 								key,
 								val);
-				break;
 			case 16:
-				rv = cdada_map_first_last_u<cdada_u128_t>(m,
+				return cdada_map_first_last_u<cdada_u128_t>(m,
 								m->map.u128,
 								first,
 								key,
 								val);
-				break;
 			case 32:
-				rv = cdada_map_first_last_u<cdada_u256_t>(m,
+				return cdada_map_first_last_u<cdada_u256_t>(m,
 								m->map.u256,
 								first,
 								key,
 								val);
-				break;
 			case 64:
-				rv = cdada_map_first_last_u<cdada_u512_t>(m,
+				return cdada_map_first_last_u<cdada_u512_t>(m,
 								m->map.u512,
 								first,
 								key,
 								val);
-				break;
 			case 128:
-				rv = cdada_map_first_last_u<cdada_u1024_t>(m,
+				return cdada_map_first_last_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								first,
 								key,
 								val);
-				break;
 			case 256:
-				rv = cdada_map_first_last_u<cdada_u2048_t>(m,
+				return cdada_map_first_last_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								first,
 								key,
 								val);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->first_last)(m, first, key, val);
+				return (*m->ops->first_last)(m, first, key,
+								val);
+			default:
 				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_map_first(const cdada_map_t* map, void* key, void** val){
@@ -589,7 +567,8 @@ int cdada_map_traverse(const cdada_map_t* map, cdada_map_it f,
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				cdada_map_traverse_u<uint8_t>(m, m->map.u8, f,
 									opaque);
@@ -631,10 +610,13 @@ int cdada_map_traverse(const cdada_map_t* map, cdada_map_it f,
 								m->map.u2048, f,
 								opaque);
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->traverse)(m, f, opaque);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -655,7 +637,8 @@ int cdada_map_rtraverse(const cdada_map_t* map, cdada_map_it f,
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->key_len){
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
 			case 1:
 				cdada_map_rtraverse_u<uint8_t>(m, m->map.u8, f,
 									opaque);
@@ -700,10 +683,13 @@ int cdada_map_rtraverse(const cdada_map_t* map, cdada_map_it f,
 								m->map.u2048, f,
 								opaque);
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->rtraverse)(m, f, opaque);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);

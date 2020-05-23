@@ -4,9 +4,11 @@
 #include "common.h"
 #include <string.h>
 #include "u552.h"
+#include "u3552.h"
 
 //Fwd decl
 CDADA_LIST_CUSTOM_TYPE_DECL(test_u552_t);
+CDADA_LIST_CUSTOM_TYPE_DECL(test_u3552_t);
 
 static uint64_t opaque = 0ULL;
 static cdada_list_t* list = NULL;
@@ -1514,6 +1516,272 @@ int test_u552_insert_removal_traverse_custom(){
 	return _test_u552_insert_removal_traverse();
 }
 
+int test_u3552_insert_removal_traverse_custom(){
+
+	int i, rv;
+	test_u3552_t key;
+
+	list = cdada_list_create_custom(test_u3552_t);
+	TEST_ASSERT(list != NULL);
+
+	memset(&key, 0, sizeof(key));
+
+	TEST_ASSERT(cdada_list_size(list) == 0);
+	TEST_ASSERT(cdada_list_empty(list) == true);
+	TEST_ASSERT(cdada_list_first(list, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_list_last(list, &key) == CDADA_E_NOT_FOUND);
+
+	//Add one key & get
+	key.mid = 0;
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_list_first(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_last(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	TEST_ASSERT(cdada_list_size(list) == 1);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	//Get a value > size shall fail
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+
+	//Add 1 after
+	key.mid = 1;
+	rv = cdada_list_insert(list, &key, 1);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 1);
+
+	//PUSH tests resulting list should be {9, 0, 1, 7}
+	key.mid = 7;
+	rv = cdada_list_push_back(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 7);
+	key.mid = 9;
+	rv = cdada_list_push_front(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 9);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 3, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 7);
+	rv = cdada_list_get(list, 4, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 7);
+	TEST_ASSERT(cdada_list_size(list) == 4);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	//Erase {9, 1, 7}
+	rv = cdada_list_erase(list, 1);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 9);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 7);
+	rv = cdada_list_get(list, 3, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 7);
+	TEST_ASSERT(cdada_list_size(list) == 3);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	//POP front {1,7}
+	rv = cdada_list_pop_front(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 7);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 7);
+	TEST_ASSERT(cdada_list_size(list) == 2);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+
+	//POP back {1}
+	rv = cdada_list_pop_back(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	rv = cdada_list_get(list, 222, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 1);
+	TEST_ASSERT(cdada_list_size(list) == 1);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	//Add many 0s {1, 0, 0, 0, 0, 0}
+	for(i=0;i<5; ++i){
+		key.mid = 0;
+		rv = cdada_list_push_back(list, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+		TEST_ASSERT(key.mid == 0);
+	}
+
+	rv = cdada_list_first(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+
+	rv = cdada_list_last(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	TEST_ASSERT(cdada_list_size(list) == 6);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 5, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 6, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 0);
+
+	//Sort {0, 0, 0, 0, 0, 1}
+	rv = cdada_list_sort(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 5, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 6, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 1);
+
+	//Reverse {1, 0, 0, 0, 0, 0}
+	rv = cdada_list_reverse(list);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 5, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 6, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 0);
+
+	//Traverse
+	opaque = 0;
+	cdada_list_traverse(list, &trav_u552, &opaque);
+	opaque = 0;
+	cdada_list_rtraverse(list, &rtrav_u552, &opaque);
+
+	//Unique {1, 0}
+	rv = cdada_list_unique(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(cdada_list_size(list) == 2);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 0);
+	TEST_ASSERT(cdada_list_size(list) == 2);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	//Insert 5s {5, 1, 0, 5}
+	key.mid = 5;
+	rv = cdada_list_insert(list, &key, 0);
+	rv |= cdada_list_insert(list, &key, 4);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 5);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 3, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 5);
+	TEST_ASSERT(cdada_list_size(list) == 4);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+
+	//Remove API {1,0}
+	rv = cdada_list_remove(list, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(cdada_list_size(list) == 2);
+	TEST_ASSERT(cdada_list_empty(list) == false);
+	rv = cdada_list_get(list, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 1);
+	rv = cdada_list_get(list, 1, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_list_get(list, 2, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(key.mid == 0);
+
+	rv = cdada_list_clear(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(cdada_list_size(list) == 0);
+	TEST_ASSERT(cdada_list_empty(list) == true);
+
+	rv = cdada_list_destroy(list);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -1529,6 +1797,7 @@ int main(int args, char** argv){
 	//Incomplete
 	rv |= test_u552_insert_removal_traverse();
 	rv |= test_u552_insert_removal_traverse_custom();
+	rv |= test_u3552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

@@ -87,7 +87,8 @@ int cdada_list_destroy(cdada_list_t* list){
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				delete m->list.u8;
 				break;
@@ -115,10 +116,13 @@ int cdada_list_destroy(cdada_list_t* list){
 			case 256:
 				delete m->list.u2048;
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->destroy)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -138,7 +142,8 @@ int cdada_list_clear(cdada_list_t* list){
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				m->list.u8->clear();
 				break;
@@ -166,10 +171,13 @@ int cdada_list_clear(cdada_list_t* list){
 			case 256:
 				m->list.u2048->clear();
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->clear)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
@@ -189,7 +197,8 @@ bool cdada_list_empty(const cdada_list_t* list){
 		return false;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				return m->list.u8->empty();
 			case 2:
@@ -208,15 +217,15 @@ bool cdada_list_empty(const cdada_list_t* list){
 				return m->list.u1024->empty();
 			case 256:
 				return m->list.u2048->empty();
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->empty)(m);
+			default:
+				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return false;
-	}
+	}catch(...){}
 
+	CDADA_ASSERT(0);
 	return false;
 }
 
@@ -228,7 +237,8 @@ uint32_t cdada_list_size(const cdada_list_t* list){
 		return 0;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				return m->list.u8->size();
 			case 2:
@@ -247,21 +257,20 @@ uint32_t cdada_list_size(const cdada_list_t* list){
 				return m->list.u1024->size();
 			case 256:
 				return m->list.u2048->size();
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->size)(m);
+			default:
+				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return 0;
-	}
+	}catch(...){}
 
+	CDADA_ASSERT(0);
 	return 0;
 }
 
 int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
@@ -272,69 +281,60 @@ int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos){
 	//NOTE: we don't want std::list insert "replace semantics", so we return
 	//E_EXISTS if val is present in the list
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_insert_u<uint8_t>(m, m->list.u8,
+				return cdada_list_insert_u<uint8_t>(m,
+								m->list.u8,
 								val, pos);
-				break;
 			case 2:
-				rv = cdada_list_insert_u<uint16_t>(m,
+				return cdada_list_insert_u<uint16_t>(m,
 								m->list.u16,
 								val, pos);
-				break;
 			case 4:
-				rv = cdada_list_insert_u<uint32_t>(m,
+				return cdada_list_insert_u<uint32_t>(m,
 								m->list.u32,
 								val, pos);
-				break;
 			case 8:
-				rv = cdada_list_insert_u<uint64_t>(m,
+				return cdada_list_insert_u<uint64_t>(m,
 								m->list.u64,
 								val, pos);
-				break;
 			case 16:
-				rv = cdada_list_insert_u<cdada_u128_t>(m,
+				return cdada_list_insert_u<cdada_u128_t>(m,
 							m->list.u128,
 							val, pos);
-				break;
 			case 32:
-				rv = cdada_list_insert_u<cdada_u256_t>(m,
+				return cdada_list_insert_u<cdada_u256_t>(m,
 							m->list.u256,
 							val, pos);
-				break;
 			case 64:
-				rv = cdada_list_insert_u<cdada_u512_t>(m,
+				return cdada_list_insert_u<cdada_u512_t>(m,
 							m->list.u512,
 							val, pos);
-				break;
 			case 128:
-				rv = cdada_list_insert_u<cdada_u1024_t>(m,
+				return cdada_list_insert_u<cdada_u1024_t>(m,
 							m->list.u1024,
 							val, pos);
-				break;
 			case 256:
-				rv = cdada_list_insert_u<cdada_u2048_t>(m,
+				return cdada_list_insert_u<cdada_u2048_t>(m,
 							m->list.u2048,
 							val, pos);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->insert)(m, val, pos);
+				return (*m->ops->insert)(m, val, pos);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
@@ -345,70 +345,60 @@ int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val){
 	//NOTE: we don't want std::list insert "replace semantics", so we return
 	//E_EXISTS if val is present in the list
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_get_u<uint8_t>(m, m->list.u8,
+				return cdada_list_get_u<uint8_t>(m, m->list.u8,
 								pos, val);
-				break;
 			case 2:
-				rv = cdada_list_get_u<uint16_t>(m,
+				return cdada_list_get_u<uint16_t>(m,
 								m->list.u16,
 								pos, val);
-				break;
 			case 4:
-				rv = cdada_list_get_u<uint32_t>(m,
+				return cdada_list_get_u<uint32_t>(m,
 								m->list.u32,
 								pos, val);
-				break;
 			case 8:
-				rv = cdada_list_get_u<uint64_t>(m,
+				return cdada_list_get_u<uint64_t>(m,
 								m->list.u64,
 								pos, val);
-				break;
 			case 16:
-				rv = cdada_list_get_u<cdada_u128_t>(m,
+				return cdada_list_get_u<cdada_u128_t>(m,
 							m->list.u128,
 							pos, val);
-				break;
 			case 32:
-				rv = cdada_list_get_u<cdada_u256_t>(m,
+				return cdada_list_get_u<cdada_u256_t>(m,
 							m->list.u256,
 							pos, val);
-				break;
 			case 64:
-				rv = cdada_list_get_u<cdada_u512_t>(m,
+				return cdada_list_get_u<cdada_u512_t>(m,
 							m->list.u512,
 							pos, val);
-				break;
 			case 128:
-				rv = cdada_list_get_u<cdada_u1024_t>(m,
+				return cdada_list_get_u<cdada_u1024_t>(m,
 							m->list.u1024,
 							pos, val);
-				break;
 			case 256:
-				rv = cdada_list_get_u<cdada_u2048_t>(m,
+				return cdada_list_get_u<cdada_u2048_t>(m,
 							m->list.u2048,
 							pos, val);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->get)(m, pos, val);
+				return (*m->ops->get)(m, pos, val);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 								void* key){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
@@ -418,64 +408,50 @@ static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				rv = cdada_list_first_last_u<uint8_t>(m,
+				return cdada_list_first_last_u<uint8_t>(m,
 								m->list.u8,
 								first, key);
-				break;
 			case 2:
-				rv = cdada_list_first_last_u<uint16_t>(m,
+				return cdada_list_first_last_u<uint16_t>(m,
 								m->list.u16,
 								first, key);
-				break;
 			case 4:
-				rv = cdada_list_first_last_u<uint32_t>(m,
+				return cdada_list_first_last_u<uint32_t>(m,
 								m->list.u32,
 								first, key);
-				break;
 			case 8:
-				rv = cdada_list_first_last_u<uint64_t>(m,
+				return cdada_list_first_last_u<uint64_t>(m,
 								m->list.u64,
 								first, key);
-				break;
 			case 16:
-				rv = cdada_list_first_last_u<cdada_u128_t>(m,
+				return cdada_list_first_last_u<cdada_u128_t>(m,
 								m->list.u128,
 								first, key);
-				break;
 			case 32:
-				rv = cdada_list_first_last_u<cdada_u256_t>(m,
+				return cdada_list_first_last_u<cdada_u256_t>(m,
 								m->list.u256,
 								first, key);
-				break;
 			case 64:
-				rv = cdada_list_first_last_u<cdada_u512_t>(m,
+				return cdada_list_first_last_u<cdada_u512_t>(m,
 								m->list.u512,
 								first, key);
-				break;
 			case 128:
-				rv = cdada_list_first_last_u<cdada_u1024_t>(m,
+				return cdada_list_first_last_u<cdada_u1024_t>(m,
 								m->list.u1024,
 								first, key);
-				break;
 			case 256:
-				rv = cdada_list_first_last_u<cdada_u2048_t>(m,
+				return cdada_list_first_last_u<cdada_u2048_t>(m,
 								m->list.u2048,
 								first, key);
-				break;
 			case 0:
-				rv = (*m->ops->first_last)(m, first, key);
-				break;
+				return (*m->ops->first_last)(m, first, key);
 			default:
-				CDADA_ASSERT(0);
-				rv = CDADA_E_UNKNOWN;
 				break;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return false;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return false;
 }
 
 int cdada_list_first(const cdada_list_t* list, void* key){
@@ -488,75 +464,64 @@ int cdada_list_last(const cdada_list_t* list, void* key){
 
 int cdada_list_erase(cdada_list_t* list, const uint32_t pos){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_erase_u<uint8_t>(m, m->list.u8,
+				return cdada_list_erase_u<uint8_t>(m, m->list.u8,
 									pos);
-				break;
 			case 2:
-				rv = cdada_list_erase_u<uint16_t>(m,
+				return cdada_list_erase_u<uint16_t>(m,
 								m->list.u16,
 								pos);
-				break;
 			case 4:
-				rv = cdada_list_erase_u<uint32_t>(m,
+				return cdada_list_erase_u<uint32_t>(m,
 								m->list.u32,
 								pos);
-				break;
 			case 8:
-				rv = cdada_list_erase_u<uint64_t>(m,
+				return cdada_list_erase_u<uint64_t>(m,
 								m->list.u64,
 								pos);
-				break;
 			case 16:
-				rv = cdada_list_erase_u<cdada_u128_t>(m,
+				return cdada_list_erase_u<cdada_u128_t>(m,
 								m->list.u128,
 								pos);
-				break;
 			case 32:
-				rv = cdada_list_erase_u<cdada_u256_t>(m,
+				return cdada_list_erase_u<cdada_u256_t>(m,
 								m->list.u256,
 								pos);
-				break;
 			case 64:
-				rv = cdada_list_erase_u<cdada_u512_t>(m,
+				return cdada_list_erase_u<cdada_u512_t>(m,
 								m->list.u512,
 								pos);
-				break;
 			case 128:
-				rv = cdada_list_erase_u<cdada_u1024_t>(m,
+				return cdada_list_erase_u<cdada_u1024_t>(m,
 								m->list.u1024,
 								pos);
-				break;
 			case 256:
-				rv = cdada_list_erase_u<cdada_u2048_t>(m,
+				return cdada_list_erase_u<cdada_u2048_t>(m,
 								m->list.u2048,
 								pos);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->erase)(m, pos);
+				return (*m->ops->erase)(m, pos);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_remove(cdada_list_t* list, const void* val){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
@@ -567,69 +532,60 @@ int cdada_list_remove(cdada_list_t* list, const void* val){
 	//NOTE: we don't want std::list remove "replace semantics", so we return
 	//E_EXISTS if val is present in the list
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_remove_u<uint8_t>(m, m->list.u8,
+				return cdada_list_remove_u<uint8_t>(m,
+								m->list.u8,
 								val);
-				break;
 			case 2:
-				rv = cdada_list_remove_u<uint16_t>(m,
+				return cdada_list_remove_u<uint16_t>(m,
 								m->list.u16,
 								val);
-				break;
 			case 4:
-				rv = cdada_list_remove_u<uint32_t>(m,
+				return cdada_list_remove_u<uint32_t>(m,
 								m->list.u32,
 								val);
-				break;
 			case 8:
-				rv = cdada_list_remove_u<uint64_t>(m,
+				return cdada_list_remove_u<uint64_t>(m,
 								m->list.u64,
 								val);
-				break;
 			case 16:
-				rv = cdada_list_remove_u<cdada_u128_t>(m,
+				return cdada_list_remove_u<cdada_u128_t>(m,
 							m->list.u128,
 							val);
-				break;
 			case 32:
-				rv = cdada_list_remove_u<cdada_u256_t>(m,
+				return cdada_list_remove_u<cdada_u256_t>(m,
 							m->list.u256,
 							val);
-				break;
 			case 64:
-				rv = cdada_list_remove_u<cdada_u512_t>(m,
+				return cdada_list_remove_u<cdada_u512_t>(m,
 							m->list.u512,
 							val);
-				break;
 			case 128:
-				rv = cdada_list_remove_u<cdada_u1024_t>(m,
+				return cdada_list_remove_u<cdada_u1024_t>(m,
 							m->list.u1024,
 							val);
-				break;
 			case 256:
-				rv = cdada_list_remove_u<cdada_u2048_t>(m,
+				return cdada_list_remove_u<cdada_u2048_t>(m,
 							m->list.u2048,
 							val);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->remove)(m, val);
+				return (*m->ops->remove)(m, val);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 static int cdada_list_push_(cdada_list_t* list, const void* val, bool front){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
@@ -638,61 +594,55 @@ static int cdada_list_push_(cdada_list_t* list, const void* val, bool front){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_push_u<uint8_t>(m, m->list.u8,
+				return cdada_list_push_u<uint8_t>(m, m->list.u8,
 								val, front);
-				break;
 			case 2:
-				rv = cdada_list_push_u<uint16_t>(m, m->list.u16,
+				return cdada_list_push_u<uint16_t>(m,
+								m->list.u16,
 								val, front);
-				break;
 			case 4:
-				rv = cdada_list_push_u<uint32_t>(m, m->list.u32,
+				return cdada_list_push_u<uint32_t>(m,
+								m->list.u32,
 								val, front);
-				break;
 			case 8:
-				rv = cdada_list_push_u<uint64_t>(m,m->list.u64,
-							val, front);
-				break;
+				return cdada_list_push_u<uint64_t>(m,
+								m->list.u64,
+								val, front);
 			case 16:
-				rv = cdada_list_push_u<cdada_u128_t>(m,
+				return cdada_list_push_u<cdada_u128_t>(m,
 								m->list.u128,
 								val, front);
-				break;
 			case 32:
-				rv = cdada_list_push_u<cdada_u256_t>(m,
+				return cdada_list_push_u<cdada_u256_t>(m,
 								m->list.u256,
 								val, front);
-				break;
 			case 64:
-				rv = cdada_list_push_u<cdada_u512_t>(m,
+				return cdada_list_push_u<cdada_u512_t>(m,
 								m->list.u512,
 								val, front);
-				break;
 			case 128:
-				rv = cdada_list_push_u<cdada_u1024_t>(m,
+				return cdada_list_push_u<cdada_u1024_t>(m,
 								m->list.u1024,
 								val, front);
-				break;
 			case 256:
-				rv = cdada_list_push_u<cdada_u2048_t>(m,
+				return cdada_list_push_u<cdada_u2048_t>(m,
 								m->list.u2048,
 								val, front);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->push)(m, val, front);
+				return (*m->ops->push)(m, val, front);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_push_front(cdada_list_t* list, const void* val){
@@ -705,67 +655,60 @@ int cdada_list_push_back(cdada_list_t* list, const void* val){
 
 static int cdada_list_pop_(cdada_list_t* list, bool front){
 
-	int rv;
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	CDADA_CHECK_MAGIC(m);
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
-				rv = cdada_list_pop_u<uint8_t>(m, m->list.u8,
+				return cdada_list_pop_u<uint8_t>(m,
+								m->list.u8,
 								front);
-				break;
 			case 2:
-				rv = cdada_list_pop_u<uint16_t>(m, m->list.u16,
+				return cdada_list_pop_u<uint16_t>(m,
+								m->list.u16,
 								front);
-				break;
 			case 4:
-				rv = cdada_list_pop_u<uint32_t>(m, m->list.u32,
+				return cdada_list_pop_u<uint32_t>(m,
+								m->list.u32,
 								front);
-				break;
 			case 8:
-				rv = cdada_list_pop_u<uint64_t>(m,m->list.u64,
+				return cdada_list_pop_u<uint64_t>(m,m->list.u64,
 							front);
-				break;
 			case 16:
-				rv = cdada_list_pop_u<cdada_u128_t>(m,
+				return cdada_list_pop_u<cdada_u128_t>(m,
 								m->list.u128,
 								front);
-				break;
 			case 32:
-				rv = cdada_list_pop_u<cdada_u256_t>(m,
+				return cdada_list_pop_u<cdada_u256_t>(m,
 								m->list.u256,
 								front);
-				break;
 			case 64:
-				rv = cdada_list_pop_u<cdada_u512_t>(m,
+				return cdada_list_pop_u<cdada_u512_t>(m,
 								m->list.u512,
 								front);
-				break;
 			case 128:
-				rv = cdada_list_pop_u<cdada_u1024_t>(m,
+				return cdada_list_pop_u<cdada_u1024_t>(m,
 								m->list.u1024,
 								front);
-				break;
 			case 256:
-				rv = cdada_list_pop_u<cdada_u2048_t>(m,
+				return cdada_list_pop_u<cdada_u2048_t>(m,
 								m->list.u2048,
 								front);
-				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
-				rv = (*m->ops->pop)(m, front);
+				return (*m->ops->pop)(m, front);
+			default:
 				break;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_pop_front(cdada_list_t* list){
@@ -784,7 +727,8 @@ int cdada_list_sort(cdada_list_t* list){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				m->list.u8->sort();
 				break;
@@ -812,10 +756,13 @@ int cdada_list_sort(cdada_list_t* list){
 			case 256:
 				m->list.u2048->sort();
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->sort)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -833,7 +780,8 @@ int cdada_list_reverse(cdada_list_t* list){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				m->list.u8->reverse();
 				break;
@@ -861,10 +809,13 @@ int cdada_list_reverse(cdada_list_t* list){
 			case 256:
 				m->list.u2048->reverse();
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->reverse)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -882,7 +833,8 @@ int cdada_list_unique(cdada_list_t* list){
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				m->list.u8->unique();
 				break;
@@ -910,10 +862,13 @@ int cdada_list_unique(cdada_list_t* list){
 			case 256:
 				m->list.u2048->unique();
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->unique)(m);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -934,7 +889,8 @@ int cdada_list_traverse(const cdada_list_t* list, cdada_list_it f,
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				cdada_list_traverse_u<uint8_t>(m, m->list.u8,
 								f, opaque);
@@ -976,10 +932,13 @@ int cdada_list_traverse(const cdada_list_t* list, cdada_list_it f,
 								m->list.u2048,
 								f, opaque);
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->traverse)(m, f, opaque);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -1000,7 +959,8 @@ int cdada_list_rtraverse(const cdada_list_t* list, cdada_list_it f,
 		return CDADA_E_INVALID;
 
 	try{
-		switch(m->val_len){
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
 			case 1:
 				cdada_list_rtraverse_u<uint8_t>(m, m->list.u8,
 								f, opaque);
@@ -1042,10 +1002,13 @@ int cdada_list_rtraverse(const cdada_list_t* list, cdada_list_it f,
 								m->list.u2048,
 								f, opaque);
 				break;
-			default:
+			case 0:
 				CDADA_ASSERT(m->ops);
 				(*m->ops->rtraverse)(m, f, opaque);
 				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);

@@ -4,9 +4,11 @@
 #include "common.h"
 #include <string.h>
 #include "u552.h"
+#include "u3552.h"
 
 //Fwd decl
 CDADA_SET_CUSTOM_TYPE_DECL(test_u552_t);
+CDADA_SET_CUSTOM_TYPE_DECL(test_u3552_t);
 
 static uint64_t opaque = 0ULL;
 static cdada_set_t* set = NULL;
@@ -565,6 +567,100 @@ int test_u552_insert_removal_traverse_custom(){
 	return _test_u552_insert_removal_traverse();
 }
 
+int test_u3552_insert_removal_traverse_custom(){
+
+	int i, rv;
+	test_u3552_t key;
+	memset(&key, 0, sizeof(key));
+
+	set = cdada_set_create_custom(test_u3552_t);
+	TEST_ASSERT(set != NULL);
+
+	TEST_ASSERT(cdada_set_size(set) == 0);
+	TEST_ASSERT(cdada_set_empty(set) == true);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+
+	//Add one key & get
+	key.mid = 0;
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	TEST_ASSERT(cdada_set_size(set) == 1);
+	TEST_ASSERT(cdada_set_empty(set) == false);
+
+	TEST_ASSERT(cdada_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+
+	//Find an invalid value
+	key.mid = 1;
+	TEST_ASSERT(cdada_set_find(set, &key) == false);
+
+	//Trying to add the same key should return E_EXISTS, &repeat query
+	key.mid = 0;
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_E_EXISTS);
+
+	TEST_ASSERT(cdada_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+
+	//Erase first an invalid
+	key.mid = 1;
+	rv = cdada_set_erase(set, &key);
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+
+	key.mid = 0;
+	rv = cdada_set_erase(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	TEST_ASSERT(cdada_set_find(set, &key) == false);
+
+	//Now add all objects
+	for(i=0;i<32;++i){
+		key.mid = i;
+		rv = cdada_set_insert(set, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+
+	rv = cdada_set_first(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0);
+
+	rv = cdada_set_last(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31);
+
+	TEST_ASSERT(cdada_set_size(set) == 32);
+	TEST_ASSERT(cdada_set_empty(set) == false);
+
+	key.mid = 22;
+	TEST_ASSERT(cdada_set_find(set, &key) == true);
+	TEST_ASSERT(key.mid == 22); //Should never pollute
+
+	//Traverse
+	opaque = 0ULL;
+	cdada_set_traverse(set, &trav_u552, &opaque);
+
+	opaque = 31ULL;
+	cdada_set_rtraverse(set, &rtrav_u552, &opaque);
+
+	rv = cdada_set_clear(set);
+	TEST_ASSERT(cdada_set_size(set) == 0);
+	TEST_ASSERT(cdada_set_empty(set) == true);
+
+	rv = cdada_set_destroy(set);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -582,6 +678,7 @@ int main(int args, char** argv){
 
 	//Custom type
 	rv |= test_u552_insert_removal_traverse_custom();
+	rv |= test_u3552_insert_removal_traverse_custom();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

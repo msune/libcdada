@@ -92,14 +92,17 @@ typedef struct{
 template<typename T>
 int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
+	typename std::set<T>::iterator it;
+
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
 
 		aux = (T*)key;
 
-		if(m_u->find(*aux) != m_u->end())
+		it = m_u->find(*aux);
+		if(it != m_u->end())
 			return CDADA_E_EXISTS;
-		m_u->insert(*aux);
+		m_u->insert(it, *aux);
 
 		return CDADA_SUCCESS;
 	}
@@ -110,10 +113,11 @@ int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
 	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
-	if(m_u->find(aux) != m_u->end())
+	it = m_u->find(aux);
+	if(it != m_u->end())
 		return CDADA_E_EXISTS;
 
-	m_u->insert(aux);
+	m_u->insert(it, aux);
 
 	return CDADA_SUCCESS;
 }
@@ -121,14 +125,18 @@ int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
 template<typename T>
 int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
 							const void* key){
+	typename std::set<T>::iterator it;
+
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
 
 		aux = (T*)key;
 
-		if(m_u->find(*aux) == m_u->end())
+		it = m_u->find(*aux);
+		if(it == m_u->end())
 			return CDADA_E_NOT_FOUND;
-		m_u->erase(*aux);
+
+		m_u->erase(it);
 
 		return CDADA_SUCCESS;
 	}
@@ -139,10 +147,11 @@ int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
 	memset(&aux, 0, sizeof(T));
 	memcpy(&aux, key, m->user_key_len);
 
-	if(m_u->find(aux) == m_u->end())
+	it = m_u->find(aux);
+	if(it == m_u->end())
 		return CDADA_E_NOT_FOUND;
 
-	m_u->erase(aux);
+	m_u->erase(it);
 
 	return CDADA_SUCCESS;
 }

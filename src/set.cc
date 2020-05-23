@@ -177,7 +177,7 @@ int cdada_set_clear(cdada_set_t* set){
 				break;
 			default:
 				CDADA_ASSERT(0);
-				break;
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
@@ -276,7 +276,6 @@ uint32_t cdada_set_size(const cdada_set_t* set){
 
 int cdada_set_insert(cdada_set_t* set, const void* key){
 
-	int rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
 	CDADA_CHECK_MAGIC(m);
@@ -290,67 +289,57 @@ int cdada_set_insert(cdada_set_t* set, const void* key){
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				rv = cdada_set_insert_u<uint8_t>(m, m->set.u8,
-									key);
-				break;
+				return cdada_set_insert_u<uint8_t>(m,
+								m->set.u8,
+								key);
 			case 2:
-				rv = cdada_set_insert_u<uint16_t>(m, m->set.u16,
-									key);
-				break;
+				return cdada_set_insert_u<uint16_t>(m,
+								m->set.u16,
+								key);
 			case 4:
-				rv = cdada_set_insert_u<uint32_t>(m, m->set.u32,
-									key);
-				break;
+				return cdada_set_insert_u<uint32_t>(m,
+								m->set.u32,
+								key);
 			case 8:
-				rv = cdada_set_insert_u<uint64_t>(m, m->set.u64,
-									key);
-				break;
+				return cdada_set_insert_u<uint64_t>(m,
+								m->set.u64,
+								key);
 			case 16:
-				rv = cdada_set_insert_u<cdada_u128_t>(m,
+				return cdada_set_insert_u<cdada_u128_t>(m,
 								m->set.u128,
 								key);
-				break;
 			case 32:
-				rv = cdada_set_insert_u<cdada_u256_t>(m,
+				return cdada_set_insert_u<cdada_u256_t>(m,
 								m->set.u256,
 								key);
-				break;
 			case 64:
-				rv = cdada_set_insert_u<cdada_u512_t>(m,
+				return cdada_set_insert_u<cdada_u512_t>(m,
 								m->set.u512,
 								key);
-				break;
 			case 128:
-				rv = cdada_set_insert_u<cdada_u1024_t>(m,
+				return cdada_set_insert_u<cdada_u1024_t>(m,
 								m->set.u1024,
 								key);
-				break;
 			case 256:
-				rv = cdada_set_insert_u<cdada_u2048_t>(m,
+				return cdada_set_insert_u<cdada_u2048_t>(m,
 								m->set.u2048,
 								key);
-				break;
 			case 0:
-				rv = (*m->ops->insert)(m, key);
-				break;
+				return (*m->ops->insert)(m, key);
 			default:
 				CDADA_ASSERT(0);
-				rv = CDADA_E_UNKNOWN;
-				break;
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_set_erase(cdada_set_t* set, const void* key){
 
-	int rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
 	CDADA_CHECK_MAGIC(m);
@@ -362,67 +351,57 @@ int cdada_set_erase(cdada_set_t* set, const void* key){
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				rv = cdada_set_erase_u<uint8_t>(m, m->set.u8,
+				return cdada_set_erase_u<uint8_t>(m, m->set.u8,
 									key);
-				break;
 			case 2:
-				rv = cdada_set_erase_u<uint16_t>(m, m->set.u16,
-									key);
-				break;
+				return cdada_set_erase_u<uint16_t>(m,
+								m->set.u16,
+								key);
 			case 4:
-				rv = cdada_set_erase_u<uint32_t>(m, m->set.u32,
-									key);
-				break;
+				return cdada_set_erase_u<uint32_t>(m,
+								m->set.u32,
+								key);
 			case 8:
-				rv = cdada_set_erase_u<uint64_t>(m, m->set.u64,
-									key);
-				break;
+				return cdada_set_erase_u<uint64_t>(m,
+								m->set.u64,
+								key);
 			case 16:
-				rv = cdada_set_erase_u<cdada_u128_t>(m,
+				return cdada_set_erase_u<cdada_u128_t>(m,
 								m->set.u128,
 								key);
 				break;
 			case 32:
-				rv = cdada_set_erase_u<cdada_u256_t>(m,
+				return cdada_set_erase_u<cdada_u256_t>(m,
 								m->set.u256,
 								key);
-				break;
 			case 64:
-				rv = cdada_set_erase_u<cdada_u512_t>(m,
+				return cdada_set_erase_u<cdada_u512_t>(m,
 								m->set.u512,
 								key);
-				break;
 			case 128:
-				rv = cdada_set_erase_u<cdada_u1024_t>(m,
+				return cdada_set_erase_u<cdada_u1024_t>(m,
 								m->set.u1024,
 								key);
-				break;
 			case 256:
-				rv = cdada_set_erase_u<cdada_u2048_t>(m,
+				return cdada_set_erase_u<cdada_u2048_t>(m,
 								m->set.u2048,
 								key);
-				break;
 			case 0:
-				rv = (*m->ops->erase)(m, key);
-				break;
+				return (*m->ops->erase)(m, key);
 			default:
 				CDADA_ASSERT(0);
-				rv = CDADA_E_UNKNOWN;
-				break;
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
-	}catch(...){
-		CDADA_ASSERT(0);
-		return CDADA_E_UNKNOWN;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
 }
 
 bool cdada_set_find(const cdada_set_t* set, const void* key){
 
-	bool rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
@@ -432,66 +411,52 @@ bool cdada_set_find(const cdada_set_t* set, const void* key){
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				rv = cdada_set_find_u<uint8_t>(m, m->set.u8,
+				return cdada_set_find_u<uint8_t>(m, m->set.u8,
 									key);
-				break;
 			case 2:
-				rv = cdada_set_find_u<uint16_t>(m, m->set.u16,
+				return cdada_set_find_u<uint16_t>(m, m->set.u16,
 									key);
-				break;
 			case 4:
-				rv = cdada_set_find_u<uint32_t>(m, m->set.u32,
+				return cdada_set_find_u<uint32_t>(m, m->set.u32,
 									key);
-				break;
 			case 8:
-				rv = cdada_set_find_u<uint64_t>(m, m->set.u64,
+				return cdada_set_find_u<uint64_t>(m, m->set.u64,
 									key);
-				break;
 			case 16:
-				rv = cdada_set_find_u<cdada_u128_t>(m,
+				return cdada_set_find_u<cdada_u128_t>(m,
 								m->set.u128,
 								key);
-				break;
 			case 32:
-				rv = cdada_set_find_u<cdada_u256_t>(m,
+				return cdada_set_find_u<cdada_u256_t>(m,
 								m->set.u256,
 								key);
-				break;
 			case 64:
-				rv = cdada_set_find_u<cdada_u512_t>(m,
+				return cdada_set_find_u<cdada_u512_t>(m,
 								m->set.u512,
 								key);
-				break;
 			case 128:
-				rv = cdada_set_find_u<cdada_u1024_t>(m,
+				return cdada_set_find_u<cdada_u1024_t>(m,
 								m->set.u1024,
 								key);
-				break;
 			case 256:
-				rv = cdada_set_find_u<cdada_u2048_t>(m,
+				return cdada_set_find_u<cdada_u2048_t>(m,
 								m->set.u2048,
 								key);
-				break;
 			case 0:
-				rv = (*m->ops->find)(m, key);
-				break;
+				return (*m->ops->find)(m, key);
 			default:
 				CDADA_ASSERT(0);
-				rv = CDADA_E_UNKNOWN;
-				break;
+				return CDADA_E_UNKNOWN;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return false;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return false;
 }
 
 static int __cdada_set_first_last(const cdada_set_t* set, bool first,
 								void* key){
 
-	int rv;
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
@@ -501,64 +466,51 @@ static int __cdada_set_first_last(const cdada_set_t* set, bool first,
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				rv = cdada_set_first_last_u<uint8_t>(m,
+				return cdada_set_first_last_u<uint8_t>(m,
 								m->set.u8,
 								first, key);
-				break;
 			case 2:
-				rv = cdada_set_first_last_u<uint16_t>(m,
+				return cdada_set_first_last_u<uint16_t>(m,
 								m->set.u16,
 								first, key);
-				break;
 			case 4:
-				rv = cdada_set_first_last_u<uint32_t>(m,
+				return cdada_set_first_last_u<uint32_t>(m,
 								m->set.u32,
 								first, key);
-				break;
 			case 8:
-				rv = cdada_set_first_last_u<uint64_t>(m,
+				return cdada_set_first_last_u<uint64_t>(m,
 								m->set.u64,
 								first, key);
-				break;
 			case 16:
-				rv = cdada_set_first_last_u<cdada_u128_t>(m,
+				return cdada_set_first_last_u<cdada_u128_t>(m,
 								m->set.u128,
 								first, key);
-				break;
 			case 32:
-				rv = cdada_set_first_last_u<cdada_u256_t>(m,
+				return cdada_set_first_last_u<cdada_u256_t>(m,
 								m->set.u256,
 								first, key);
-				break;
 			case 64:
-				rv = cdada_set_first_last_u<cdada_u512_t>(m,
+				return cdada_set_first_last_u<cdada_u512_t>(m,
 								m->set.u512,
 								first, key);
-				break;
 			case 128:
-				rv = cdada_set_first_last_u<cdada_u1024_t>(m,
+				return cdada_set_first_last_u<cdada_u1024_t>(m,
 								m->set.u1024,
 								first, key);
-				break;
 			case 256:
-				rv = cdada_set_first_last_u<cdada_u2048_t>(m,
+				return cdada_set_first_last_u<cdada_u2048_t>(m,
 								m->set.u2048,
 								first, key);
-				break;
 			case 0:
-				rv = (*m->ops->first_last)(m, first, key);
-				break;
+				return (*m->ops->first_last)(m, first, key);
 			default:
 				CDADA_ASSERT(0);
-				rv = CDADA_E_UNKNOWN;
-				break;
+				return CDADA_E_UNKNOWN;
 		}
-	}catch(...){
-		CDADA_ASSERT(0);
-		return false;
-	}
+	}catch(...){}
 
-	return rv;
+	CDADA_ASSERT(0);
+	return false;
 }
 
 int cdada_set_first(const cdada_set_t* set, void* key){
@@ -628,7 +580,7 @@ int cdada_set_traverse(const cdada_set_t* set, cdada_set_it f, void* opaque){
 				break;
 			default:
 				CDADA_ASSERT(0);
-				break;
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
@@ -699,7 +651,7 @@ int cdada_set_rtraverse(const cdada_set_t* set, cdada_set_it f, void* opaque){
 				break;
 			default:
 				CDADA_ASSERT(0);
-				break;
+				return CDADA_E_UNKNOWN;
 		}
 	}catch(...){
 		CDADA_ASSERT(0);
