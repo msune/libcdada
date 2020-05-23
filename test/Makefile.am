@@ -4,6 +4,8 @@ SUBDIRS =
 
 AUTOMAKE_OPTIONS = no-dependencies
 
+noinst_PROGRAMS= benchmark
+
 #Tests
 check_PROGRAMS= list_test map_test set_test combined_test
 TESTS = list_test map_test set_test combined_test
@@ -23,6 +25,11 @@ set_test_LDADD= -lpthread ../src/libcdada.la
 combined_test_SOURCES= combined_test.c combined_custom.cc
 combined_test_CPPFLAGS= -I$(top_srcdir)/include/
 combined_test_LDADD= -lpthread ../src/libcdada.la
+
+benchmark_SOURCES= benchmark.cc
+benchmark_CXXFLAGS= -O3
+benchmark_CPPFLAGS= -I$(top_srcdir)/include/
+benchmark_LDADD= -lpthread ../src/.libs/libcdada.a
 
 #Valgrind
 if VALGRIND_ENABLED

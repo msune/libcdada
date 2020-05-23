@@ -3,7 +3,7 @@
 """
 libcdada code generator (custom types)
 
-Generate C++ wrappers to use with libcdata.
+Generate C++ wrappers to use with libcdada.
 
 https://github.com/msune/libcdada
 LICENSE: BSD 2-clause

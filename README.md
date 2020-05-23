@@ -3,12 +3,12 @@
 **libcdada** - basic data structures in C (`libstdc++` wrapper)
 ---------------------------------------------------------------
 
-Small library that offers basic data structures (`list`, `set`, `map`...) in a pure C API. Key features:
+Small library that offers basic data structures (`list`, `set`, `map`...) in a pure C API for user-space applications. Key features:
 
 * Easy to use, portable
 * No "magic" MACROs, and no need to modify your data structures (except, perhaps, for `__attribute__((packed))`)
 * Stable and well-tested backend engine (`libstdc++`) for most of the data structures
-* Reasonable performance - comparable to `libstdc++`)
+* Reasonable performance - comparable to `libstdc++`
 
 Example
 -------
@@ -74,6 +74,11 @@ a power of 2 bytes.
 For larger keys (any length), optimal memory usage and performance take a look at `libcdada`'s
 **[custom containers](doc/Custom.md)**.
 
+#### Benchmarking
+
+Take a look at **[benchmarking](doc/Benchmarks.md)** for an rough idea
+of the overhead of `libcdada` compared to `libstdc++`.
+
 Installation
 ------------
 
@@ -92,6 +97,11 @@ cd build
 ../configure
 sudo make install
 ```
+
+#### Windows support
+
+The library solely depends on `libstdc++`, so it should be very easy to port it
+to Windows. If you are interested, consider submitting a PR.
 
 Author
 ------

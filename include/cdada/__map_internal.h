@@ -170,7 +170,7 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 		aux = (T*)key;
 		it = m_u->find(*aux);
 
-		if(it == m_u->end())
+		if(unlikely(it == m_u->end()))
 			return CDADA_E_NOT_FOUND;
 
 		*val = it->second;
@@ -185,7 +185,7 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	it = m_u->find(aux);
-	if(it == m_u->end())
+	if(unlikely(it == m_u->end()))
 		return CDADA_E_NOT_FOUND;
 
 	*val = it->second;

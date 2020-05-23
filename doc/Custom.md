@@ -120,11 +120,11 @@ declarations `CDADA_XXX_CUSTOM_TYPE_DECL` in the compilation unit where
 Make sure `cdada.cc` is compiled with `g++` or `clang++`:
 
 ```bash
-g++ -c cdada.cc cdada.o
+~/ g++ -c cdada.cc cdada.o
 ```
 
 And link it:
 
 ```bash
-gcc <your files> cdada.o -o my_program -lcdada -lstdc++
+~/ gcc <your files> cdada.o -o my_program -lcdada -lstdc++
 ```
