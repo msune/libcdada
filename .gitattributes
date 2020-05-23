@@ -1,0 +1,3 @@
+include/*.h linguist-language=C
+include/cdada/*.h linguist-language=C
+test/*array*.s* -linguist-detectable
