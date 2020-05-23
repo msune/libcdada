@@ -38,9 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief Set data structure. Wraps std::set data structure
 */
 
-//Fwd decl
-struct __cdada_set_ops;
-
 /**
 * cdada set structure
 */
@@ -48,6 +45,11 @@ typedef void cdada_set_t;
 
 //In case it's included from C++
 CDADA_BEGIN_DECLS
+
+//Fwd decl
+struct __cdada_set_ops;
+cdada_set_t* __cdada_set_create(const uint16_t key_size,
+						struct __cdada_set_ops* ops);
 
 /**
 * cdada set structure iterator
@@ -62,10 +64,13 @@ typedef void (*cdada_set_it)(const cdada_set_t* set, const void* key,
 /**
 * @brief Create and initialize a set data structure
 *
-* Allocate and initialize a set structure (std::set). For key sizes below 8
-* bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
+* Allocate and initialize a set structure (std::set). Containers will perform
+* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+*
+* For types > 256, use custom containers
 */
-cdada_set_t* cdada_set_create(const uint16_t key_size);
+#define cdada_set_create(TYPE) \
+	__cdada_set_create(sizeof( TYPE ), NULL)
 
 /**
 * Destroy a set structure
@@ -150,12 +155,6 @@ int cdada_set_first(const cdada_set_t* set, void* key);
 int cdada_set_last(const cdada_set_t* set, void* key);
 
 //Custom types
-
-/**
-* @internal Create and initialize set with ops
-*/
-cdada_set_t* __cdada_set_create(const uint16_t key_size,
-						struct __cdada_set_ops* ops);
 
 /**
 * Forward declare custom time ops

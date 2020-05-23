@@ -20,7 +20,7 @@ The only changes to your code from regular `libcdada` will be:
 
   int my_func(){
 
--       list = cdada_list_create(sizeof(foo_t));
+-       list = cdada_list_create(foo_t);
 +       list = cdada_list_create_custom(foo_t);
         TEST_ASSERT(list != NULL);
 
@@ -107,9 +107,9 @@ declarations `CDADA_XXX_CUSTOM_TYPE_DECL` in the compilation unit where
 
   int my_func(){
 
--       list = cdada_list_create(sizeof(foo_t));
+-       list = cdada_list_create(foo_t);
 +       list = cdada_list_create_custom(foo_t);
--       map = cdada_map_create(sizeof(bar_t));
+-       map = cdada_map_create(bar_t);
 +       map = cdada_map_create_custom(bar_t);
         TEST_ASSERT(list != NULL);
 

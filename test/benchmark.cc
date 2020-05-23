@@ -120,7 +120,7 @@ void cdada_set_insert_erase_u32(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_set_t* set = custom? cdada_set_create_custom(uint32_t) :
-				cdada_set_create(sizeof(uint32_t));
+				cdada_set_create(uint32_t);
 	uint64_t begin, end;
 
 	//Start
@@ -192,7 +192,7 @@ void cdada_map_insert_erase_u32(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_map_t* map  = custom? cdada_map_create_custom(uint32_t) :
-					cdada_map_create(sizeof(uint32_t));
+					cdada_map_create(uint32_t);
 	uint64_t begin, end;
 
 	//Start
@@ -255,7 +255,7 @@ void cdada_list_push_pop_u32(uint64_t& ticks_push_back, uint64_t& ticks_pop_back
 
 	uint32_t i;
 	cdada_list_t* list = custom? cdada_list_create_custom(uint32_t) :
-				cdada_list_create(sizeof(uint32_t));
+				cdada_list_create(uint32_t);
 	uint64_t begin, end;
 
 	//Start
@@ -341,7 +341,7 @@ void cdada_set_insert_erase_u552(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_set_t* set = custom? cdada_set_create_custom(test_u552_t) :
-				cdada_set_create(sizeof(test_u552_t));
+				cdada_set_create(test_u552_t);
 	uint64_t begin, end;
 
 	test_u552_t* aux = (test_u552_t*)malloc(sizeof(test_u552_t)*
@@ -432,7 +432,7 @@ void cdada_map_insert_erase_u552(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_map_t* map  = custom? cdada_map_create_custom(test_u552_t) :
-					cdada_map_create(sizeof(test_u552_t));
+					cdada_map_create(test_u552_t);
 	uint64_t begin, end;
 
 	test_u552_t* aux = (test_u552_t*)malloc(sizeof(test_u552_t)*
@@ -515,7 +515,7 @@ void cdada_list_push_pop_u552(uint64_t& ticks_push_back,
 
 	uint32_t i;
 	cdada_list_t* list = custom? cdada_list_create_custom(test_u552_t) :
-				cdada_list_create(sizeof(test_u552_t));
+				cdada_list_create(test_u552_t);
 	uint64_t begin, end;
 
 	test_u552_t* aux = (test_u552_t*)malloc(sizeof(test_u552_t)*
@@ -610,7 +610,7 @@ void cdada_set_insert_erase_u3552(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_set_t* set = custom? cdada_set_create_custom(test_u3552_t) :
-				cdada_set_create(sizeof(test_u3552_t));
+				cdada_set_create(test_u3552_t);
 	uint64_t begin, end;
 
 	test_u3552_t* aux = (test_u3552_t*)malloc(sizeof(test_u3552_t)*
@@ -701,7 +701,7 @@ void cdada_map_insert_erase_u3552(uint64_t& ticks_insert, uint64_t& ticks_erase,
 
 	uint32_t i;
 	cdada_map_t* map  = custom? cdada_map_create_custom(test_u3552_t) :
-					cdada_map_create(sizeof(test_u3552_t));
+					cdada_map_create(test_u3552_t);
 	uint64_t begin, end;
 
 	test_u3552_t* aux = (test_u3552_t*)malloc(sizeof(test_u3552_t)*
@@ -784,7 +784,7 @@ void cdada_list_push_pop_u3552(uint64_t& ticks_push_back,
 
 	uint32_t i;
 	cdada_list_t* list = custom? cdada_list_create_custom(test_u3552_t) :
-				cdada_list_create(sizeof(test_u3552_t));
+				cdada_list_create(test_u3552_t);
 	uint64_t begin, end;
 
 	test_u3552_t* aux = (test_u3552_t*)malloc(sizeof(test_u3552_t)*

@@ -40,7 +40,7 @@ int test_u8_insert_removal(){
 	int i, rv;
 	uint8_t key;
 
-	set = cdada_set_create(sizeof(key));
+	set = cdada_set_create(uint8_t);
 	TEST_ASSERT(set != NULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
@@ -127,7 +127,7 @@ int test_u16_insert_removal(){
 	int i, rv;
 	uint16_t key;
 
-	set = cdada_set_create(sizeof(key));
+	set = cdada_set_create(uint16_t);
 	TEST_ASSERT(set != NULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
@@ -214,7 +214,7 @@ int test_u32_insert_removal(){
 	int i, rv;
 	uint32_t key;
 
-	set = cdada_set_create(sizeof(key));
+	set = cdada_set_create(uint32_t);
 	TEST_ASSERT(set != NULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
@@ -301,7 +301,7 @@ int test_u64_insert_removal_traverse(){
 	int i, rv;
 	uint64_t key;
 
-	set = cdada_set_create(sizeof(key));
+	set = cdada_set_create(uint64_t);
 	TEST_ASSERT(set != NULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
@@ -396,7 +396,7 @@ int test_basics(){
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
-	set = cdada_set_create(sizeof(int));
+	set = cdada_set_create(int);
 	TEST_ASSERT(set != NULL);
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
@@ -433,11 +433,17 @@ int test_basics(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	//Create with valid and invalid
-	set = cdada_set_create(256);
+	struct {
+		char u[256];
+	} c256;
+	struct {
+		char u[257];
+	} c257;
+	set = cdada_set_create(c256);
 	TEST_ASSERT(set != NULL);
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	set = cdada_set_create(257);
+	set = cdada_set_create(c257);
 	TEST_ASSERT(set == NULL);
 
 	return 0;
@@ -554,7 +560,7 @@ int _test_u552_insert_removal_traverse(){
 }
 
 int test_u552_insert_removal_traverse(){
-	set = cdada_set_create(sizeof(test_u552_t));
+	set = cdada_set_create(test_u552_t);
 	TEST_ASSERT(set != NULL);
 
 	return _test_u552_insert_removal_traverse();

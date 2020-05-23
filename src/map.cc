@@ -73,10 +73,6 @@ ROLLBACK:
 	return NULL;
 }
 
-cdada_map_t* cdada_map_create(const uint16_t key_size){
-	return __cdada_map_create(key_size, NULL);
-}
-
 /**
 * Destroy a map structure
 */

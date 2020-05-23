@@ -72,7 +72,7 @@ int test_u8_insert_removal(){
 	int i, rv;
 	uint8_t key;
 
-	list = cdada_list_create(sizeof(key));
+	list = cdada_list_create(uint8_t);
 	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdada_list_size(list) == 0);
@@ -331,7 +331,7 @@ int test_u16_insert_removal(){
 	int i, rv;
 	uint16_t key;
 
-	list = cdada_list_create(sizeof(key));
+	list = cdada_list_create(uint16_t);
 	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdada_list_size(list) == 0);
@@ -590,7 +590,7 @@ int test_u32_insert_removal(){
 	int i, rv;
 	uint32_t key;
 
-	list = cdada_list_create(sizeof(key));
+	list = cdada_list_create(uint32_t);
 	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdada_list_size(list) == 0);
@@ -849,7 +849,7 @@ int test_u64_insert_removal_traverse(){
 	int i, rv;
 	uint64_t key;
 
-	list = cdada_list_create(sizeof(key));
+	list = cdada_list_create(uint64_t);
 	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdada_list_size(list) == 0);
@@ -1116,7 +1116,7 @@ int test_basics(){
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
-	list = cdada_list_create(sizeof(int));
+	list = cdada_list_create(int);
 	TEST_ASSERT(list != NULL);
 
 	TEST_ASSERT(cdada_list_size(list) == 0);
@@ -1178,11 +1178,17 @@ int test_basics(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	//Create with valid and invalid
-	list = cdada_list_create(256);
+	struct {
+		char u[256];
+	} c256;
+	struct {
+		char u[257];
+	} c257;
+	list = cdada_list_create(c256);
 	TEST_ASSERT(list != NULL);
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	list = cdada_list_create(257);
+	list = cdada_list_create(c257);
 	TEST_ASSERT(list == NULL);
 
 	return 0;
@@ -1503,7 +1509,7 @@ int _test_u552_insert_removal_traverse(){
 }
 
 int test_u552_insert_removal_traverse(){
-	list = cdada_list_create(sizeof(test_u552_t));
+	list = cdada_list_create(test_u552_t);
 	TEST_ASSERT(list != NULL);
 
 	return _test_u552_insert_removal_traverse();

@@ -39,7 +39,7 @@ int main(int args, char** argv){
 	my_key_t key;
 	my_val_t* val;
 
-	cdada_map_t* m = cdada_map_create(sizeof(my_key_t));
+	cdada_map_t* m = cdada_map_create(my_key_t);
 
 	fprintf(stdout, "Map %s (%u)\n",
 				cdada_map_empty(m)? "is empty" : "has elements",

@@ -73,10 +73,6 @@ ROLLBACK:
 	return NULL;
 }
 
-cdada_list_t* cdada_list_create(const uint16_t val_size){
-	return __cdada_list_create(val_size, NULL);
-}
-
 /**
 * Destroy a list structure
 */

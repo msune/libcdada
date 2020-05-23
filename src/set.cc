@@ -75,10 +75,6 @@ ROLLBACK:
 	return NULL;
 }
 
-cdada_set_t* cdada_set_create(const uint16_t key_size){
-	return __cdada_set_create(key_size, NULL);
-}
-
 /**
 * Destroy a set structure
 */

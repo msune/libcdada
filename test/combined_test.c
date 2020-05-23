@@ -15,7 +15,6 @@ CDADA_SET_CUSTOM_TYPE_DECL(test_u552_t);
 int main(int args, char** argv){
 
 	int rv;
-	test_u552_t key;
 	cdada_list_t* list;
 	cdada_map_t* map;
 	cdada_set_t* set;
@@ -24,7 +23,7 @@ int main(int args, char** argv){
 	TEST_ASSERT(list != NULL);
 	map = cdada_map_create_custom(test_u552_t);
 	TEST_ASSERT(map != NULL);
-	set = cdada_set_create(sizeof(key));
+	set = cdada_set_create_custom(test_u552_t);
 	TEST_ASSERT(set != NULL);
 
 	rv = cdada_list_destroy(list);

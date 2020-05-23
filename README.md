@@ -16,7 +16,7 @@ Example
 #include <cdada/list.h>
 
 int x, val=0;
-cdada_list_t* my_list = cdada_list_create(sizeof(int));
+cdada_list_t* my_list = cdada_list_create(int);
 
 //Add to list {10, 11, 5, 5}
 x=10;

@@ -38,9 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief List data structure. Wraps std::list data structure
 */
 
-//Fwd decl
-struct __cdada_list_ops;
-
 /**
 * cdada list structure
 */
@@ -48,6 +45,11 @@ typedef void cdada_list_t;
 
 //In case it's included from C++
 CDADA_BEGIN_DECLS
+
+//Fwd decl
+struct __cdada_list_ops;
+cdada_list_t* __cdada_list_create(const uint16_t val_size,
+						struct __cdada_list_ops* ops);
 
 /**
 * cdada list structure iterator
@@ -59,14 +61,16 @@ CDADA_BEGIN_DECLS
 typedef void (*cdada_list_it)(const cdada_list_t* list, const void* val,
 						void* opaque);
 
-
 /**
 * @brief Create and initialize a list data structure
 *
-* Allocate and initialize a list structure (std::list). For val sizes below 8
-* bytes, the optimal val sizes are {1,2,4 or 8 bytes}.
+* Allocate and initialize a list structure (std::list). Containers will perform
+* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+*
+* For types > 256, use custom containers
 */
-cdada_list_t* cdada_list_create(const uint16_t val_size);
+#define cdada_list_create(TYPE) \
+	__cdada_list_create(sizeof( TYPE ), NULL)
 
 /**
 * Destroy a list structure
@@ -215,12 +219,6 @@ int cdada_list_reverse(cdada_list_t* list);
 int cdada_list_unique(cdada_list_t* list);
 
 //Custom types
-
-/**
-* @internal Create and initialize list with ops
-*/
-cdada_list_t* __cdada_list_create(const uint16_t val_size,
-						struct __cdada_list_ops* ops);
 
 /**
 * Forward declare custom time ops

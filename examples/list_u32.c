@@ -14,7 +14,7 @@ void trav_print_and_sum(const cdada_list_t* s, const void* k, void* opaque){
 
 int main(int args, char** argv){
 	uint32_t item, counter;
-	cdada_list_t* l = cdada_list_create(sizeof(uint32_t));
+	cdada_list_t* l = cdada_list_create(uint32_t);
 
 	//Add {1,3,5,4,6,5}
 	item = 1;

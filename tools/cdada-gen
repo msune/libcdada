@@ -347,7 +347,7 @@ def generate(container, user_type):
 
 DESCRIPTION="libcdada code generator (custom types)"
 EPILOG="""
-Generate C++ wrappers to use with libcdata.
+Generate C++ wrappers to use with libcdada.
 
 1. Invoke generator with the types you want to support
 

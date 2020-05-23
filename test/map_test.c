@@ -57,7 +57,7 @@ int test_u8_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdada_map_create(sizeof(key));
+	map = cdada_map_create(uint8_t);
 	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdada_map_size(map) == 0);
@@ -161,7 +161,7 @@ int test_u16_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdada_map_create(sizeof(key));
+	map = cdada_map_create(uint16_t);
 	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdada_map_size(map) == 0);
@@ -264,7 +264,7 @@ int test_u32_insert_removal(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdada_map_create(sizeof(key));
+	map = cdada_map_create(uint32_t);
 	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdada_map_size(map) == 0);
@@ -367,7 +367,7 @@ int test_u64_insert_removal_traverse(){
 	for(i=0;i<32;++i)
 		values[i] = i | 0x1000;
 
-	map = cdada_map_create(sizeof(key));
+	map = cdada_map_create(uint64_t);
 	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdada_map_size(map) == 0);
@@ -473,7 +473,7 @@ int test_basics(){
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
-	map = cdada_map_create(sizeof(int));
+	map = cdada_map_create(int);
 	TEST_ASSERT(map != NULL);
 
 	TEST_ASSERT(cdada_map_size(map) == 0);
@@ -514,11 +514,17 @@ int test_basics(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	//Create with valid and invalid
-	map = cdada_map_create(256);
+	struct {
+		char u[256];
+	} c256;
+	struct {
+		char u[257];
+	} c257;
+	map = cdada_map_create(c256);
 	TEST_ASSERT(map != NULL);
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	map = cdada_map_create(257);
+	map = cdada_map_create(c257);
 	TEST_ASSERT(map == NULL);
 
 	return 0;
@@ -665,7 +671,7 @@ int _test_u552_insert_removal_traverse(){
 }
 
 int test_u552_insert_removal_traverse(){
-	map = cdada_map_create(sizeof(test_u552_t));
+	map = cdada_map_create(test_u552_t);
 	TEST_ASSERT(map != NULL);
 
 	return _test_u552_insert_removal_traverse();

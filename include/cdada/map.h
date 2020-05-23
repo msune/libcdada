@@ -38,9 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @brief Map {key, value} data structure. Wraps std::map data structure
 */
 
-//Fwd decl
-struct __cdada_map_ops;
-
 /**
 * cdada map structure
 */
@@ -48,6 +45,11 @@ typedef void cdada_map_t;
 
 //In case it's included from C++
 CDADA_BEGIN_DECLS
+
+//Fwd decl
+struct __cdada_map_ops;
+cdada_map_t* __cdada_map_create(const uint16_t key_size,
+						struct __cdada_map_ops* ops);
 
 /**
 * cdada map structure iterator
@@ -64,10 +66,13 @@ typedef void (*cdada_map_it)(const cdada_map_t* map, const void* key,
 /**
 * @brief Create and initialize a map data structure
 *
-* Allocate and initialize a map structure (std::map). For key sizes below 8
-* bytes, the optimal key sizes are {1,2,4 or 8 bytes}.
+* Allocate and initialize a map structure (std::map). Containers will perform
+* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+*
+* For types > 256, use custom containers
 */
-cdada_map_t* cdada_map_create(const uint16_t key_size);
+#define cdada_map_create(TYPE) \
+	__cdada_map_create(sizeof( TYPE ), NULL)
 
 /**
 * Destroy a map structure
@@ -156,12 +161,6 @@ int cdada_map_first(const cdada_map_t* map, void* key, void** val);
 int cdada_map_last(const cdada_map_t* map, void* key, void** val);
 
 //Custom types
-
-/**
-* @internal Create and initialize map with ops
-*/
-cdada_map_t* __cdada_map_create(const uint16_t key_size,
-						struct __cdada_map_ops* ops);
 
 /**
 * Forward declare custom time ops
