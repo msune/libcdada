@@ -1,0 +1,16 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+#header_wrap{
+	background: linear-gradient(to top, #330, #212121);
+}
+
+header.inner{
+	max-width: 1024px!important;
+}
+
+#main_content{
+	max-width: 1024px!important;
+}
