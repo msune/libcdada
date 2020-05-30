@@ -24,43 +24,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDADA_UTILS_H__
-#define __CDADA_UTILS_H__
+#ifndef __CDADA_STR_INT__
+#define __CDADA_STR_INT__
 
-/**
-* @file cdada_utils.h
-* @author Marc Sune<marcdevel (at) gmail.com>
-*
-* @brief Several misc. utilities
-*/
+//Internal headers should never be directly included
+#ifndef __CDADA_INTERNAL_INCLUDE
+	#error CDADA internal headers shall not be directly included
+#endif //__CDADA_INTERNAL_INCLUDE
 
-//Eror codes
-#define CDADA_SUCCESS       0
-#define CDADA_E_UNKNOWN     1
-#define CDADA_E_INVALID     2
-#define CDADA_E_NOT_FOUND   3
-#define CDADA_E_EXISTS      4
-#define CDADA_E_MEM         5
-#define CDADA_E_UNSUPPORTED 6
-#define CDADA_E_EMPTY       7
-#define CDADA_E_INCOMPLETE  8
-#define CDADA_E_COUNT       9
-
-#ifdef __cplusplus
-	# define CDADA_BEGIN_DECLS extern "C" {
-	# define CDADA_END_DECLS   }
-#else
-	# define CDADA_BEGIN_DECLS
-	# define CDADA_END_DECLS
+//This header should _always_ be included from C++
+#ifndef __cplusplus
+	#error CDADA autogenreation headers shall be included only from C++ files
 #endif //__cplusplus
 
-CDADA_BEGIN_DECLS
+#include <stdbool.h>
+#include <stdint.h>
+#include <cdada/utils.h>
+#include <cdada/__common_internal.h>
+#include <string>
 
 /**
-* Get a human-readable description for CDADA errors
+* @file cdada/str_internal.h
+* @author Marc Sune<marcdevel (at) gmail.com>
+*
+* @brief Internals of the str wrapper
 */
-const char* cdada_strerr(int error);
 
-CDADA_END_DECLS
+/**
+* @internal Main internal structure
+*/
+typedef struct{
+	uint32_t magic_num;
+	std::string* str;
+}__cdada_str_int_t;
 
-#endif //__CDADA_UTILS_H__
+#endif //__CDADA_STR_INT__

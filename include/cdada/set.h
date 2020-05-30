@@ -142,14 +142,14 @@ bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
 * Get the first element in the set
-* @param set Map pointer
+* @param set Set pointer
 * @param key Key
 */
 int cdada_set_first(const cdada_set_t* set, void* key);
 
 /**
 * Get the last element in the set
-* @param set Map pointer
+* @param set Set pointer
 * @param key Key
 */
 int cdada_set_last(const cdada_set_t* set, void* key);

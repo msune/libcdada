@@ -8,6 +8,10 @@ Legend:
 Change log
 ==========
 
+v0.2.0
+
+[+] Support for cdada_str
+
 v0.1.0 (23d May 2020)
 
 [+] Support for cdada_list, cdada_map, cdada_set
