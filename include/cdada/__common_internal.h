@@ -96,8 +96,8 @@ typedef struct{
 } __attribute__((packed)) cdada_u2048_t;
 
 
-#define CDADA_CHECK_MAGIC(s) \
-	if(unlikely(!m || m->magic_num != CDADA_MAGIC)) \
+#define CDADA_CHECK_MAGIC(MM) \
+	if(unlikely(!(MM) || (MM)->magic_num != CDADA_MAGIC)) \
 		return CDADA_E_INVALID
 
 //Comparing methods for extended types

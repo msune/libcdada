@@ -7,8 +7,12 @@ AUTOMAKE_OPTIONS = no-dependencies
 noinst_PROGRAMS= benchmark
 
 #Tests
-check_PROGRAMS= list_test map_test set_test str_test combined_test
-TESTS = list_test map_test set_test str_test combined_test
+check_PROGRAMS= bbitmap_test list_test map_test set_test str_test combined_test
+TESTS = bbitmap_test list_test map_test set_test str_test combined_test
+
+bbitmap_test_SOURCES= bbitmap_test.c
+bbitmap_test_CPPFLAGS= -I$(top_srcdir)/include/
+bbitmap_test_LDADD= -lpthread ../src/libcdada.la
 
 list_test_SOURCES= list_test.c list_custom.cc
 list_test_CPPFLAGS= -I$(top_srcdir)/include/
