@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <cdada/utils.h>
 
 /**
@@ -83,6 +84,27 @@ int cdada_bbitmap_clear(cdada_bbitmap_t* bitmap, const uint32_t bit);
 * Clear all bits in big bitmap
 */
 int cdada_bbitmap_clear_all(cdada_bbitmap_t* bitmap);
+
+/**
+* Dump to a string the contents of the bbitmap
+*
+* @param bitmap Bitmap object
+* @param size Size of the buffer
+* @param buffer Buffer. If NULL, necessary bytes, including '\0' will be set in
+*               'size_used'
+* @param size_used If buffer != NULL, the number of bytes written else number of
+*                  bytes necessary to write, including '\0'
+*/
+int cdada_bbitmap_dump(cdada_bbitmap_t* bitmap, uint32_t size, char* buffer,
+							uint32_t* bytes_used);
+
+/**
+* @brief Print the contents of the bbitmap
+*
+* @param bitmap Bitmap object
+* @param stream stdout or stderr
+*/
+int cdada_bbitmap_print(cdada_bbitmap_t* bitmap, FILE *stream);
 
 CDADA_END_DECLS
 

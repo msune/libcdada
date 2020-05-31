@@ -86,6 +86,23 @@ int test_basics(){
 	for(i=0; i<6533; ++i)
 		TEST_ASSERT(cdada_bbitmap_is_set(b, i) == ((i==6532)? 1 : 0));
 
+	//Dump to a buffer that is unable to contain dump
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_bbitmap_dump(b, 0, NULL, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(used > 128);
+
+	rv = cdada_bbitmap_dump(b, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stderr, "%s\n", buffer);
+
+	char buffer2[2048*16];
+	rv = cdada_bbitmap_dump(b, 2048*16, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stderr, "%s\n", buffer2);
+	rv = cdada_bbitmap_print(b, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	//Beyond limit
 	TEST_ASSERT(cdada_bbitmap_is_set(b, 12888) == false);
