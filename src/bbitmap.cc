@@ -133,6 +133,7 @@ int cdada_bbitmap_dump(cdada_bbitmap_t* b, uint32_t size, char* buffer,
 
 int cdada_bbitmap_print(cdada_bbitmap_t* b, FILE *stream){
 	uint32_t i;
+
 	CDADA_CHECK_MAGIC(b);
 
 	try{

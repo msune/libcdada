@@ -43,6 +43,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 #include "cdada/utils.h"
 #include <map>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 
 /**
 * @file cdada/common_int.h
@@ -144,6 +147,72 @@ inline bool operator==(const cdada_u2048_t& a1, const cdada_u2048_t& a2){
 						sizeof(cdada_u2048_t)) == 0;
 }
 
+//For dumpers
+
+//Generic (hexdump)
+template <typename T>
+inline void __cdada_str_obj(std::stringstream& ss, const T& o,
+							const uint32_t len){
+
+	uint8_t* __attribute__((__may_alias__)) p = (uint8_t*)&o;
+	for(uint32_t i=0;i<len;++i, ++p){
+		ss << std::hex << std::setfill('0') << std::setw(2)
+							<< (uint16_t)*p;
+	}
+	ss << std::dec;
+}
+
+template <>
+inline void __cdada_str_obj<uint8_t>(std::stringstream& ss, const uint8_t& o,
+							const uint32_t len){
+	ss << (uint16_t)o;
+}
+template <>
+inline void __cdada_str_obj<int8_t>(std::stringstream& ss, const int8_t& o,
+							const uint32_t len){
+	ss << (int16_t)o;
+}
+template <>
+inline void __cdada_str_obj<uint16_t>(std::stringstream& ss, const uint16_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<int16_t>(std::stringstream& ss, const int16_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<uint32_t>(std::stringstream& ss, const uint32_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<int32_t>(std::stringstream& ss, const int32_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<uint64_t>(std::stringstream& ss, const uint64_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<int64_t>(std::stringstream& ss, const int64_t& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<float>(std::stringstream& ss, const float& o,
+							const uint32_t len){
+	ss << o;
+}
+template <>
+inline void __cdada_str_obj<double>(std::stringstream& ss, const double& o,
+							const uint32_t len){
+	ss << o;
+}
+
 //Generators for custom types
 /**
 * @internal Default memcp comparison operator
@@ -163,10 +232,25 @@ inline bool operator==(const cdada_u2048_t& a1, const cdada_u2048_t& a2){
 	}
 
 /**
+* @internal Default dumper operator
+*/
+#define __CDADA_CUSTOM_GEN_DUMP_OP(TYPE) \
+	inline std::ostream& operator<<(std::ostream& os, const TYPE & a){ \
+		uint8_t* __attribute__((__may_alias__)) p = (uint8_t*)&a; \
+		os << std::hex << std::setfill('0') << std::setw(2); \
+		for(uint32_t i=0;i<sizeof( TYPE );++i, ++p) \
+			os << std::hex << std::setfill('0') << std::setw(2) \
+							<< (uint16_t)*p; \
+		os << std::dec; \
+		return os; \
+	}
+
+/**
 * Define C++ necessary operators for the type
 */
 #define CDADA_CUSTOM_GEN_MEMCP_OPERATORS(TYPE) \
 	__CDADA_CUSTOM_GEN_MEMCP_EQ_OP(TYPE); \
-	__CDADA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE)
+	__CDADA_CUSTOM_GEN_MEMCP_LESS_OP(TYPE); \
+	__CDADA_CUSTOM_GEN_DUMP_OP(TYPE)
 
 #endif //__CDADA_COMMON_INT__

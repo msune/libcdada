@@ -85,6 +85,8 @@ int cdada_bbitmap_clear(cdada_bbitmap_t* bitmap, const uint32_t bit);
 */
 int cdada_bbitmap_clear_all(cdada_bbitmap_t* bitmap);
 
+//Dumpers
+
 /**
 * Dump to a string the contents of the bbitmap
 *
