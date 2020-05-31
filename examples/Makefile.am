@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-noinst_PROGRAMS = list_u32 map_struct custom_gen custom_macro
+noinst_PROGRAMS = bbitmap list_u32 map_struct custom_gen custom_macro str
 
 list_u32_SOURCES = list_u32.c
 list_u32_CPPFLAGS = -I$(top_srcdir)/include/ -D__CDADA_INTERNAL_INCLUDE
@@ -17,3 +17,11 @@ custom_gen_LDADD = ../src/.libs/libcdada.a -lstdc++
 custom_macro_SOURCES = custom-macro/my_program.c custom-macro/cdada.cc
 custom_macro_CPPFLAGS = -I$(top_srcdir)/include/
 custom_macro_LDADD = ../src/.libs/libcdada.a -lstdc++
+
+str_SOURCES = str.c
+str_CPPFLAGS = -I$(top_srcdir)/include/
+str_LDADD = ../src/.libs/libcdada.a -lstdc++
+
+bbitmap_SOURCES = bbitmap.c
+bbitmap_CPPFLAGS = -I$(top_srcdir)/include/
+bbitmap_LDADD = ../src/.libs/libcdada.a -lstdc++

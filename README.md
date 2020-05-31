@@ -31,10 +31,6 @@ cdada_list_push_back(my_list, &x);
 cdada_list_get(my_list, 1, &val);
 assert(val == 11);
 
-//Remove duplicates {10,11,5}
-cdada_list_unique(my_list);
-assert(cdada_list_size(my_list) == 3);
-
 //First/last
 cdada_list_first(my_list, &val);
 assert(val == 10);
@@ -43,27 +39,44 @@ assert(val == 10);
 x=11;
 cdada_list_push_back(my_list, &val);
 
-//Remove all 11s
-cdada_list_remove(my_list, &val);
-assert(cdada_list_size(my_list) == 2);
-
 //Traverse list
 cdada_list_traverse(my_list, my_iterator_func, opaque);
 ```
 
-More examples `map` and `set` and custom containers in the [examples](examples/) folder.
+```c
+#include <cdada/str.h>
+
+cdada_str_t* s = cdada_str_create("One string");
+fprintf(stdout, "%s\n", cdada_str(s));
+
+//Reset
+cdada_str_set(s, "This is a test");
+fprintf(stdout, "%s\n", cdada_str(s));
+
+cdada_str_append(s, " simple string");
+
+cdada_str_lower(s);
+cdada_str_replace_all(s, "test ", "");
+
+//Will print: "this is a simple string"
+fprintf(stdout, "%s\n", cdada_str(s));
+```
+
+More examples for `map` and `set` and custom containers in the [examples](examples/) folder.
 
 Documentation
 -------------
 
 Public API:
 
+* [bbitmap.h](include/cdada/bbitmap.h): big bitmap, for bitmaps > 64bit
 * [list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
 * [map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
 * [set.h](include/cdada/set.h): a set of objects, with unique values hashmap (equivalent to `std::set`)
+* [str.h](include/cdada/str.h): string manipulation (equivalent to `std::string`)
 * [util.h](include/cdada/util.h): error codes and utility functions
 
-`libcdada` (as `libstdc++`) is not thread-safe.
+`libcdada` is not thread-safe.
 
 Default containers support 1-256 bytes keys (values for lists), but they will
 perform better when aligned to {1,2,4,8,32,64,128,256} bytes - keys are padded to
