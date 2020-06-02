@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2020, Marc Sune Clos
+Copyright (c) 2020, Peter Dobransky
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
 * @file cdada/stack_custom_cc.h
-* @author Marc Sune<marcdevel (at) gmail.com>
+* @author Peter Dobransky<pdobransky101 (at) gmail.com>
 *
 * @brief This file needs to be included in a C++ file to autogenerate the
 *        code necessary to use a custom type as a val/value for cdada structs.
