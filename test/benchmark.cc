@@ -1084,7 +1084,6 @@ int main(int args, char** argv){
 	fprintf(stdout, "Type: uint32_t\n");
 	fprintf(stdout, "============================================================\n\n");
 
-#if 0
 	//
 	//SET insert/remove
 	//
@@ -1155,7 +1154,6 @@ int main(int args, char** argv){
 		cdada_list_push_pop_u32(ticks_insert, ticks_erase, true);
 	print_summary("C cdada_list_custom(uint32_t)\t", ticks_insert, ticks_erase);
 	fprintf(stdout, "\n\n");
-#endif
 
 	//
 	//STACK push/pop
@@ -1188,7 +1186,6 @@ int main(int args, char** argv){
 	fprintf(stdout, "(Note: cdada non-custom containers will pad to 128bytes)\n");
 	fprintf(stdout, "============================================================\n\n");
 
-#if 0
 	//
 	//SET insert/remove
 	//
@@ -1263,7 +1260,6 @@ int main(int args, char** argv){
 	print_summary("C cdada_list_custom(test_u552_t)", ticks_insert, ticks_erase);
 
 	fprintf(stdout, "\n\n");
-#endif
 
 	//
 	//STACK push_back/pop_back
@@ -1299,7 +1295,6 @@ int main(int args, char** argv){
 	fprintf(stdout, "(Note: cdada non-custom containers don't support >256 bytes)\n");
 	fprintf(stdout, "============================================================\n\n");
 
-#if 0
 	//
 	//SET insert/remove
 	//
@@ -1353,7 +1348,6 @@ int main(int args, char** argv){
 	for(int i =0; i<10; ++i)
 		cdada_list_push_pop_u3552(ticks_insert, ticks_erase, true);
 	print_summary("C cdada_list_custom(test_u3552_t)", ticks_insert, ticks_erase);
-#endif
 
 	//
 	//STACK push_back/pop_back

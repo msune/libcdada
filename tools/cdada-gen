@@ -317,9 +317,63 @@ __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
 };
 """
 
+STACK="""
+
+//Operator
+void __cdada_stack_autogen_create_TT_TYPE_TT (void* m){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	s->stack.custom = (void*)new std::stack<TT_TYPE_TT>();
+}
+void __cdada_stack_autogen_destroy_TT_TYPE_TT (void* m){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	delete p;
+}
+bool __cdada_stack_autogen_empty_TT_TYPE_TT (const void* m){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	return p->empty();
+}
+uint32_t __cdada_stack_autogen_size_TT_TYPE_TT (const void* m){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	return p->size();
+}
+int __cdada_stack_autogen_push_TT_TYPE_TT (void* m, const void* val){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	return cdada_stack_push_u<TT_TYPE_TT> (s, p, val);
+}
+int __cdada_stack_autogen_pop_TT_TYPE_TT (void* m){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	return cdada_stack_pop_u<TT_TYPE_TT> (s, p);
+}
+int __cdada_stack_autogen_top_TT_TYPE_TT (const void* m, void* val){
+	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+	std::stack<TT_TYPE_TT>* p =
+			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+	return cdada_stack_top_u<TT_TYPE_TT> (s, p, val);
+}
+__cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
+	.create  = __cdada_stack_autogen_create_TT_TYPE_TT,
+	.destroy = __cdada_stack_autogen_destroy_TT_TYPE_TT,
+	.empty = __cdada_stack_autogen_empty_TT_TYPE_TT,
+	.size = __cdada_stack_autogen_size_TT_TYPE_TT,
+	.push = __cdada_stack_autogen_push_TT_TYPE_TT,
+	.pop = __cdada_stack_autogen_pop_TT_TYPE_TT,
+	.top = __cdada_stack_autogen_top_TT_TYPE_TT,
+};
+"""
+
 def parse_input(types):
     t = {}
-    valid_types = ["list", "map", "set"]
+    valid_types = ["list", "map", "set", "stack"]
     for s in types:
         if ":" not in s:
             print("ERROR: invalid format. Types should be CONTAINER:USER_TYPE. E.g. set::my_struct_t")
@@ -339,6 +393,8 @@ def generate(container, user_type):
         s_u = MAP
     elif container == "list":
         s_u = LIST
+    elif container == "stack":
+        s_u = STACK
     s_u = "//BEGIN {} for {} (std::{}<{}>)\n".format(container, user_type, container, user_type) + s_u
     s_u = s_u.replace("TT_TYPE_TT", user_type)
     s_u = s_u+"\n//END {} for {} (std::{}<{}>)\n\n".format(container, user_type, container, user_type)
@@ -404,6 +460,7 @@ if __name__ == "__main__":
     f.write("#include <cdada/list_custom_cc.h>\n")
     f.write("#include <cdada/map_custom_cc.h>\n")
     f.write("#include <cdada/set_custom_cc.h>\n\n")
+    f.write("#include <cdada/stack_custom_cc.h>\n\n")
     f.write("//C++ comparison operators for user stypes (memcmp)\n")
 
     for user_type in unique_user_types:
