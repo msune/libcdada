@@ -289,8 +289,6 @@ int cdada_stack_top(const cdada_stack_t* stack, void* val){
 	if(unlikely(!val))
 		return CDADA_E_INVALID;
 
-	//NOTE: we don't want std::stack insert "replace semantics", so we return
-	//E_EXISTS if val is present in the stack
 	try{
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
@@ -350,8 +348,6 @@ bool cdada_stack_empty(const cdada_stack_t* stack){
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC))
 		return false;
 
-	//NOTE: we don't want std::stack insert "replace semantics", so we return
-	//E_EXISTS if val is present in the stack
 	try{
 		int c = m->ops? 0 : m->val_len;
 		switch(c){

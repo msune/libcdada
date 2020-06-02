@@ -69,13 +69,6 @@ cdada_stack_t* __cdada_stack_create(const uint16_t val_size,
 */
 int cdada_stack_destroy(cdada_stack_t* stack);
 
-/**
-* Clears the contents of the stack
-*
-* @param stack Stack pointer
-*/
-int cdada_stack_clear(cdada_stack_t* stack);
-
 //Stack properties
 
 /**
