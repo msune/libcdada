@@ -81,7 +81,7 @@ script:
   - valgrind --leak-check=full ./custom_gen_sys
   - valgrind --leak-check=full ./custom_macro_sys
   - echo "Test cdada-gen code generator (sys)..."
-  - cdada-gen -o a.cc set:test_u552_t map:test_u552_t list:test_u552_t stack::test_u552_t
+  - cdada-gen -o a.cc set:test_u552_t map:test_u552_t list:test_u552_t stack:test_u552_t
   - echo "#include \"../../test/u552.h\"" >> b.cc
   - cat a.cc >> b.cc
   - $CXX -c b.cc -o b.o
