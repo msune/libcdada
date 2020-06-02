@@ -43,13 +43,6 @@ int main(int args, char** argv){
 	cdada_list_push_back(list, &foo_key);
 	fprintf(stdout, "The list has a size of %u, contents:\n", cdada_list_size(list));
 
-	cdada_list_pop_front(list);
-
-	memset(&foo_key, 0, sizeof(foo_key));
-	foo_key.aa = 64ULL;
-	foo_key.bb = 32ULL;
-	cdada_list_push_back(list, &foo_key);
-
 	foo_key.aa = 64ULL;
 	foo_key.bb = 32ULL;
 

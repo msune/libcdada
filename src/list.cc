@@ -649,8 +649,7 @@ int cdada_list_push_back(cdada_list_t* list, const void* val){
 	return cdada_list_push_(list, val, false);
 }
 
-int cdada_list_pop_(cdada_list_t* list, bool front);
-int cdada_list_pop_(cdada_list_t* list, bool front){
+static int cdada_list_pop_(cdada_list_t* list, bool front){
 
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 

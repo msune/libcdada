@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2020, Marc Sune Clos
+Copyright (c) 2020, Peter Dobransky
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
 * @file cdada/__stack_internal.h
-* @author Marc Sune<marcdevel (at) gmail.com>
+* @author Peter Dobransky<pdobransky101 (at) gmail.com>
 *
 * @brief Internals of the stack wrapper
 */
