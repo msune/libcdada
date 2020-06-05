@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <cdada/utils.h>
 
 /**
@@ -111,6 +112,29 @@ int cdada_stack_pop(cdada_stack_t* stack);
 * @param val Value pointer
 */
 int cdada_stack_top(const cdada_stack_t* stack, void *val);
+
+//Dumpers
+
+/**
+* Dump to a string the contents of the stack
+*
+* @param stack Stack object
+* @param size Size of the buffer
+* @param buffer Buffer. If NULL, necessary bytes, including '\0' will be stack
+*               in 'size_used'
+* @param size_used If buffer != NULL, the number of bytes written else number of
+*                  bytes necessary to write, including '\0'
+*/
+int cdada_stack_dump(cdada_stack_t* stack, uint32_t size, char* buffer,
+							uint32_t* bytes_used);
+
+/**
+* @brief Print the contents of the stack
+*
+* @param stack Stack object
+* @param stream stdout or stderr
+*/
+int cdada_stack_print(cdada_stack_t* stack, FILE *stream);
 
 //Custom types
 

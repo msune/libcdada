@@ -61,6 +61,7 @@ typedef struct __cdada_stack_ops{
 	int (*push)(cdada_stack_t* s, const void* val);
 	int (*pop)(cdada_stack_t* s);
 	int (*top)(const cdada_stack_t* s, void *val);
+	void (*dump)(const cdada_stack_t* m, std::stringstream& ss);
 }__cdada_stack_ops_t;
 
 /**
@@ -150,6 +151,26 @@ template<typename T>
 bool cdada_stack_empty_u(__cdada_stack_int_t* m, std::stack<T>* m_u){
 
 	return m_u->empty();
+}
+
+template<typename T>
+void cdada_stack_dump_u(const __cdada_stack_int_t* stack, std::stack<T>* m_u,
+							std::stringstream& ss){
+
+	typename std::stack<T> aux;
+
+	//No iterators in stack, ephemeral copy
+	//TODO use extended stack class to avoid extra copy instead
+	aux = *m_u;
+
+	while(!aux.empty()){
+		T& t = aux.top();
+		__cdada_str_obj(ss, t, stack->user_val_len);
+		aux.pop();
+
+		if(!aux.empty())
+			ss << ", ";
+	}
 }
 
 #endif //__CDADA_STACK_INT__

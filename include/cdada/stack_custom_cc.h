@@ -126,6 +126,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 
 /**
+* @internal Custom type dump f
+*/
+#define __CDADA_STACK_CUSTOM_DUMP_F(TYPE) \
+	void __cdada_stack_autogen_dump_##TYPE (const void* m, \
+							std::stringstream& ss){\
+		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
+		__CDADA_STD_STACK_TYPE(TYPE)* p = \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom;\
+		return cdada_stack_dump_u< TYPE > (s, p, ss);\
+	}
+
+/**
 * @internal Create ops func ptrs struct
 */
 #define __CDADA_STACK_CUSTOM_OPS(TYPE) \
@@ -137,6 +149,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		.push = __cdada_stack_autogen_push_##TYPE, \
 		.pop = __cdada_stack_autogen_pop_##TYPE, \
 		.top = __cdada_stack_autogen_top_##TYPE, \
+		.dump = __cdada_stack_autogen_dump_##TYPE, \
 		}
 
 /**
@@ -150,6 +163,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_STACK_CUSTOM_PUSH_F(TYPE); \
 	__CDADA_STACK_CUSTOM_POP_F(TYPE); \
 	__CDADA_STACK_CUSTOM_TOP_F(TYPE); \
+	__CDADA_STACK_CUSTOM_DUMP_F(TYPE); \
 	__CDADA_STACK_CUSTOM_OPS(TYPE)
 
 #undef __CDADA_INTERNAL_INCLUDE

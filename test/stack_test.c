@@ -132,6 +132,21 @@ int test_u8_push_pop(){
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
 
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
@@ -255,6 +270,21 @@ int test_u16_push_pop(){
 		TEST_ASSERT(cdada_stack_size(stack) == (i + 2));
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
+
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
 
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
@@ -380,6 +410,21 @@ int test_u32_push_pop(){
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
 
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
@@ -503,6 +548,21 @@ int test_u64_push_pop(){
 		TEST_ASSERT(cdada_stack_size(stack) == (i + 2));
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
+
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
 
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
@@ -680,6 +740,21 @@ int _test_u552_push_pop(){
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
 
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128*8];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128*8, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
@@ -821,6 +896,21 @@ int test_u3552_push_pop_custom(){
 		TEST_ASSERT(cdada_stack_size(stack) == (i + 2));
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
+
+	//Dumpers
+	rv = cdada_stack_print(stack, stdout);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	char buffer[128*64];
+	uint32_t used;
+	rv = cdada_stack_dump(stack, 128*64, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_stack_dump(stack, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
 
 	TEST_ASSERT(cdada_stack_size(stack) == 6);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
