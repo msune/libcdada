@@ -1013,3 +1013,158 @@ int cdada_list_rtraverse(const cdada_list_t* list, cdada_list_it f,
 
 	return CDADA_SUCCESS;
 }
+
+int cdada_list_dump(cdada_list_t* list, uint32_t size, char* buffer,
+							uint32_t* size_used){
+
+	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
+	CDADA_CHECK_MAGIC(m);
+
+	if(!size_used || (buffer&&size ==0))
+		return CDADA_E_INVALID;
+
+	try{
+		std::stringstream ss;
+		ss << "{";
+
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
+			case 1:
+				cdada_list_dump_u<uint8_t>(m, m->list.u8, ss);
+				break;
+			case 2:
+				cdada_list_dump_u<uint16_t>(m, m->list.u16,
+									ss);
+				break;
+			case 4:
+				cdada_list_dump_u<uint32_t>(m, m->list.u32,
+									ss);
+				break;
+			case 8:
+				cdada_list_dump_u<uint64_t>(m, m->list.u64,
+									ss);
+				break;
+			case 16:
+				cdada_list_dump_u<cdada_u128_t>(m,
+								m->list.u128,
+								ss);
+				break;
+			case 32:
+				cdada_list_dump_u<cdada_u256_t>(m,
+								m->list.u256,
+								ss);
+				break;
+			case 64:
+				cdada_list_dump_u<cdada_u512_t>(m,
+								m->list.u512,
+								ss);
+				break;
+			case 128:
+				cdada_list_dump_u<cdada_u1024_t>(m,
+								m->list.u1024,
+								ss);
+				break;
+			case 256:
+				cdada_list_dump_u<cdada_u2048_t>(m,
+								m->list.u2048,
+								ss);
+				break;
+			case 0:
+				CDADA_ASSERT(m->ops);
+				(*m->ops->dump)(m, ss);
+				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
+		}
+
+		ss << "}";
+
+		*size_used = ss.str().length()+1;
+		if(!buffer)
+			return CDADA_SUCCESS;
+
+		snprintf(buffer, size, "%s", ss.str().c_str());
+		if(ss.str().length()+1 > size)
+			return CDADA_E_INCOMPLETE;
+	}catch(bad_alloc& e){
+		return CDADA_E_MEM;
+	}catch(...){
+		CDADA_ASSERT(0);
+		return CDADA_E_UNKNOWN;
+	}
+
+	return CDADA_SUCCESS;
+}
+
+int cdada_list_print(cdada_list_t* list, FILE *stream){
+
+	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
+	CDADA_CHECK_MAGIC(m);
+
+	try{
+		std::stringstream ss;
+		ss << "{";
+
+		int c = m->ops? 0 : m->val_len;
+		switch(c){
+			case 1:
+				cdada_list_dump_u<uint8_t>(m, m->list.u8, ss);
+				break;
+			case 2:
+				cdada_list_dump_u<uint16_t>(m, m->list.u16,
+									ss);
+				break;
+			case 4:
+				cdada_list_dump_u<uint32_t>(m, m->list.u32,
+									ss);
+				break;
+			case 8:
+				cdada_list_dump_u<uint64_t>(m, m->list.u64,
+									ss);
+				break;
+			case 16:
+				cdada_list_dump_u<cdada_u128_t>(m,
+								m->list.u128,
+								ss);
+				break;
+			case 32:
+				cdada_list_dump_u<cdada_u256_t>(m,
+								m->list.u256,
+								ss);
+				break;
+			case 64:
+				cdada_list_dump_u<cdada_u512_t>(m,
+								m->list.u512,
+								ss);
+				break;
+			case 128:
+				cdada_list_dump_u<cdada_u1024_t>(m,
+								m->list.u1024,
+								ss);
+				break;
+			case 256:
+				cdada_list_dump_u<cdada_u2048_t>(m,
+								m->list.u2048,
+								ss);
+				break;
+			case 0:
+				CDADA_ASSERT(m->ops);
+				(*m->ops->dump)(m, ss);
+				break;
+			default:
+				CDADA_ASSERT(0);
+				return CDADA_E_UNKNOWN;
+		}
+		ss << "}\n";
+
+		fprintf(stream, "%s", ss.str().c_str());
+	}catch(bad_alloc& e){
+		return CDADA_E_MEM;
+	}catch(...){
+		CDADA_ASSERT(0);
+		return CDADA_E_UNKNOWN;
+	}
+
+	return CDADA_SUCCESS;
+}
