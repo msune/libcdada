@@ -175,6 +175,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		return cdada_map_rtraverse_u< TYPE > (s, p, f, opaque);\
 	}
 
+/**
+* @internal Custom type dump f
+*/
+#define __CDADA_MAP_CUSTOM_DUMP_F(TYPE) \
+	void __cdada_map_autogen_dump_##TYPE (const void* m, \
+							std::stringstream& ss){\
+		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
+		__CDADA_STD_MAP_TYPE(TYPE)* p = \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+		return cdada_map_dump_u< TYPE > (s, p, ss);\
+	}
 
 /**
 * @internal Create ops func ptrs struct
@@ -192,6 +203,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		.first_last = __cdada_map_autogen_first_last_##TYPE, \
 		.traverse = __cdada_map_autogen_traverse_##TYPE, \
 		.rtraverse = __cdada_map_autogen_rtraverse_##TYPE, \
+		.dump = __cdada_map_autogen_dump_##TYPE, \
 		}
 
 /**
@@ -209,6 +221,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_MAP_CUSTOM_FIRST_LAST_F(TYPE); \
 	__CDADA_MAP_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDADA_MAP_CUSTOM_RTRAVERSE_F(TYPE); \
+	__CDADA_MAP_CUSTOM_DUMP_F(TYPE); \
 	__CDADA_MAP_CUSTOM_OPS(TYPE)
 
 #undef __CDADA_INTERNAL_INCLUDE

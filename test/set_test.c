@@ -726,7 +726,6 @@ int test_u3552_insert_removal_traverse_custom(){
 	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
 	fprintf(stdout, "%s\n", buffer2);
 
-
 	rv = cdada_set_first(set, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 0);

@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <cdada/utils.h>
 
 /**
@@ -159,6 +160,27 @@ int cdada_map_first(const cdada_map_t* map, void* key, void** val);
 * @param val Pointer to the value
 */
 int cdada_map_last(const cdada_map_t* map, void* key, void** val);
+
+/**
+* Dump to a string the contents of the map
+*
+* @param map Map object
+* @param size Size of the buffer
+* @param buffer Buffer. If NULL, necessary bytes, including '\0' will be map in
+*               'size_used'
+* @param size_used If buffer != NULL, the number of bytes written else number of
+*                  bytes necessary to write, including '\0'
+*/
+int cdada_map_dump(cdada_map_t* map, uint32_t size, char* buffer,
+							uint32_t* bytes_used);
+
+/**
+* @brief Print the contents of the map
+*
+* @param map Map object
+* @param stream stdout or stderr
+*/
+int cdada_map_print(cdada_map_t* map, FILE *stream);
 
 //Custom types
 
