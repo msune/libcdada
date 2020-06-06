@@ -44,7 +44,7 @@ script:
   - echo "Building in-tree"
   - ./autogen.sh
   - ./configure $CONFIG_FLAGS || (cat config.log && /bin/false)
-  - make -j 2
+  - make
   - make maintainer-clean
   - echo "Building out-tree"
   - ./autogen.sh
