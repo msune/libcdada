@@ -151,6 +151,7 @@ __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
 	.unique = __cdada_list_autogen_unique_TT_TYPE_TT,
 	.traverse = __cdada_list_autogen_traverse_TT_TYPE_TT,
 	.rtraverse = __cdada_list_autogen_rtraverse_TT_TYPE_TT,
+
 };
 """
 
@@ -372,7 +373,7 @@ __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
 """
 
 def parse_input(types):
-    t = {}
+    t = []
     valid_types = ["list", "map", "set", "stack"]
     for s in types:
         if ":" not in s:
@@ -383,7 +384,7 @@ def parse_input(types):
         if a not in valid_types:
             print("ERROR: invalid container type. Types should be {}".format(valid_types))
             sys.exit(1)
-        t[a] = b
+        t.append(dict({a: b}))
     return t
 
 def generate(container, user_type):
@@ -446,9 +447,10 @@ if __name__ == "__main__":
 
     print("Generating...")
     user_types = []
-    for t in types:
-        s = s+generate(t, types[t])
-        user_types.append(types[t])
+    for t_ in types:
+        u, t = next(iter(t_.items()))
+        s = s+generate(u, t)
+        user_types.append(t)
 
     unique_user_types = set(user_types)
 
