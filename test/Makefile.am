@@ -1,22 +1,38 @@
-MAINTAINERCLEANFILES = Makefile.in
-AUTOMAKE_OPTIONS = no-dependencies
-
-#Code generation for cdada-gen
-
-all: list_custom_gen map_custom_gen set_custom_gen stack_custom_gen
-.PHONY : all
-
+#Code generation for cdada-gen tests
 list_custom_gen:
 	$(top_srcdir)/tools/cdada-gen list:test_u552_t list:test_u3552_t -o $(top_builddir)/test/list_custom_gen.cc_
 	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/list_custom_gen.cc
 	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/list_custom_gen.cc
 	cat $(top_builddir)/test/list_custom_gen.cc_ >> $(top_builddir)/test/list_custom_gen.cc
 map_custom_gen:
-	$(top_srcdir)/tools/cdada-gen map:test_u552_t map:test_u3552_t -o $(top_builddir)/test/map_custom_gen.cc
+	$(top_srcdir)/tools/cdada-gen map:test_u552_t map:test_u3552_t -o $(top_builddir)/test/map_custom_gen.cc_
+	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/map_custom_gen.cc
+	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/map_custom_gen.cc
+	cat $(top_builddir)/test/map_custom_gen.cc_ >> $(top_builddir)/test/map_custom_gen.cc
 set_custom_gen:
-	$(top_srcdir)/tools/cdada-gen set:test_u552_t set:test_u3552_t -o $(top_builddir)/test/set_custom_gen.cc
+	$(top_srcdir)/tools/cdada-gen set:test_u552_t set:test_u3552_t -o $(top_builddir)/test/set_custom_gen.cc_
+	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/set_custom_gen.cc
+	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/set_custom_gen.cc
+	cat $(top_builddir)/test/set_custom_gen.cc_ >> $(top_builddir)/test/set_custom_gen.cc
 stack_custom_gen:
-	$(top_srcdir)/tools/cdada-gen stack:test_u552_t stack:test_u3552_t -o $(top_builddir)/test/stack_custom_gen.cc
+	$(top_srcdir)/tools/cdada-gen stack:test_u552_t stack:test_u3552_t -o $(top_builddir)/test/stack_custom_gen.cc_
+	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/stack_custom_gen.cc
+	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/stack_custom_gen.cc
+	cat $(top_builddir)/test/stack_custom_gen.cc_ >> $(top_builddir)/test/stack_custom_gen.cc
+
+CDADA_GEN_FILES= list_custom_gen.cc_ \
+			list_custom_gen.cc  \
+			map_custom_gen.cc_  \
+			map_custom_gen.cc   \
+			set_custom_gen.cc_  \
+			set_custom_gen.cc   \
+			stack_custom_gen.cc_\
+			stack_custom_gen.cc
+
+MAINTAINERCLEANFILES = Makefile.in $(CDADA_GEN_FILES)
+CLEANFILES = $(CDADA_GEN_FILES)
+
+BUILT_SOURCES=list_custom_gen map_custom_gen set_custom_gen stack_custom_gen
 
 #Benchmark is not installable
 noinst_PROGRAMS= benchmark
@@ -53,7 +69,7 @@ list_test_SOURCES= list_test.c list_custom.cc
 list_test_CPPFLAGS= -I$(top_srcdir)/include/
 list_test_LDADD= -lpthread ../src/libcdada.la
 
-list_gen_test_SOURCES= list_test.c $(top_builddir)/test/list_custom_gen.cc
+list_gen_test_SOURCES= list_test.c list_custom_gen.cc
 list_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
 list_gen_test_LDADD= -lpthread ../src/libcdada.la
 
