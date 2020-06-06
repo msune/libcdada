@@ -8,6 +8,8 @@
 #include <cdada/map_custom_cc.h>
 #include <cdada/list.h>
 #include <cdada/list_custom_cc.h>
+#include <cdada/stack.h>
+#include <cdada/stack_custom_cc.h>
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,10 +20,12 @@
 CDADA_LIST_CUSTOM_GEN(uint32_t);
 CDADA_MAP_CUSTOM_GEN(uint32_t);
 CDADA_SET_CUSTOM_GEN(uint32_t);
+CDADA_STACK_CUSTOM_GEN(uint32_t);
 
 CDADA_LIST_CUSTOM_TYPE_DECL(uint32_t);
 CDADA_MAP_CUSTOM_TYPE_DECL(uint32_t);
 CDADA_SET_CUSTOM_TYPE_DECL(uint32_t);
+CDADA_STACK_CUSTOM_TYPE_DECL(uint32_t);
 
 //u552
 CDADA_CUSTOM_GEN_MEMCP_OPERATORS(test_u552_t);
@@ -29,10 +33,12 @@ CDADA_CUSTOM_GEN_MEMCP_OPERATORS(test_u552_t);
 CDADA_LIST_CUSTOM_GEN(test_u552_t);
 CDADA_MAP_CUSTOM_GEN(test_u552_t);
 CDADA_SET_CUSTOM_GEN(test_u552_t);
+CDADA_STACK_CUSTOM_GEN(test_u552_t);
 
 CDADA_LIST_CUSTOM_TYPE_DECL(test_u552_t);
 CDADA_MAP_CUSTOM_TYPE_DECL(test_u552_t);
 CDADA_SET_CUSTOM_TYPE_DECL(test_u552_t);
+CDADA_STACK_CUSTOM_TYPE_DECL(test_u552_t);
 
 //u3552
 CDADA_CUSTOM_GEN_MEMCP_OPERATORS(test_u3552_t);
@@ -40,10 +46,12 @@ CDADA_CUSTOM_GEN_MEMCP_OPERATORS(test_u3552_t);
 CDADA_LIST_CUSTOM_GEN(test_u3552_t);
 CDADA_MAP_CUSTOM_GEN(test_u3552_t);
 CDADA_SET_CUSTOM_GEN(test_u3552_t);
+CDADA_STACK_CUSTOM_GEN(test_u3552_t);
 
 CDADA_LIST_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_MAP_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_SET_CUSTOM_TYPE_DECL(test_u3552_t);
+CDADA_STACK_CUSTOM_TYPE_DECL(test_u3552_t);
 
 #if 10
 
@@ -281,6 +289,69 @@ void cdada_list_push_pop_u32(uint64_t& ticks_push_back, uint64_t& ticks_pop_back
 	ticks_pop_back += end-begin;
 
 	cdada_list_destroy(list);
+}
+
+//STACK
+void cpp_stack_push_pop_u32(uint64_t& ticks_push, uint64_t& ticks_pop){
+
+	uint32_t i;
+	std::stack<uint32_t> stack;
+	uint64_t begin, end;
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.push(big_array[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.pop();
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+}
+
+void cdada_stack_push_pop_u32(uint64_t& ticks_push, uint64_t& ticks_pop,
+							bool custom){
+
+	uint32_t i;
+	cdada_stack_t* stack = custom? cdada_stack_create_custom(uint32_t) :
+				cdada_stack_create(uint32_t);
+	uint64_t begin, end;
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_push(stack, &big_array[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_pop(stack);
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+	cdada_stack_destroy(stack);
 }
 
 //
@@ -549,6 +620,90 @@ void cdada_list_push_pop_u552(uint64_t& ticks_push_back,
 	ticks_pop_back += end-begin;
 
 	cdada_list_destroy(list);
+
+	free(aux);
+}
+
+//STACK
+void cpp_stack_push_pop_u552(uint64_t& ticks_push, uint64_t& ticks_pop){
+
+	uint32_t i;
+	std::stack<test_u552_t> stack;
+	uint64_t begin, end;
+
+	test_u552_t* aux = (test_u552_t*)malloc(sizeof(test_u552_t)*
+							sizeof(big_array)/4);
+
+	for(i=0;i<sizeof(big_array)/4;++i){
+		memset(&aux[i], 0, sizeof(test_u552_t));
+		aux[i].mid = big_array[i];
+	}
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.push(aux[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.pop();
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+	free(aux);
+
+}
+
+void cdada_stack_push_pop_u552(uint64_t& ticks_push,
+						uint64_t& ticks_pop,
+						bool custom){
+
+	uint32_t i;
+	cdada_stack_t* stack = custom? cdada_stack_create_custom(test_u552_t) :
+				cdada_stack_create(test_u552_t);
+	uint64_t begin, end;
+
+	test_u552_t* aux = (test_u552_t*)malloc(sizeof(test_u552_t)*
+							sizeof(big_array)/4);
+
+	for(i=0;i<sizeof(big_array)/4;++i){
+		memset(&aux[i], 0, sizeof(test_u552_t));
+		aux[i].mid = big_array[i];
+	}
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_push(stack, &aux[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_pop(stack);
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+	cdada_stack_destroy(stack);
 
 	free(aux);
 }
@@ -822,6 +977,90 @@ void cdada_list_push_pop_u3552(uint64_t& ticks_push_back,
 	free(aux);
 }
 
+//STACK
+void cpp_stack_push_pop_u3552(uint64_t& ticks_push, uint64_t& ticks_pop){
+
+	uint32_t i;
+	std::stack<test_u3552_t> stack;
+	uint64_t begin, end;
+
+	test_u3552_t* aux = (test_u3552_t*)malloc(sizeof(test_u3552_t)*
+							sizeof(big_array)/4);
+
+	for(i=0;i<sizeof(big_array)/4;++i){
+		memset(&aux[i], 0, sizeof(test_u3552_t));
+		aux[i].mid = big_array[i];
+	}
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.push(aux[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		stack.pop();
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+	free(aux);
+
+}
+
+void cdada_stack_push_pop_u3552(uint64_t& ticks_push,
+						uint64_t& ticks_pop,
+						bool custom){
+
+	uint32_t i;
+	cdada_stack_t* stack = custom? cdada_stack_create_custom(test_u3552_t) :
+				cdada_stack_create(test_u3552_t);
+	uint64_t begin, end;
+
+	test_u3552_t* aux = (test_u3552_t*)malloc(sizeof(test_u3552_t)*
+							sizeof(big_array)/4);
+
+	for(i=0;i<sizeof(big_array)/4;++i){
+		memset(&aux[i], 0, sizeof(test_u3552_t));
+		aux[i].mid = big_array[i];
+	}
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_push(stack, &aux[i]);
+
+	//End
+	end = RDTSC();
+
+	ticks_push += end-begin;
+
+	//Start
+	begin = RDTSC();
+
+	for(i=0;i<sizeof(big_array)/4;++i)
+		cdada_stack_pop(stack);
+
+	//End
+	end = RDTSC();
+
+	ticks_pop += end-begin;
+
+	cdada_stack_destroy(stack);
+
+	free(aux);
+}
+
 void print_summary(const char* test, float ticks_insert, float ticks_removal){
 	uint64_t iterations = sizeof(big_array)*10/4;
 	float i_op = (float)(ticks_insert)/iterations;
@@ -916,6 +1155,29 @@ int main(int args, char** argv){
 	print_summary("C cdada_list_custom(uint32_t)\t", ticks_insert, ticks_erase);
 	fprintf(stdout, "\n\n");
 
+	//
+	//STACK push/pop
+	//
+
+	fprintf(stdout, "STACK\t\t\t\tinsert(ticks)\terase(ticks)\n");
+	fprintf(stdout, "------------------------------------------------------------\n");
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cpp_stack_push_pop_u32(ticks_insert, ticks_erase);
+	print_summary("C++ stack<uint32_t>\t\t", ticks_insert, ticks_erase);
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cdada_stack_push_pop_u32(ticks_insert, ticks_erase, false);
+	print_summary("C cdada_stack(uint32_t)\t\t", ticks_insert, ticks_erase);
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cdada_stack_push_pop_u32(ticks_insert, ticks_erase, true);
+	print_summary("C cdada_stack_custom(uint32_t)\t", ticks_insert, ticks_erase);
+	fprintf(stdout, "\n\n");
+
 	/**********************************************************************/
 	/* 69 byte type                                                       */
 	/**********************************************************************/
@@ -999,6 +1261,31 @@ int main(int args, char** argv){
 
 	fprintf(stdout, "\n\n");
 
+	//
+	//STACK push_back/pop_back
+	//
+
+	fprintf(stdout, "STACK\t\t\t\tinsert(ticks)\terase(ticks)\n");
+	fprintf(stdout, "------------------------------------------------------------\n");
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cpp_stack_push_pop_u552(ticks_insert, ticks_erase);
+	print_summary("C++ stack<test_u552_t>\t\t", ticks_insert, ticks_erase);
+
+	//Note: will be padded to 128byte
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cdada_stack_push_pop_u552(ticks_insert, ticks_erase, false);
+	print_summary("C cdada_stack(test_u552_t)\t", ticks_insert, ticks_erase);
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cdada_stack_push_pop_u552(ticks_insert, ticks_erase, true);
+	print_summary("C cdada_stack_custom(test_u552_t)", ticks_insert, ticks_erase);
+
+	fprintf(stdout, "\n\n");
+
 	/**********************************************************************/
 	/* 444 byte type                                                      */
 	/**********************************************************************/
@@ -1061,6 +1348,23 @@ int main(int args, char** argv){
 	for(int i =0; i<10; ++i)
 		cdada_list_push_pop_u3552(ticks_insert, ticks_erase, true);
 	print_summary("C cdada_list_custom(test_u3552_t)", ticks_insert, ticks_erase);
+
+	//
+	//STACK push_back/pop_back
+	//
+
+	fprintf(stdout, "STACK\t\t\t\tinsert(ticks)\terase(ticks)\n");
+	fprintf(stdout, "------------------------------------------------------------\n");
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cpp_stack_push_pop_u3552(ticks_insert, ticks_erase);
+	print_summary("C++ stack<test_u3552_t>\t\t ", ticks_insert, ticks_erase);
+
+	ticks_insert = ticks_erase = 0ULL;
+	for(int i =0; i<10; ++i)
+		cdada_stack_push_pop_u3552(ticks_insert, ticks_erase, true);
+	print_summary("C cdada_stack_custom(test_u3552_t)", ticks_insert, ticks_erase);
 
 
 	return EXIT_SUCCESS;

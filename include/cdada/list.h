@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_LIST_H__
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <cdada/utils.h>
 
@@ -217,6 +218,29 @@ int cdada_list_reverse(cdada_list_t* list);
 * @param list List pointer
 */
 int cdada_list_unique(cdada_list_t* list);
+
+//Dumpers
+
+/**
+* Dump to a string the contents of the list
+*
+* @param list List object
+* @param size Size of the buffer
+* @param buffer Buffer. If NULL, necessary bytes, including '\0' will be list in
+*               'size_used'
+* @param size_used If buffer != NULL, the number of bytes written else number of
+*                  bytes necessary to write, including '\0'
+*/
+int cdada_list_dump(cdada_list_t* list, uint32_t size, char* buffer,
+							uint32_t* bytes_used);
+
+/**
+* @brief Print the contents of the list
+*
+* @param list List object
+* @param stream stdout or stderr
+*/
+int cdada_list_print(cdada_list_t* list, FILE *stream);
 
 //Custom types
 

@@ -1,3 +1,12 @@
-(c) Marc Sune 2020
+libcdada - basic data structures in C (`libstdc++` wrapper)
+-----------------------------------------------------------
 
-Marc Sune<marcdevel (at) gmail.com>
+Author:
+
+    Marc Sune                   <marcdevel (at) gmail.com>
+
+
+Contributors, ordered by first contribution date:
+
+    Paolo Lucente               <paolo (at) pmacct.net>
+    Peter Dobransky             <peter (at) voltanet.io>

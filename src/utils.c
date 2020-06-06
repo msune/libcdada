@@ -7,7 +7,9 @@ static const char* cdada_err_str[CDADA_E_COUNT] = {
 	"Not found",
 	"Element exists",
 	"Out of memory",
-	"Feature unsupported"
+	"Feature unsupported",
+	"Empty",
+	"Incomplete"
 };
 
 const char* cdada_strerr(int err){

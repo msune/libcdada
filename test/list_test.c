@@ -207,6 +207,17 @@ int test_u8_insert_removal(){
 		TEST_ASSERT(key == 0);
 	}
 
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 1);
@@ -465,6 +476,18 @@ int test_u16_insert_removal(){
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 		TEST_ASSERT(key == 0);
 	}
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -725,6 +748,17 @@ int test_u32_insert_removal(){
 		TEST_ASSERT(key == 0);
 	}
 
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 1);
@@ -984,6 +1018,17 @@ int test_u64_insert_removal_traverse(){
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 		TEST_ASSERT(key == 0ULL);
 	}
+
+	char buffer[128];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
 
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -1384,6 +1429,17 @@ int _test_u552_insert_removal_traverse(){
 		TEST_ASSERT(key.mid == 0);
 	}
 
+	char buffer[128*8];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128*8, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
+
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 1);
@@ -1663,6 +1719,17 @@ int test_u3552_insert_removal_traverse_custom(){
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 		TEST_ASSERT(key.mid == 0);
 	}
+
+	char buffer[128*64];
+	uint32_t used;
+	rv = cdada_list_dump(list, 128*64, buffer, &used);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	fprintf(stdout, "%s\n", buffer);
+
+	char buffer2[8];
+	rv = cdada_list_dump(list, 8, buffer2, &used);
+	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	fprintf(stdout, "%s\n", buffer2);
 
 	rv = cdada_list_first(list, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);

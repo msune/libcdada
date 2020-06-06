@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdada/utils.h>
 #include <cdada/__common_internal.h>
 #include <set>
+#include <sstream>
 
 /**
 * @file cdada/set_internal.h
@@ -65,6 +66,7 @@ typedef struct __cdada_set_ops{
 	int (*first_last)(const cdada_set_t* map, bool first, void* key);
 	void (*traverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
 	void (*rtraverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
+	void (*dump)(const cdada_set_t* m, std::stringstream& ss);
 }__cdada_set_ops_t;
 
 /**
@@ -229,6 +231,21 @@ void cdada_set_rtraverse_u(const cdada_set_t* set, std::set<T>* m_u,
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
 		const T& t = *it;
 		(*f)(set, &t, opaque);
+	}
+}
+
+template<typename T>
+void cdada_set_dump_u(const __cdada_set_int_t* set, std::set<T>* m_u,
+							std::stringstream& ss){
+
+	typename std::set<T>::const_iterator it;
+
+	for(it = m_u->begin(); it != m_u->end();){
+		__cdada_str_obj(ss, *it, set->user_key_len);
+		++it;
+
+		if(it != m_u->end())
+			ss << ", ";
 	}
 }
 

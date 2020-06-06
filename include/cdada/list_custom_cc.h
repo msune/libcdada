@@ -242,6 +242,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		return cdada_list_rtraverse_u< TYPE > (s, p, f, opaque);\
 	}
 
+/**
+* @internal Custom type dump f
+*/
+#define __CDADA_LIST_CUSTOM_DUMP_F(TYPE) \
+	void __cdada_list_autogen_dump_##TYPE (const void* m, \
+							std::stringstream& ss){\
+		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
+		__CDADA_STD_LIST_TYPE(TYPE)* p = \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+		return cdada_list_dump_u< TYPE > (s, p, ss);\
+	}
 
 /**
 * @internal Create ops func ptrs struct
@@ -265,6 +276,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		.unique = __cdada_list_autogen_unique_##TYPE, \
 		.traverse = __cdada_list_autogen_traverse_##TYPE, \
 		.rtraverse = __cdada_list_autogen_rtraverse_##TYPE, \
+		.dump = __cdada_list_autogen_dump_##TYPE, \
 		}
 
 /**
@@ -288,6 +300,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_LIST_CUSTOM_UNIQUE_F(TYPE); \
 	__CDADA_LIST_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDADA_LIST_CUSTOM_RTRAVERSE_F(TYPE); \
+	__CDADA_LIST_CUSTOM_DUMP_F(TYPE); \
 	__CDADA_LIST_CUSTOM_OPS(TYPE)
 
 #undef __CDADA_INTERNAL_INCLUDE

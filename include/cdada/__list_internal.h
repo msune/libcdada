@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdada/utils.h>
 #include <cdada/__common_internal.h>
 #include <list>
+#include <sstream>
 
 /**
 * @file cdada/list_internal.h
@@ -71,6 +72,7 @@ typedef struct __cdada_list_ops{
 	void (*unique)(cdada_list_t* l);
 	void (*traverse)(const cdada_list_t* l, cdada_list_it f, void* opaque);
 	void (*rtraverse)(const cdada_list_t* l, cdada_list_it f, void* opaque);
+	void (*dump)(const cdada_list_t* m, std::stringstream& ss);
 }__cdada_list_ops_t;
 
 /**
@@ -297,6 +299,23 @@ void cdada_list_rtraverse_u(const cdada_list_t* list, std::list<T>* m_u,
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
 		const T& t = *it;
 		(*f)(list, &t, opaque);
+	}
+}
+
+template<typename T>
+void cdada_list_dump_u(const __cdada_list_int_t* list, std::list<T>* m_u,
+							std::stringstream& ss){
+
+	uint32_t i;
+	typename std::list<T>::const_iterator it;
+
+	for(it = m_u->begin(), i=0; it != m_u->end(); ++i){
+		ss << "[" << i <<"]:";
+		__cdada_str_obj(ss, *it, list->user_val_len);
+		++it;
+
+		if(it != m_u->end())
+			ss << ", ";
 	}
 }
 

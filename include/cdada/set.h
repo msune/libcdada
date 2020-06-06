@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_SET_H__
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <cdada/utils.h>
 
@@ -142,17 +143,40 @@ bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
 * Get the first element in the set
-* @param set Map pointer
+* @param set Set pointer
 * @param key Key
 */
 int cdada_set_first(const cdada_set_t* set, void* key);
 
 /**
 * Get the last element in the set
-* @param set Map pointer
+* @param set Set pointer
 * @param key Key
 */
 int cdada_set_last(const cdada_set_t* set, void* key);
+
+//Dumpers
+
+/**
+* Dump to a string the contents of the set
+*
+* @param set Set object
+* @param size Size of the buffer
+* @param buffer Buffer. If NULL, necessary bytes, including '\0' will be set in
+*               'size_used'
+* @param size_used If buffer != NULL, the number of bytes written else number of
+*                  bytes necessary to write, including '\0'
+*/
+int cdada_set_dump(cdada_set_t* set, uint32_t size, char* buffer,
+							uint32_t* bytes_used);
+
+/**
+* @brief Print the contents of the set
+*
+* @param set Set object
+* @param stream stdout or stderr
+*/
+int cdada_set_print(cdada_set_t* set, FILE *stream);
 
 //Custom types
 

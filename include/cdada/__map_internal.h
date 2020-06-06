@@ -66,6 +66,7 @@ typedef struct __cdada_map_ops{
 								void** val);
 	void (*traverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
 	void (*rtraverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
+	void (*dump)(const cdada_map_t* m, std::stringstream& ss);
 }__cdada_map_ops_t;
 
 
@@ -252,5 +253,19 @@ void cdada_map_rtraverse_u(const cdada_map_t* map, std::map<T, void*>* m_u,
 		(*f)(map, &it->first, it->second, opaque);
 }
 
+template<typename T>
+void cdada_map_dump_u(const __cdada_map_int_t* map, std::map<T, void*>* m_u,
+							std::stringstream& ss){
+
+	typename std::map<T, void*>::const_iterator it;
+
+	for(it = m_u->begin(); it != m_u->end();){
+		__cdada_str_obj(ss, it->first, map->user_key_len);
+		ss << " -> @" << it->second;
+		++it;
+		if(it != m_u->end())
+			ss << ", ";
+	}
+}
 
 #endif //__CDADA_MAP_INT__
