@@ -133,6 +133,13 @@ void __cdada_list_autogen_rtraverse_TT_TYPE_TT (const void* m,
 			(std::list<TT_TYPE_TT>*)s->list.custom;
 	return cdada_list_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
+void __cdada_list_autogen_dump_TT_TYPE_TT (const void* m,
+                                                std::stringstream& ss){
+        __cdada_list_int_t* s = (__cdada_list_int_t*)m;
+        std::list<TT_TYPE_TT>* p =
+                        (std::list<TT_TYPE_TT>*)s->list.custom;
+        return cdada_list_dump_u< TT_TYPE_TT > (s, p, ss);
+}
 __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
 	.create  = __cdada_list_autogen_create_TT_TYPE_TT,
 	.destroy = __cdada_list_autogen_destroy_TT_TYPE_TT,
@@ -151,6 +158,7 @@ __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
 	.unique = __cdada_list_autogen_unique_TT_TYPE_TT,
 	.traverse = __cdada_list_autogen_traverse_TT_TYPE_TT,
 	.rtraverse = __cdada_list_autogen_rtraverse_TT_TYPE_TT,
+	.dump = __cdada_list_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -227,6 +235,13 @@ void __cdada_map_autogen_rtraverse_TT_TYPE_TT (const void* m,
 			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
 	return cdada_map_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
+void __cdada_map_autogen_dump_TT_TYPE_TT (const void* m,
+                                                std::stringstream& ss){
+        __cdada_map_int_t* s = (__cdada_map_int_t*)m;
+        std::map<TT_TYPE_TT, void*>* p =
+                        (std::map<TT_TYPE_TT, void*>*)s->map.custom;
+        return cdada_map_dump_u< TT_TYPE_TT > (s, p, ss);
+}
 __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
 	.create  = __cdada_map_autogen_create_TT_TYPE_TT,
 	.destroy = __cdada_map_autogen_destroy_TT_TYPE_TT,
@@ -239,6 +254,7 @@ __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
 	.first_last = __cdada_map_autogen_first_last_TT_TYPE_TT,
 	.traverse = __cdada_map_autogen_traverse_TT_TYPE_TT,
 	.rtraverse = __cdada_map_autogen_rtraverse_TT_TYPE_TT,
+	.dump = __cdada_map_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -302,6 +318,13 @@ void __cdada_set_autogen_rtraverse_TT_TYPE_TT (const void* m,
 	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
 	return cdada_set_rtraverse_u< TT_TYPE_TT > (s, p, f, opaque);
 }
+void __cdada_set_autogen_dump_TT_TYPE_TT (const void* m,
+                                                std::stringstream& ss){
+        __cdada_set_int_t* s = (__cdada_set_int_t*)m;
+        std::set<TT_TYPE_TT>* p =
+                        (std::set<TT_TYPE_TT>*)s->set.custom;
+        return cdada_set_dump_u< TT_TYPE_TT > (s, p, ss);
+}
 __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
 	.create  = __cdada_set_autogen_create_TT_TYPE_TT,
 	.destroy = __cdada_set_autogen_destroy_TT_TYPE_TT,
@@ -314,6 +337,7 @@ __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
 	.first_last = __cdada_set_autogen_first_last_TT_TYPE_TT,
 	.traverse = __cdada_set_autogen_traverse_TT_TYPE_TT,
 	.rtraverse = __cdada_set_autogen_rtraverse_TT_TYPE_TT,
+	.dump = __cdada_set_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -360,6 +384,13 @@ int __cdada_stack_autogen_top_TT_TYPE_TT (const void* m, void* val){
 			(std::stack<TT_TYPE_TT>*)s->stack.custom;
 	return cdada_stack_top_u<TT_TYPE_TT> (s, p, val);
 }
+void __cdada_stack_autogen_dump_TT_TYPE_TT (const void* m,
+                                                std::stringstream& ss){
+        __cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
+        std::stack<TT_TYPE_TT>* p =
+                        (std::stack<TT_TYPE_TT>*)s->stack.custom;
+        return cdada_stack_dump_u< TT_TYPE_TT > (s, p, ss);
+}
 __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
 	.create  = __cdada_stack_autogen_create_TT_TYPE_TT,
 	.destroy = __cdada_stack_autogen_destroy_TT_TYPE_TT,
@@ -368,11 +399,12 @@ __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
 	.push = __cdada_stack_autogen_push_TT_TYPE_TT,
 	.pop = __cdada_stack_autogen_pop_TT_TYPE_TT,
 	.top = __cdada_stack_autogen_top_TT_TYPE_TT,
+	.dump = __cdada_stack_autogen_dump_TT_TYPE_TT,
 };
 """
 
 def parse_input(types):
-    t = {}
+    t = []
     valid_types = ["list", "map", "set", "stack"]
     for s in types:
         if ":" not in s:
@@ -383,7 +415,7 @@ def parse_input(types):
         if a not in valid_types:
             print("ERROR: invalid container type. Types should be {}".format(valid_types))
             sys.exit(1)
-        t[a] = b
+        t.append(dict({a: b}))
     return t
 
 def generate(container, user_type):
@@ -446,9 +478,10 @@ if __name__ == "__main__":
 
     print("Generating...")
     user_types = []
-    for t in types:
-        s = s+generate(t, types[t])
-        user_types.append(types[t])
+    for t_ in types:
+        u, t = next(iter(t_.items()))
+        s = s+generate(u, t)
+        user_types.append(t)
 
     unique_user_types = set(user_types)
 

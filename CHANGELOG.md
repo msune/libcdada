@@ -9,6 +9,12 @@ Legend:
 - [O] Other
 ```
 
+### v0.2.1 (7th June 2020)
+
+- [B] cdada-gen: fix incorrect parsing of container list input
+- [B] cdada-gen: fix missing implementation for dump() leading to SEGFAULT
+- [O] cdada-gen: added full coverage for cdada-gen generated code
+
 ### v0.2.0 (6th June 2020)
 
 - [+] Support for `cdada_bbitmap`, big bitmaps
