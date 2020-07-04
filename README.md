@@ -69,12 +69,12 @@ Documentation
 
 Public API:
 
-* [bbitmap.h](include/cdada/bbitmap.h): big bitmap, for bitmaps > 64bit
+* [bbitmap.h](include/cdada/bbitmap.h): big bitmap (> 64bit)
 * [list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
 * [map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
-* [set.h](include/cdada/set.h): a set of objects, with unique values hashmap (equivalent to `std::set`)
+* [set.h](include/cdada/set.h): a set of objects (equivalent to `std::set`)
 * [stack.h](include/cdada/stack.h): stack (LIFO queue) implementation (equivalent to `std::stack`)
-* [str.h](include/cdada/str.h): string manipulation (equivalent to `std::string`)
+* [str.h](include/cdada/str.h): a string (equivalent to `std::string`)
 * [util.h](include/cdada/util.h): error codes and utility functions
 
 `libcdada` is not thread-safe.
