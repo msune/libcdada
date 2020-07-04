@@ -37,8 +37,8 @@ In this example we aim to create customer containers for:
 
 The code for this example, in the two variants is in:
 
-* [custom-gen/](../examples/custom-gen/)
-* [custom-macro/](../examples/custom-macro/)
+* [custom-gen/](https://github.com/msune/libcdada/tree/master/examples/examples/custom-gen/)
+* [custom-macro/](https://github.com/msune/libcdada/tree/master/examples/examples/custom-macro/)
 
 ### 1. Create `cdada.cc` file
 

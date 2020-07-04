@@ -62,7 +62,7 @@ cdada_str_replace_all(s, "test ", "");
 fprintf(stdout, "%s\n", cdada_str(s));
 ```
 
-More examples for `map` and `set` and custom containers in the [examples](examples/) folder.
+More examples for `map` and `set` and custom containers in the [examples](https://github.com/msune/libcdada/tree/master/examples/) folder.
 
 Documentation
 -------------
