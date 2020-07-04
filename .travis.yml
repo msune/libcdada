@@ -87,3 +87,6 @@ script:
   - $CXX -c b.cc -o b.o
   - $CC ../../test/combined_test.c b.o -lcdada -lstdc++ -o b
   - valgrind --leak-check=full ./b
+  - echo "Test cdada.h (sys)..."
+  - $CC ../../test/cdada_h_include.c -lcdada  -o c
+  - valgrind --leak-check=full ./c

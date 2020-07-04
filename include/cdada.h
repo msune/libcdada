@@ -35,9 +35,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        data structures. Prefer inclusion of individual ones.
 */
 
+#include <cdada/bbitmap.h>
 #include <cdada/list.h>
 #include <cdada/map.h>
 //#include <cdada/queue.h>
 #include <cdada/set.h>
+#include <cdada/stack.h>
+#include <cdada/str.h>
+#include <cdada/utils.h>
 
 #endif //__CDADA_H__

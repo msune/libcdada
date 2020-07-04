@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.2.2 (4th July 2020)
+
+- [B] cdada.h: add missing cdada container includes. Added coverage.
+
 ### v0.2.1 (7th June 2020)
 
 - [B] cdada-gen: fix incorrect parsing of container list input
