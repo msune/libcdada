@@ -38,32 +38,38 @@ BUILT_SOURCES=list_custom_gen map_custom_gen set_custom_gen stack_custom_gen
 noinst_PROGRAMS= benchmark
 
 #Tests
-check_PROGRAMS= bbitmap_test  \
-                list_test     \
-                list_gen_test \
-                map_test      \
-                map_gen_test  \
-                set_test      \
-                set_gen_test  \
-                stack_test    \
-                stack_gen_test\
-                str_test      \
+check_PROGRAMS= bbitmap_test       \
+		cdada_include_test \
+                list_test          \
+                list_gen_test      \
+                map_test           \
+                map_gen_test       \
+                set_test           \
+                set_gen_test       \
+                stack_test         \
+                stack_gen_test     \
+                str_test           \
                 combined_test
-TESTS = bbitmap_test    \
-        list_test       \
-        list_gen_test   \
-        map_test        \
-        map_gen_test    \
-        set_test        \
-        set_gen_test    \
-        stack_test      \
-        stack_gen_test  \
-        str_test        \
+TESTS = bbitmap_test       \
+	cdada_include_test \
+        list_test          \
+        list_gen_test      \
+        map_test           \
+        map_gen_test       \
+        set_test           \
+        set_gen_test       \
+        stack_test         \
+        stack_gen_test     \
+        str_test           \
         combined_test
 
 bbitmap_test_SOURCES= bbitmap_test.c
 bbitmap_test_CPPFLAGS= -I$(top_srcdir)/include/
 bbitmap_test_LDADD= -lpthread ../src/libcdada.la
+
+cdada_include_test_SOURCES= cdada_h_include.c
+cdada_include_test_CPPFLAGS= -I$(top_srcdir)/include/
+cdada_include_test_LDADD= -lpthread ../src/libcdada.la
 
 list_test_SOURCES= list_test.c list_custom.cc
 list_test_CPPFLAGS= -I$(top_srcdir)/include/
