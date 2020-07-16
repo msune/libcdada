@@ -55,6 +55,7 @@ script:
   - valgrind --leak-check=full examples/bbitmap
   - valgrind --leak-check=full examples/list_u32
   - valgrind --leak-check=full examples/map_struct
+  - valgrind --leak-check=full examples/queue_u32
   - valgrind --leak-check=full examples/stack_u32
   - valgrind --leak-check=full examples/str
   - valgrind --leak-check=full examples/custom_gen
@@ -68,6 +69,7 @@ script:
   - $CC ../../examples/bbitmap.c -lcdada -o bbitmap_sys
   - $CC ../../examples/list_u32.c -lcdada -o list_u32_sys
   - $CC ../../examples/map_struct.c -lcdada -o map_struct_sys
+  - $CC ../../examples/queue_u32.c -lcdada -o queue_u32_sys
   - $CC ../../examples/stack_u32.c -lcdada -o stack_u32_sys
   - $CC ../../examples/str.c -lcdada -o str_sys
   - $CXX ../../examples/custom-gen/my_program_gen.c ../../examples/custom-gen/cdada.cc -lcdada -o custom_gen_sys
@@ -77,11 +79,12 @@ script:
   - valgrind --leak-check=full ./list_u32_sys
   - valgrind --leak-check=full ./map_struct_sys
   - valgrind --leak-check=full ./str_sys
+  - valgrind --leak-check=full ./queue_u32_sys
   - valgrind --leak-check=full ./stack_u32_sys
   - valgrind --leak-check=full ./custom_gen_sys
   - valgrind --leak-check=full ./custom_macro_sys
   - echo "Test cdada-gen code generator (sys)..."
-  - cdada-gen -o a.cc set:test_u552_t map:test_u552_t list:test_u552_t stack:test_u552_t
+  - cdada-gen -o a.cc set:test_u552_t map:test_u552_t list:test_u552_t queue:test_u552_t stack:test_u552_t
   - echo "#include \"../../test/u552.h\"" >> b.cc
   - cat a.cc >> b.cc
   - $CXX -c b.cc -o b.o

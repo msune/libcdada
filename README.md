@@ -72,6 +72,7 @@ Public API:
 * [bbitmap.h](include/cdada/bbitmap.h): big bitmap (> 64bit)
 * [list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
 * [map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
+* [queue.h](include/cdada/queue.h): queue (FIFO queue) implementation (equivalent to `std::queue`)
 * [set.h](include/cdada/set.h): a set of objects (equivalent to `std::set`)
 * [stack.h](include/cdada/stack.h): stack (LIFO queue) implementation (equivalent to `std::stack`)
 * [str.h](include/cdada/str.h): a string (equivalent to `std::string`)
