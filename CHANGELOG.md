@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.0 (4th July 2020)
+
+- [+] Support for `cdada_queue`, FIFO queue
+
 ### v0.2.2 (4th July 2020)
 
 - [B] cdada.h: add missing cdada container includes. Added coverage.
