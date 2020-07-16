@@ -71,6 +71,7 @@ typedef struct{
 	uint32_t magic_num;
 	uint32_t user_val_len;
 	uint32_t val_len;
+	uint64_t max_capacity;
 	union {
 		std::stack<uint8_t>* u8;
 		std::stack<uint16_t>* u16;

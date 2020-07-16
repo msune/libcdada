@@ -1060,6 +1060,76 @@ int test_u3552_push_pop_custom(){
 	return 0;
 }
 
+int test_push_limit(){
+
+	int i, rv;
+	uint8_t key;
+	uint64_t lim;
+
+	queue = cdada_queue_create(uint8_t);
+	TEST_ASSERT(queue != NULL);
+
+	//Limit must be 'unlimited'
+	lim = cdada_queue_get_max_capacity(queue);
+	TEST_ASSERT(lim == 0ULL);
+
+	//Add 32 elements
+	for(i=0;i<32; ++i){
+		key = i;
+		rv = cdada_queue_push(queue, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_queue_size(queue) == 32);
+
+	//Set limit to 16
+	lim = 16ULL;
+	rv = cdada_queue_set_max_capacity(queue, lim);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	//Pushing a new element shall return E_FULL
+	key = 99ULL;
+	rv = cdada_queue_push(queue, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+
+	//Remove exactly 16 elements
+	for(i=0;i<16; ++i){
+		rv = cdada_queue_pop(queue);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_queue_size(queue) == 16);
+
+	//Should still return E_FULL
+	rv = cdada_queue_push(queue, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+
+	//Removing the 17th element should give room for 1
+	rv = cdada_queue_pop(queue);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_queue_push(queue, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_queue_push(queue, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+	TEST_ASSERT(cdada_queue_size(queue) == 16);
+
+	//Set limit to 0 again
+	lim = 0ULL;
+	rv = cdada_queue_set_max_capacity(queue, lim);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	for(i=0;i<32; ++i){
+		key = i;
+		rv = cdada_queue_push(queue, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_queue_size(queue) == 48);
+
+	rv = cdada_queue_destroy(queue);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -1076,6 +1146,8 @@ int main(int args, char** argv){
 	rv |= test_u552_push_pop();
 	rv |= test_u552_push_pop_custom();
 	rv |= test_u3552_push_pop_custom();
+
+	rv |= test_push_limit();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

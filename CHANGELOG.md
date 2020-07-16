@@ -9,9 +9,10 @@ Legend:
 - [O] Other
 ```
 
-### v0.3.0 (4th July 2020)
+### v0.3.0 (17th July 2020)
 
 - [+] Support for `cdada_queue`, FIFO queue
+- [+] Add support for get/set `max_capacity()` for `cdada_queue` and `cdada_stack`
 
 ### v0.2.2 (4th July 2020)
 

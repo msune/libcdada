@@ -86,6 +86,31 @@ bool cdada_queue_empty(const cdada_queue_t* queue);
 */
 uint32_t cdada_queue_size(const cdada_queue_t* queue);
 
+/**
+* Get the maximum capacity (0 if unlimited)
+*
+* @param queue Queue pointer
+*
+* @ret Will return the maximum capacity of the queue or 0 if unlimited
+*/
+uint64_t cdada_queue_get_max_capacity(const cdada_queue_t* queue);
+
+/**
+* @brief Set the maximum capacity
+*
+* This function sets the maximum capacity of the queue. It can be called
+* at any time. If called when the queue has more elements than `limit`,
+* exceeding elements won't be removed, but the queue won't be able to
+* grow until the size is under the new set limit.
+*
+* Use the value 0 to remove the limit
+*
+* @param queue Queue pointer
+* @param limit Limit of the capacity (set to 0 for unlimited)
+*/
+int cdada_queue_set_max_capacity(const cdada_queue_t* queue,
+						const uint64_t limit);
+
 //Element manipulation
 
 /**

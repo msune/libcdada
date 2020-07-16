@@ -140,6 +140,9 @@ int cdada_queue_push(cdada_queue_t* queue, const void* val){
 	if(unlikely(!val))
 		return CDADA_E_INVALID;
 
+	if(m->max_capacity && cdada_queue_size(queue) >= m->max_capacity)
+		return CDADA_E_FULL;
+
 	try{
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
@@ -451,6 +454,28 @@ bool cdada_queue_empty(const cdada_queue_t* queue){
 
 	CDADA_ASSERT(0);
 	return false;
+}
+
+uint64_t cdada_queue_get_max_capacity(const cdada_queue_t* queue){
+
+	__cdada_queue_int_t* m = (__cdada_queue_int_t*)queue;
+
+	if(unlikely(!(m) || m->magic_num != CDADA_MAGIC))
+		return 0;
+
+	return m->max_capacity;
+}
+
+int cdada_queue_set_max_capacity(const cdada_queue_t* queue,
+						const uint64_t limit){
+	__cdada_queue_int_t* m = (__cdada_queue_int_t*)queue;
+
+	if(unlikely(!(m) || m->magic_num != CDADA_MAGIC))
+		return CDADA_E_INVALID;
+
+	m->max_capacity = limit;
+
+	return CDADA_SUCCESS;
 }
 
 int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,

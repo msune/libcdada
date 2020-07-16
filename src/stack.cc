@@ -140,6 +140,9 @@ int cdada_stack_push(cdada_stack_t* stack, const void* val){
 	if(unlikely(!val))
 		return CDADA_E_INVALID;
 
+	if(m->max_capacity && cdada_stack_size(stack) >= m->max_capacity)
+		return CDADA_E_FULL;
+
 	try{
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
@@ -388,6 +391,28 @@ bool cdada_stack_empty(const cdada_stack_t* stack){
 
 	CDADA_ASSERT(0);
 	return false;
+}
+
+uint64_t cdada_stack_get_max_capacity(const cdada_stack_t* stack){
+
+	__cdada_stack_int_t* m = (__cdada_stack_int_t*)stack;
+
+	if(unlikely(!(m) || m->magic_num != CDADA_MAGIC))
+		return 0;
+
+	return m->max_capacity;
+}
+
+int cdada_stack_set_max_capacity(const cdada_stack_t* stack,
+						const uint64_t limit){
+	__cdada_stack_int_t* m = (__cdada_stack_int_t*)stack;
+
+	if(unlikely(!(m) || m->magic_num != CDADA_MAGIC))
+		return CDADA_E_INVALID;
+
+	m->max_capacity = limit;
+
+	return CDADA_SUCCESS;
 }
 
 int cdada_stack_dump(cdada_stack_t* stack, uint32_t size, char* buffer,
