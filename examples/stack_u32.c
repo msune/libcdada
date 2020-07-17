@@ -23,14 +23,14 @@ int main(int args, char** argv){
 
 	fprintf(stdout, "The stack has a size of %u:\n", cdada_stack_size(s));
 
-	//6,4,5,3,1}
 	uint32_t val;
-	fprintf(stdout, "Popping %u off the stack:\n",
-			(cdada_stack_top(s, &val)? 0 : val));
+	cdada_stack_top(s, &val);
+	fprintf(stdout, "Popping %u off the stack:\n", val);
 	cdada_stack_pop(s);
 
 	fprintf(stdout, "After removal of top, the stack has a size of %u, contents:\n",
 							cdada_stack_size(s));
+	cdada_stack_print(s, stdout);
 
 	//Don't leak
 	cdada_stack_destroy(s);

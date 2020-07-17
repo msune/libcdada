@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cdada/bbitmap.h>
 #include <cdada/list.h>
 #include <cdada/map.h>
-//#include <cdada/queue.h>
+#include <cdada/queue.h>
 #include <cdada/set.h>
 #include <cdada/stack.h>
 #include <cdada/str.h>

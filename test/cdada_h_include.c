@@ -8,6 +8,7 @@ int main(int args, char** argv){
 	int rv;
 	cdada_list_t* list;
 	cdada_map_t* map;
+	cdada_queue_t* queue;
 	cdada_set_t* set;
 	cdada_stack_t *stack;
 	cdada_str_t* str;
@@ -16,6 +17,8 @@ int main(int args, char** argv){
 	TEST_ASSERT(list != NULL);
 	map = cdada_map_create(uint32_t);
 	TEST_ASSERT(map != NULL);
+	queue = cdada_queue_create(uint32_t);
+	TEST_ASSERT(queue != NULL);
 	set = cdada_set_create(uint32_t);
 	TEST_ASSERT(set != NULL);
 	stack = cdada_stack_create(uint32_t);
@@ -26,6 +29,8 @@ int main(int args, char** argv){
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_queue_destroy(queue);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);

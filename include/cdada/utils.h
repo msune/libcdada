@@ -44,7 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CDADA_E_UNSUPPORTED 6
 #define CDADA_E_EMPTY       7
 #define CDADA_E_INCOMPLETE  8
-#define CDADA_E_COUNT       9
+#define CDADA_E_FULL        9
+#define CDADA_E_COUNT       10
 
 #ifdef __cplusplus
 	# define CDADA_BEGIN_DECLS extern "C" {

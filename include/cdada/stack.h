@@ -86,6 +86,31 @@ bool cdada_stack_empty(const cdada_stack_t* stack);
 */
 uint32_t cdada_stack_size(const cdada_stack_t* stack);
 
+/**
+* Get the maximum capacity (0 if unlimited)
+*
+* @param stack Stack pointer
+*
+* @ret Will return the maximum capacity of the stack or 0 if unlimited
+*/
+uint64_t cdada_stack_get_max_capacity(const cdada_stack_t* stack);
+
+/**
+* @brief Set the maximum capacity
+*
+* This function sets the maximum capacity of the stack. It can be called
+* at any time. If called when the stack has more elements than `limit`,
+* exceeding elements won't be removed, but the stack won't be able to
+* grow until the size is under the new set limit.
+*
+* Use the value 0 to remove the limit
+*
+* @param stack Stack pointer
+* @param limit Limit of the capacity (set to 0 for unlimited)
+*/
+int cdada_stack_set_max_capacity(const cdada_stack_t* stack,
+						const uint64_t limit);
+
 //Element manipulation
 
 /**

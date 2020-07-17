@@ -448,77 +448,77 @@ int test_u64_push_pop(){
 	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
 
 	//Add one key & get
-	key = 0;
+	key = 0ULL;
 	rv = cdada_stack_push(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 0);
+	TEST_ASSERT(key == 0ULL);
 	TEST_ASSERT(cdada_stack_size(stack) == 1);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
 	//Add 1 on top
-	key = 1;
+	key = 1ULL;
 	rv = cdada_stack_push(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 1);
+	TEST_ASSERT(key == 1ULL);
 	TEST_ASSERT(cdada_stack_size(stack) == 2);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
 	//PUSH tests resulting stack should be {9, 7, 1, 0}
-	key = 7;
+	key = 7ULL;
 	rv = cdada_stack_push(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 7);
+	TEST_ASSERT(key == 7ULL);
 	TEST_ASSERT(cdada_stack_size(stack) == 3);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 7);
+	TEST_ASSERT(key == 7ULL);
 
-	key = 9;
+	key = 9ULL;
 	rv = cdada_stack_push(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 9);
+	TEST_ASSERT(key == 9ULL);
 	TEST_ASSERT(cdada_stack_size(stack) == 4);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 9);
+	TEST_ASSERT(key == 9ULL);
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_stack_size(stack) == 3);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 7);
+	TEST_ASSERT(key == 7ULL);
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_stack_size(stack) == 2);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 1);
+	TEST_ASSERT(key == 1ULL);
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_stack_size(stack) == 1);
 	TEST_ASSERT(cdada_stack_empty(stack) == false);
 
-	key = 0xff;
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 0);
+	TEST_ASSERT(key == 0ULL);
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
@@ -527,24 +527,24 @@ int test_u64_push_pop(){
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
 	//Add many 0s {0, 0, 0, 0, 0, 1}
-	key = 1;
+	key = 1ULL;
 	rv = cdada_stack_push(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 1);
-	key = 0xff;
+	TEST_ASSERT(key == 1ULL);
+	key = 0xffULL;
 	rv = cdada_stack_top(stack, &key);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
-	TEST_ASSERT(key == 1);
+	TEST_ASSERT(key == 1ULL);
 
 	for(i=0;i<5; ++i){
-		key = 0;
+		key = 0ULL;
 		rv = cdada_stack_push(stack, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
-		TEST_ASSERT(key == 0);
-		key = 0xff;
+		TEST_ASSERT(key == 0ULL);
+		key = 0xffULL;
 		rv = cdada_stack_top(stack, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
-		TEST_ASSERT(key == 0);
+		TEST_ASSERT(key == 0ULL);
 		TEST_ASSERT(cdada_stack_size(stack) == (i + 2));
 		TEST_ASSERT(cdada_stack_empty(stack) == false);
 	}
@@ -600,6 +600,11 @@ int test_basics(){
 	rv = cdada_stack_pop(NULL);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 
+	uint64_t aux;
+	aux = cdada_stack_get_max_capacity(NULL);
+	TEST_ASSERT(aux == 0ULL);
+	rv = cdada_stack_set_max_capacity(NULL, 123ULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	//Now destroy
 	rv = cdada_stack_destroy(stack);
@@ -921,6 +926,76 @@ int test_u3552_push_pop_custom(){
 	return 0;
 }
 
+int test_push_limit(){
+
+	int i, rv;
+	uint8_t key;
+	uint64_t lim;
+
+	stack = cdada_stack_create(uint8_t);
+	TEST_ASSERT(stack != NULL);
+
+	//Limit must be 'unlimited'
+	lim = cdada_stack_get_max_capacity(stack);
+	TEST_ASSERT(lim == 0ULL);
+
+	//Add 32 elements
+	for(i=0;i<32; ++i){
+		key = i;
+		rv = cdada_stack_push(stack, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_stack_size(stack) == 32);
+
+	//Set limit to 16
+	lim = 16ULL;
+	rv = cdada_stack_set_max_capacity(stack, lim);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	//Pushing a new element shall return E_FULL
+	key = 99ULL;
+	rv = cdada_stack_push(stack, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+
+	//Remove exactly 16 elements
+	for(i=0;i<16; ++i){
+		rv = cdada_stack_pop(stack);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_stack_size(stack) == 16);
+
+	//Should still return E_FULL
+	rv = cdada_stack_push(stack, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+
+	//Removing the 17th element should give room for 1
+	rv = cdada_stack_pop(stack);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_stack_push(stack, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_stack_push(stack, &key);
+	TEST_ASSERT(rv == CDADA_E_FULL);
+	TEST_ASSERT(cdada_stack_size(stack) == 16);
+
+	//Set limit to 0 again
+	lim = 0ULL;
+	rv = cdada_stack_set_max_capacity(stack, lim);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	for(i=0;i<32; ++i){
+		key = i;
+		rv = cdada_stack_push(stack, &key);
+		TEST_ASSERT(rv == CDADA_SUCCESS);
+	}
+	TEST_ASSERT(cdada_stack_size(stack) == 48);
+
+	rv = cdada_stack_destroy(stack);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -937,6 +1012,8 @@ int main(int args, char** argv){
 	rv |= test_u552_push_pop();
 	rv |= test_u552_push_pop_custom();
 	rv |= test_u3552_push_pop_custom();
+
+	rv |= test_push_limit();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;

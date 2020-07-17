@@ -9,6 +9,11 @@ map_custom_gen:
 	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/map_custom_gen.cc
 	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/map_custom_gen.cc
 	cat $(top_builddir)/test/map_custom_gen.cc_ >> $(top_builddir)/test/map_custom_gen.cc
+queue_custom_gen:
+	$(top_srcdir)/tools/cdada-gen queue:test_u552_t queue:test_u3552_t -o $(top_builddir)/test/queue_custom_gen.cc_
+	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/queue_custom_gen.cc
+	echo '#include "$(top_srcdir)/test/u3552.h"' >> $(top_builddir)/test/queue_custom_gen.cc
+	cat $(top_builddir)/test/queue_custom_gen.cc_ >> $(top_builddir)/test/queue_custom_gen.cc
 set_custom_gen:
 	$(top_srcdir)/tools/cdada-gen set:test_u552_t set:test_u3552_t -o $(top_builddir)/test/set_custom_gen.cc_
 	echo '#include "$(top_srcdir)/test/u552.h"' > $(top_builddir)/test/set_custom_gen.cc
@@ -24,6 +29,8 @@ CDADA_GEN_FILES= list_custom_gen.cc_ \
 			list_custom_gen.cc  \
 			map_custom_gen.cc_  \
 			map_custom_gen.cc   \
+			queue_custom_gen.cc_\
+			queue_custom_gen.cc \
 			set_custom_gen.cc_  \
 			set_custom_gen.cc   \
 			stack_custom_gen.cc_\
@@ -32,30 +39,39 @@ CDADA_GEN_FILES= list_custom_gen.cc_ \
 MAINTAINERCLEANFILES = Makefile.in $(CDADA_GEN_FILES)
 CLEANFILES = $(CDADA_GEN_FILES)
 
-BUILT_SOURCES=list_custom_gen map_custom_gen set_custom_gen stack_custom_gen
+BUILT_SOURCES= list_custom_gen  \
+               map_custom_gen   \
+               queue_custom_gen \
+               set_custom_gen   \
+               stack_custom_gen
 
 #Benchmark is not installable
 noinst_PROGRAMS= benchmark
 
 #Tests
 check_PROGRAMS= bbitmap_test       \
-		cdada_include_test \
+                cdada_include_test \
                 list_test          \
                 list_gen_test      \
                 map_test           \
                 map_gen_test       \
+                queue_test         \
+                queue_gen_test     \
                 set_test           \
                 set_gen_test       \
                 stack_test         \
                 stack_gen_test     \
                 str_test           \
                 combined_test
+
 TESTS = bbitmap_test       \
-	cdada_include_test \
+        cdada_include_test \
         list_test          \
         list_gen_test      \
         map_test           \
         map_gen_test       \
+        queue_test         \
+        queue_gen_test     \
         set_test           \
         set_gen_test       \
         stack_test         \
@@ -86,6 +102,14 @@ map_test_LDADD= -lpthread ../src/libcdada.la
 map_gen_test_SOURCES= map_test.c map_custom_gen.cc
 map_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
 map_gen_test_LDADD= -lpthread ../src/libcdada.la
+
+queue_test_SOURCES= queue_test.c queue_custom.cc
+queue_test_CPPFLAGS= -I$(top_srcdir)/include/
+queue_test_LDADD= -lpthread ../src/libcdada.la
+
+queue_gen_test_SOURCES= queue_test.c queue_custom_gen.cc
+queue_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+queue_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 set_test_SOURCES= set_test.c set_custom.cc
 set_test_CPPFLAGS= -I$(top_srcdir)/include/

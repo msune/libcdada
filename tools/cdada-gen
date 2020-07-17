@@ -258,6 +258,75 @@ __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
 };
 """
 
+QUEUE="""
+
+//Operator
+void __cdada_queue_autogen_create_TT_TYPE_TT (void* m){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	s->queue.custom = (void*)new std::queue<TT_TYPE_TT>();
+}
+void __cdada_queue_autogen_destroy_TT_TYPE_TT (void* m){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	delete p;
+}
+bool __cdada_queue_autogen_empty_TT_TYPE_TT (const void* m){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return p->empty();
+}
+uint32_t __cdada_queue_autogen_size_TT_TYPE_TT (const void* m){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return p->size();
+}
+int __cdada_queue_autogen_push_TT_TYPE_TT (void* m, const void* val){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return cdada_queue_push_u<TT_TYPE_TT> (s, p, val);
+}
+int __cdada_queue_autogen_pop_TT_TYPE_TT (void* m){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return cdada_queue_pop_u<TT_TYPE_TT> (s, p);
+}
+int __cdada_queue_autogen_front_TT_TYPE_TT (const void* m, void* val){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return cdada_queue_front_u<TT_TYPE_TT> (s, p, val);
+}
+int __cdada_queue_autogen_back_TT_TYPE_TT (const void* m, void* val){
+	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+	std::queue<TT_TYPE_TT>* p =
+			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+	return cdada_queue_back_u<TT_TYPE_TT> (s, p, val);
+}
+void __cdada_queue_autogen_dump_TT_TYPE_TT (const void* m,
+                                                std::stringstream& ss){
+        __cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
+        std::queue<TT_TYPE_TT>* p =
+                        (std::queue<TT_TYPE_TT>*)s->queue.custom;
+        return cdada_queue_dump_u< TT_TYPE_TT > (s, p, ss);
+}
+__cdada_queue_ops_t __cdada_queue_autogen_TT_TYPE_TT = {
+	.create  = __cdada_queue_autogen_create_TT_TYPE_TT,
+	.destroy = __cdada_queue_autogen_destroy_TT_TYPE_TT,
+	.empty = __cdada_queue_autogen_empty_TT_TYPE_TT,
+	.size = __cdada_queue_autogen_size_TT_TYPE_TT,
+	.push = __cdada_queue_autogen_push_TT_TYPE_TT,
+	.pop = __cdada_queue_autogen_pop_TT_TYPE_TT,
+	.front = __cdada_queue_autogen_front_TT_TYPE_TT,
+	.back = __cdada_queue_autogen_back_TT_TYPE_TT,
+	.dump = __cdada_queue_autogen_dump_TT_TYPE_TT,
+};
+"""
+
 SET ="""
 void __cdada_set_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
@@ -405,7 +474,7 @@ __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
 
 def parse_input(types):
     t = []
-    valid_types = ["list", "map", "set", "stack"]
+    valid_types = ["list", "map", "queue", "set", "stack"]
     for s in types:
         if ":" not in s:
             print("ERROR: invalid format. Types should be CONTAINER:USER_TYPE. E.g. set::my_struct_t")
@@ -423,6 +492,8 @@ def generate(container, user_type):
         s_u = SET
     elif container == "map":
         s_u = MAP
+    elif container == "queue":
+        s_u = QUEUE
     elif container == "list":
         s_u = LIST
     elif container == "stack":
@@ -492,7 +563,8 @@ if __name__ == "__main__":
     f.write("#include <string.h>\n")
     f.write("#include <cdada/list_custom_cc.h>\n")
     f.write("#include <cdada/map_custom_cc.h>\n")
-    f.write("#include <cdada/set_custom_cc.h>\n\n")
+    f.write("#include <cdada/queue_custom_cc.h>\n")
+    f.write("#include <cdada/set_custom_cc.h>\n")
     f.write("#include <cdada/stack_custom_cc.h>\n\n")
     f.write("//C++ comparison operators for user stypes (memcmp)\n")
 
