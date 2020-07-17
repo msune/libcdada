@@ -53,6 +53,8 @@ CDADA_MAP_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_SET_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_STACK_CUSTOM_TYPE_DECL(test_u3552_t);
 
+#ifdef __amd64__
+
 #if 10
 
 //Assembly to read rdtsc
@@ -72,6 +74,13 @@ static inline uint64_t RDTSC()
 #define RDTSC __rdtsc
 #endif
 
+#else
+
+#pragma message ( "Platform does not support Time Stamp Counter!" )
+#pragma message ( "All time values will be zero" )
+#define RDTSC() 0
+
+#endif
 
 
 uint32_t big_array[] = {
