@@ -44,6 +44,9 @@ m4_include([config_m4/versioning.m4])
 # Checking valgrind
 m4_include([config_m4/valgrind.m4])
 
+# Checking RDTSC
+m4_include([config_m4/rdtsc.m4])
+
 # Output files
 AC_CONFIG_FILES([
 	Makefile

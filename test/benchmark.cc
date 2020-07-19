@@ -53,7 +53,7 @@ CDADA_MAP_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_SET_CUSTOM_TYPE_DECL(test_u3552_t);
 CDADA_STACK_CUSTOM_TYPE_DECL(test_u3552_t);
 
-#ifdef __amd64__
+#ifdef HAVE_RDTSC
 
 #if 10
 
@@ -1085,6 +1085,12 @@ int main(int args, char** argv){
 	struct sched_param params;
 	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
 	pthread_setschedparam(this_thread, SCHED_FIFO, &params);
+
+#ifndef HAVE_RDTSC
+	fprintf(stdout, "############################# ATTENTION #############################\n");
+	fprintf(stdout, "Warning! RDTSC support is not available. All time values will be zero\n");
+	fprintf(stdout, "############################# ATTENTION #############################\n\n");
+#endif
 
 	/**********************************************************************/
 	/* uint32_t                                                           */
