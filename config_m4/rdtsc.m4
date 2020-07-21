@@ -6,7 +6,7 @@ AC_LINK_IFELSE([
 			int main(){
 			unsigned int hi, lo;
 			__asm__ volatile("rdtsc" : "=a" (lo), "=d" (hi));
-			printf("%lu, %u\n", hi, lo);
+			printf("%u, %u\n", hi, lo);
 			return 0;
 			}
 		]]
