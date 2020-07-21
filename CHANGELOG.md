@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.1 (22th July 2020)
+
+- [B] Fix benchmark compilation error due to rdtsc for non x86/amd64 archs (e.g. PowerPC)
+
 ### v0.3.0 (17th July 2020)
 
 - [+] Support for `cdada_queue`, FIFO queue
