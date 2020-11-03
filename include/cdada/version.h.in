@@ -27,9 +27,41 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __CDADA_VERSION_H__
 #define __CDADA_VERSION_H__
 
-#define CDADA_VERSION_MAJOR	"@VERSION_MAJOR@"
-#define CDADA_VERSION_MINOR	"@VERSION_MINOR@"
-#define CDADA_VERSION_PATCH	"@VERSION_PATCH@"
-#define CDADA_VERSION		"@VERSION_FULL@"
+#define CDADA_VERSION_MAJOR	"@CDADA_VERSION_MAJOR@"
+#define CDADA_VERSION_MINOR	"@CDADA_VERSION_MINOR@"
+#define CDADA_VERSION_PATCH	"@CDADA_VERSION_PATCH@"
+#define CDADA_VERSION		"@CDADA_VERSION_NORMALIZED@"
+#define CDADA_BUILD		"@CDADA_BUILD@"
+
+/**
+* @brief Return libcdada's version
+*
+* The version has the format vX.Y.Z, where:
+*
+* X: major
+* Y: minor
+* Z: patch
+*/
+const char* cdada_get_ver();
+
+/**
+* Return the MAJOR number of libcdada's version
+*/
+const char* cdada_get_ver_maj();
+
+/**
+* Return the MINOR number of libcdada's version
+*/
+const char* cdada_get_ver_min();
+
+/**
+* Return the PATCH number of libcdada's version
+*/
+const char* cdada_get_ver_patch();
+
+/**
+* @brief Return libcdada's build (git hash)
+*/
+const char* cdada_get_build();
 
 #endif /* __CDADA_VERSION_H__ */

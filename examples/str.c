@@ -3,12 +3,20 @@
 #include <stdio.h>
 #include <string.h>
 #include <cdada/str.h>
+#include <cdada/version.h>
 
 void trav(const cdada_str_t* str, const char it, uint32_t pos, void* opaque){
 	fprintf(stdout, "%u: %c\n", pos, it);
 }
 
 int main(int args, char** argv){
+
+	fprintf(stdout, "Running libcdada: %s, MAJOR: %s, MINOR: %s, PATCH: %s. Build '%s' \n",
+							cdada_get_ver(),
+							cdada_get_ver_maj(),
+							cdada_get_ver_min(),
+							cdada_get_ver_patch(),
+							cdada_get_build());
 
 	cdada_str_t* s = cdada_str_create("One string");
 	fprintf(stdout, "%s\n", cdada_str(s));

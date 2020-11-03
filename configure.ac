@@ -1,15 +1,6 @@
 m4_include([VERSION]) #Force reconf on VERSION change
 AC_INIT(LIBCDADA, m4_esyscmd_s(cat VERSION), marcdevel@gmail.com, libcdada, http://github.com/msune/libcdada)
 
-VERSION_MAJOR=`cat VERSION | awk -F "." '{ print $1 }' | sed 's/v//'`
-VERSION_MINOR=`cat VERSION | awk -F "." '{ print $2 }'`
-VERSION_PATCH=`cat VERSION | awk -F "." '{ print $3 }'`
-VERSION_FULL=`cat VERSION | sed 's/v//'`
-AC_SUBST(VERSION_MAJOR)
-AC_SUBST(VERSION_MINOR)
-AC_SUBST(VERSION_PATCH)
-AC_SUBST(VERSION_FULL)
-
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 

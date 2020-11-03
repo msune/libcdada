@@ -10,5 +10,5 @@ libcdada_la_SOURCES = bbitmap.cc \
                       stack.cc   \
                       str.cc     \
                       utils.c
-libcdada_la_CPPFLAGS = -I$(top_srcdir)/include/ -D__CDADA_INTERNAL_INCLUDE
+libcdada_la_CPPFLAGS = -I$(top_builddir)/include/ -I$(top_srcdir)/include/ -D__CDADA_INTERNAL_INCLUDE
 libcdada_la_LIBADD =

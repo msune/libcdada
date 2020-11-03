@@ -80,64 +80,64 @@ TESTS = bbitmap_test       \
         combined_test
 
 bbitmap_test_SOURCES= bbitmap_test.c
-bbitmap_test_CPPFLAGS= -I$(top_srcdir)/include/
+bbitmap_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 bbitmap_test_LDADD= -lpthread ../src/libcdada.la
 
 cdada_include_test_SOURCES= cdada_h_include.c
-cdada_include_test_CPPFLAGS= -I$(top_srcdir)/include/
+cdada_include_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 cdada_include_test_LDADD= -lpthread ../src/libcdada.la
 
 list_test_SOURCES= list_test.c list_custom.cc
-list_test_CPPFLAGS= -I$(top_srcdir)/include/
+list_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 list_test_LDADD= -lpthread ../src/libcdada.la
 
 list_gen_test_SOURCES= list_test.c list_custom_gen.cc
-list_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+list_gen_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 list_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 map_test_SOURCES= map_test.c map_custom.cc
-map_test_CPPFLAGS= -I$(top_srcdir)/include/
+map_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 map_test_LDADD= -lpthread ../src/libcdada.la
 
 map_gen_test_SOURCES= map_test.c map_custom_gen.cc
-map_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+map_gen_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 map_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 queue_test_SOURCES= queue_test.c queue_custom.cc
-queue_test_CPPFLAGS= -I$(top_srcdir)/include/
+queue_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 queue_test_LDADD= -lpthread ../src/libcdada.la
 
 queue_gen_test_SOURCES= queue_test.c queue_custom_gen.cc
-queue_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+queue_gen_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 queue_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 set_test_SOURCES= set_test.c set_custom.cc
-set_test_CPPFLAGS= -I$(top_srcdir)/include/
+set_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 set_test_LDADD= -lpthread ../src/libcdada.la
 
 set_gen_test_SOURCES= set_test.c set_custom_gen.cc
-set_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+set_gen_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 set_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 stack_test_SOURCES= stack_test.c stack_custom.cc
-stack_test_CPPFLAGS= -I$(top_srcdir)/include/
+stack_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 stack_test_LDADD= -lpthread ../src/libcdada.la
 
 stack_gen_test_SOURCES= stack_test.c stack_custom_gen.cc
-stack_gen_test_CPPFLAGS= -I$(top_srcdir)/include/
+stack_gen_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 stack_gen_test_LDADD= -lpthread ../src/libcdada.la
 
 combined_test_SOURCES= combined_test.c combined_custom.cc
-combined_test_CPPFLAGS= -I$(top_srcdir)/include/
+combined_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 combined_test_LDADD= -lpthread ../src/libcdada.la
 
 str_test_SOURCES= str_test.c
-str_test_CPPFLAGS= -I$(top_srcdir)/include/
+str_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 str_test_LDADD= -lpthread ../src/libcdada.la
 
 benchmark_SOURCES= benchmark.cc
 benchmark_CXXFLAGS= -O3
-benchmark_CPPFLAGS= -I$(top_srcdir)/include/
+benchmark_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 benchmark_LDADD= -lpthread ../src/.libs/libcdada.a
 
 #Valgrind
