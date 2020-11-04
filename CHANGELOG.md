@@ -12,6 +12,7 @@ Legend:
 ### v0.3.2 (3d November 2020)
 
 - [+] Add version and build MACROs and API calls
+- [B] Fix build when Python3 is not present by disabling gen tests
 
 ### v0.3.1 (22th July 2020)
 
