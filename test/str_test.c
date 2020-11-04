@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "cdada/str.h"
+#include "cdada/version.h"
 
 int last_pos;
 
@@ -359,6 +360,13 @@ int test_manipulation(){
 int main(int args, char** argv){
 
 	int rv;
+
+	fprintf(stdout, "Running libcdada: %s, MAJOR: %s, MINOR: %s, PATCH: %s. Build '%s' \n",
+							CDADA_VERSION,
+							CDADA_VERSION_MAJOR,
+							CDADA_VERSION_MINOR,
+							CDADA_VERSION_PATCH,
+							CDADA_BUILD);
 
 	rv = test_basics();
 	rv |= test_access();

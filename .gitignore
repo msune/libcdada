@@ -38,6 +38,8 @@ m4
 ar-lib
 test-driver
 
+include/cdada/version.h
+
 /build-*
 /build/*
 

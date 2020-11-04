@@ -55,6 +55,7 @@ AC_CONFIG_FILES([
 	src/Makefile
 	test/Makefile
 	tools/Makefile
+	include/cdada/version.h
 ])
 
 AC_OUTPUT

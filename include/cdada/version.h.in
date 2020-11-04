@@ -24,25 +24,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __CDADA_H__
-#define __CDADA_H__
+#ifndef __CDADA_VERSION_H__
+#define __CDADA_VERSION_H__
+
+#define CDADA_VERSION_MAJOR	"@CDADA_VERSION_MAJOR@"
+#define CDADA_VERSION_MINOR	"@CDADA_VERSION_MINOR@"
+#define CDADA_VERSION_PATCH	"@CDADA_VERSION_PATCH@"
+#define CDADA_VERSION		"@CDADA_VERSION_NORMALIZED@"
+#define CDADA_BUILD		"@CDADA_BUILD@"
 
 /**
-* @file cdada.h
-* @author Marc Sune<marcdevel (at) gmail.com>
+* @brief Return libcdada's version
 *
-* @brief libcdada meta header file. This header includes headers from _all_
-*        data structures. Prefer inclusion of individual ones.
+* The version has the format vX.Y.Z, where:
+*
+* X: major
+* Y: minor
+* Z: patch
 */
+const char* cdada_get_ver();
 
-#include <cdada/version.h>
-#include <cdada/bbitmap.h>
-#include <cdada/list.h>
-#include <cdada/map.h>
-#include <cdada/queue.h>
-#include <cdada/set.h>
-#include <cdada/stack.h>
-#include <cdada/str.h>
-#include <cdada/utils.h>
+/**
+* Return the MAJOR number of libcdada's version
+*/
+const char* cdada_get_ver_maj();
 
-#endif //__CDADA_H__
+/**
+* Return the MINOR number of libcdada's version
+*/
+const char* cdada_get_ver_min();
+
+/**
+* Return the PATCH number of libcdada's version
+*/
+const char* cdada_get_ver_patch();
+
+/**
+* @brief Return libcdada's build (git hash)
+*/
+const char* cdada_get_build();
+
+#endif /* __CDADA_VERSION_H__ */
