@@ -119,7 +119,7 @@ sudo make install
 The library solely depends on `libstdc++`, so it should be very easy to port it
 to Windows. If you are interested, consider submitting a PR.
 
-Author
-------
+Contact
+-------
 
 Marc Sune < marcdevel (at) gmail (dot) com>
