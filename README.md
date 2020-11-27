@@ -69,14 +69,15 @@ Documentation
 
 Public API:
 
-* [bbitmap.h](include/cdada/bbitmap.h): big bitmap (> 64bit)
-* [list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
-* [map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
-* [queue.h](include/cdada/queue.h): queue (FIFO queue) implementation (equivalent to `std::queue`)
-* [set.h](include/cdada/set.h): a set of objects (equivalent to `std::set`)
-* [stack.h](include/cdada/stack.h): stack (LIFO queue) implementation (equivalent to `std::stack`)
-* [str.h](include/cdada/str.h): a string (equivalent to `std::string`)
-* [util.h](include/cdada/util.h): error codes and utility functions
+  * [cdada.h](include/cdada.h): includes all headers listed below
+    * [cdada/bbitmap.h](include/cdada/bbitmap.h): big bitmap (> 64bit)
+    * [cdada/list.h](include/cdada/list.h): an ordered list of objects (equivalent to `std::list`)
+    * [cdada/map.h](include/cdada/map.h): a hashmap {key -> value}, with unique keys (equivalent to `std::map`)
+    * [cdada/queue.h](include/cdada/queue.h): queue (FIFO queue) implementation (equivalent to `std::queue`)
+    * [cdada/set.h](include/cdada/set.h): a set of objects (equivalent to `std::set`)
+    * [cdada/stack.h](include/cdada/stack.h): stack (LIFO queue) implementation (equivalent to `std::stack`)
+    * [cdada/str.h](include/cdada/str.h): a string (equivalent to `std::string`)
+    * [cdada/utils.h](include/cdada/utils.h): error codes and utility functions
 
 `libcdada` is not thread-safe.
 
@@ -99,12 +100,12 @@ Installation
 
 Requirements:
 
-* POSIX system
-* C and C++ gcc compatible compilers (gcc, icc, clang...)
-* Automake
-* Autoconf
-* Libtool
-* libstdc++ (C++98)
+  * POSIX system
+  * C and C++ gcc compatible compilers (gcc, icc, clang...)
+  * Automake
+  * Autoconf
+  * Libtool
+  * libstdc++ (C++98)
 
 ```
 sh autogen.sh
