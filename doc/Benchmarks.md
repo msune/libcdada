@@ -3,7 +3,7 @@
 This section compares the performance of `libcdada` to native `libstdc++`
 code, to measure the overhead it adds. The benchmarking code is here:
 
-* [benchmark.cc](https://github.com/msune/libcdada/tree/master/examples/benchmark.cc)
+* [benchmark.cc](https://github.com/msune/libcdada/tree/master/test/benchmark.cc)
 
 Please note:
 

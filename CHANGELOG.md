@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.3 (27th November 2020)
+
+- [B] Fix several issues with documentation
+
 ### v0.3.2 (3d November 2020)
 
 - [+] Add version and build MACROs and API calls
