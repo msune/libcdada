@@ -9,6 +9,11 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.4 (14th January 2021)
+
+- [B] Fix several build errors on old GCC versions (GCC4.2)
+- [O] Replace travis-ci.com/org with Github Actions
+
 ### v0.3.3 (27th November 2020)
 
 - [B] Fix several issues with documentation
