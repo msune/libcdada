@@ -141,24 +141,24 @@ void __cdada_list_autogen_dump_TT_TYPE_TT (const void* m,
         return cdada_list_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
-	.create  = __cdada_list_autogen_create_TT_TYPE_TT,
-	.destroy = __cdada_list_autogen_destroy_TT_TYPE_TT,
-	.clear = __cdada_list_autogen_clear_TT_TYPE_TT,
-	.empty = __cdada_list_autogen_empty_TT_TYPE_TT,
-	.size = __cdada_list_autogen_size_TT_TYPE_TT,
-	.insert = __cdada_list_autogen_insert_TT_TYPE_TT,
-	.get = __cdada_list_autogen_get_TT_TYPE_TT,
-	.first_last = __cdada_list_autogen_first_last_TT_TYPE_TT,
-	.erase = __cdada_list_autogen_erase_TT_TYPE_TT,
-	.remove = __cdada_list_autogen_remove_TT_TYPE_TT,
-	.push = __cdada_list_autogen_push_TT_TYPE_TT,
-	.pop = __cdada_list_autogen_pop_TT_TYPE_TT,
-	.sort = __cdada_list_autogen_sort_TT_TYPE_TT,
-	.reverse = __cdada_list_autogen_reverse_TT_TYPE_TT,
-	.unique = __cdada_list_autogen_unique_TT_TYPE_TT,
-	.traverse = __cdada_list_autogen_traverse_TT_TYPE_TT,
-	.rtraverse = __cdada_list_autogen_rtraverse_TT_TYPE_TT,
-	.dump = __cdada_list_autogen_dump_TT_TYPE_TT,
+	__cdada_list_autogen_create_TT_TYPE_TT,
+	__cdada_list_autogen_destroy_TT_TYPE_TT,
+	__cdada_list_autogen_clear_TT_TYPE_TT,
+	__cdada_list_autogen_empty_TT_TYPE_TT,
+	__cdada_list_autogen_size_TT_TYPE_TT,
+	__cdada_list_autogen_insert_TT_TYPE_TT,
+	__cdada_list_autogen_get_TT_TYPE_TT,
+	__cdada_list_autogen_first_last_TT_TYPE_TT,
+	__cdada_list_autogen_erase_TT_TYPE_TT,
+	__cdada_list_autogen_remove_TT_TYPE_TT,
+	__cdada_list_autogen_push_TT_TYPE_TT,
+	__cdada_list_autogen_pop_TT_TYPE_TT,
+	__cdada_list_autogen_sort_TT_TYPE_TT,
+	__cdada_list_autogen_reverse_TT_TYPE_TT,
+	__cdada_list_autogen_unique_TT_TYPE_TT,
+	__cdada_list_autogen_traverse_TT_TYPE_TT,
+	__cdada_list_autogen_rtraverse_TT_TYPE_TT,
+	__cdada_list_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -243,18 +243,18 @@ void __cdada_map_autogen_dump_TT_TYPE_TT (const void* m,
         return cdada_map_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
-	.create  = __cdada_map_autogen_create_TT_TYPE_TT,
-	.destroy = __cdada_map_autogen_destroy_TT_TYPE_TT,
-	.clear = __cdada_map_autogen_clear_TT_TYPE_TT,
-	.empty = __cdada_map_autogen_empty_TT_TYPE_TT,
-	.size = __cdada_map_autogen_size_TT_TYPE_TT,
-	.insert = __cdada_map_autogen_insert_TT_TYPE_TT,
-	.erase = __cdada_map_autogen_erase_TT_TYPE_TT,
-	.find = __cdada_map_autogen_find_TT_TYPE_TT,
-	.first_last = __cdada_map_autogen_first_last_TT_TYPE_TT,
-	.traverse = __cdada_map_autogen_traverse_TT_TYPE_TT,
-	.rtraverse = __cdada_map_autogen_rtraverse_TT_TYPE_TT,
-	.dump = __cdada_map_autogen_dump_TT_TYPE_TT,
+	__cdada_map_autogen_create_TT_TYPE_TT,
+	__cdada_map_autogen_destroy_TT_TYPE_TT,
+	__cdada_map_autogen_clear_TT_TYPE_TT,
+	__cdada_map_autogen_empty_TT_TYPE_TT,
+	__cdada_map_autogen_size_TT_TYPE_TT,
+	__cdada_map_autogen_insert_TT_TYPE_TT,
+	__cdada_map_autogen_erase_TT_TYPE_TT,
+	__cdada_map_autogen_find_TT_TYPE_TT,
+	__cdada_map_autogen_first_last_TT_TYPE_TT,
+	__cdada_map_autogen_traverse_TT_TYPE_TT,
+	__cdada_map_autogen_rtraverse_TT_TYPE_TT,
+	__cdada_map_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -315,15 +315,15 @@ void __cdada_queue_autogen_dump_TT_TYPE_TT (const void* m,
         return cdada_queue_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_queue_ops_t __cdada_queue_autogen_TT_TYPE_TT = {
-	.create  = __cdada_queue_autogen_create_TT_TYPE_TT,
-	.destroy = __cdada_queue_autogen_destroy_TT_TYPE_TT,
-	.empty = __cdada_queue_autogen_empty_TT_TYPE_TT,
-	.size = __cdada_queue_autogen_size_TT_TYPE_TT,
-	.push = __cdada_queue_autogen_push_TT_TYPE_TT,
-	.pop = __cdada_queue_autogen_pop_TT_TYPE_TT,
-	.front = __cdada_queue_autogen_front_TT_TYPE_TT,
-	.back = __cdada_queue_autogen_back_TT_TYPE_TT,
-	.dump = __cdada_queue_autogen_dump_TT_TYPE_TT,
+	__cdada_queue_autogen_create_TT_TYPE_TT,
+	__cdada_queue_autogen_destroy_TT_TYPE_TT,
+	__cdada_queue_autogen_empty_TT_TYPE_TT,
+	__cdada_queue_autogen_size_TT_TYPE_TT,
+	__cdada_queue_autogen_push_TT_TYPE_TT,
+	__cdada_queue_autogen_pop_TT_TYPE_TT,
+	__cdada_queue_autogen_front_TT_TYPE_TT,
+	__cdada_queue_autogen_back_TT_TYPE_TT,
+	__cdada_queue_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -395,18 +395,18 @@ void __cdada_set_autogen_dump_TT_TYPE_TT (const void* m,
         return cdada_set_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
-	.create  = __cdada_set_autogen_create_TT_TYPE_TT,
-	.destroy = __cdada_set_autogen_destroy_TT_TYPE_TT,
-	.clear = __cdada_set_autogen_clear_TT_TYPE_TT,
-	.empty = __cdada_set_autogen_empty_TT_TYPE_TT,
-	.size = __cdada_set_autogen_size_TT_TYPE_TT,
-	.insert = __cdada_set_autogen_insert_TT_TYPE_TT,
-	.erase = __cdada_set_autogen_erase_TT_TYPE_TT,
-	.find = __cdada_set_autogen_find_TT_TYPE_TT,
-	.first_last = __cdada_set_autogen_first_last_TT_TYPE_TT,
-	.traverse = __cdada_set_autogen_traverse_TT_TYPE_TT,
-	.rtraverse = __cdada_set_autogen_rtraverse_TT_TYPE_TT,
-	.dump = __cdada_set_autogen_dump_TT_TYPE_TT,
+	__cdada_set_autogen_create_TT_TYPE_TT,
+	__cdada_set_autogen_destroy_TT_TYPE_TT,
+	__cdada_set_autogen_clear_TT_TYPE_TT,
+	__cdada_set_autogen_empty_TT_TYPE_TT,
+	__cdada_set_autogen_size_TT_TYPE_TT,
+	__cdada_set_autogen_insert_TT_TYPE_TT,
+	__cdada_set_autogen_erase_TT_TYPE_TT,
+	__cdada_set_autogen_find_TT_TYPE_TT,
+	__cdada_set_autogen_first_last_TT_TYPE_TT,
+	__cdada_set_autogen_traverse_TT_TYPE_TT,
+	__cdada_set_autogen_rtraverse_TT_TYPE_TT,
+	__cdada_set_autogen_dump_TT_TYPE_TT,
 };
 """
 
@@ -461,14 +461,14 @@ void __cdada_stack_autogen_dump_TT_TYPE_TT (const void* m,
         return cdada_stack_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {
-	.create  = __cdada_stack_autogen_create_TT_TYPE_TT,
-	.destroy = __cdada_stack_autogen_destroy_TT_TYPE_TT,
-	.empty = __cdada_stack_autogen_empty_TT_TYPE_TT,
-	.size = __cdada_stack_autogen_size_TT_TYPE_TT,
-	.push = __cdada_stack_autogen_push_TT_TYPE_TT,
-	.pop = __cdada_stack_autogen_pop_TT_TYPE_TT,
-	.top = __cdada_stack_autogen_top_TT_TYPE_TT,
-	.dump = __cdada_stack_autogen_dump_TT_TYPE_TT,
+	__cdada_stack_autogen_create_TT_TYPE_TT,
+	__cdada_stack_autogen_destroy_TT_TYPE_TT,
+	__cdada_stack_autogen_empty_TT_TYPE_TT,
+	__cdada_stack_autogen_size_TT_TYPE_TT,
+	__cdada_stack_autogen_push_TT_TYPE_TT,
+	__cdada_stack_autogen_pop_TT_TYPE_TT,
+	__cdada_stack_autogen_top_TT_TYPE_TT,
+	__cdada_stack_autogen_dump_TT_TYPE_TT,
 };
 """
 

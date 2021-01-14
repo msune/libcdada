@@ -153,15 +153,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_QUEUE_CUSTOM_OPS(TYPE) \
 	__cdada_queue_ops_t __cdada_queue_autogen_##TYPE = { \
-		.create  = __cdada_queue_autogen_create_##TYPE, \
-		.destroy = __cdada_queue_autogen_destroy_##TYPE, \
-		.empty = __cdada_queue_autogen_empty_##TYPE, \
-		.size = __cdada_queue_autogen_size_##TYPE, \
-		.push = __cdada_queue_autogen_push_##TYPE, \
-		.pop = __cdada_queue_autogen_pop_##TYPE, \
-		.front = __cdada_queue_autogen_front_##TYPE, \
-		.back = __cdada_queue_autogen_back_##TYPE, \
-		.dump = __cdada_queue_autogen_dump_##TYPE, \
+		__cdada_queue_autogen_create_##TYPE, \
+		__cdada_queue_autogen_destroy_##TYPE, \
+		__cdada_queue_autogen_empty_##TYPE, \
+		__cdada_queue_autogen_size_##TYPE, \
+		__cdada_queue_autogen_push_##TYPE, \
+		__cdada_queue_autogen_pop_##TYPE, \
+		__cdada_queue_autogen_front_##TYPE, \
+		__cdada_queue_autogen_back_##TYPE, \
+		__cdada_queue_autogen_dump_##TYPE, \
 		}
 
 /**

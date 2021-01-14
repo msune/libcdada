@@ -192,18 +192,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_MAP_CUSTOM_OPS(TYPE) \
 	__cdada_map_ops_t __cdada_map_autogen_##TYPE = { \
-		.create  = __cdada_map_autogen_create_##TYPE, \
-		.destroy = __cdada_map_autogen_destroy_##TYPE, \
-		.clear = __cdada_map_autogen_clear_##TYPE, \
-		.empty = __cdada_map_autogen_empty_##TYPE, \
-		.size = __cdada_map_autogen_size_##TYPE, \
-		.insert = __cdada_map_autogen_insert_##TYPE, \
-		.erase = __cdada_map_autogen_erase_##TYPE, \
-		.find = __cdada_map_autogen_find_##TYPE, \
-		.first_last = __cdada_map_autogen_first_last_##TYPE, \
-		.traverse = __cdada_map_autogen_traverse_##TYPE, \
-		.rtraverse = __cdada_map_autogen_rtraverse_##TYPE, \
-		.dump = __cdada_map_autogen_dump_##TYPE, \
+		__cdada_map_autogen_create_##TYPE, \
+		__cdada_map_autogen_destroy_##TYPE, \
+		__cdada_map_autogen_clear_##TYPE, \
+		__cdada_map_autogen_empty_##TYPE, \
+		__cdada_map_autogen_size_##TYPE, \
+		__cdada_map_autogen_insert_##TYPE, \
+		__cdada_map_autogen_erase_##TYPE, \
+		__cdada_map_autogen_find_##TYPE, \
+		__cdada_map_autogen_first_last_##TYPE, \
+		__cdada_map_autogen_traverse_##TYPE, \
+		__cdada_map_autogen_rtraverse_##TYPE, \
+		__cdada_map_autogen_dump_##TYPE, \
 		}
 
 /**

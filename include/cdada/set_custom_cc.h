@@ -189,18 +189,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_SET_CUSTOM_OPS(TYPE) \
 	__cdada_set_ops_t __cdada_set_autogen_##TYPE = { \
-		.create  = __cdada_set_autogen_create_##TYPE, \
-		.destroy = __cdada_set_autogen_destroy_##TYPE, \
-		.clear = __cdada_set_autogen_clear_##TYPE, \
-		.empty = __cdada_set_autogen_empty_##TYPE, \
-		.size = __cdada_set_autogen_size_##TYPE, \
-		.insert = __cdada_set_autogen_insert_##TYPE, \
-		.erase = __cdada_set_autogen_erase_##TYPE, \
-		.find = __cdada_set_autogen_find_##TYPE, \
-		.first_last = __cdada_set_autogen_first_last_##TYPE, \
-		.traverse = __cdada_set_autogen_traverse_##TYPE, \
-		.rtraverse = __cdada_set_autogen_rtraverse_##TYPE, \
-		.dump = __cdada_set_autogen_dump_##TYPE, \
+		__cdada_set_autogen_create_##TYPE, \
+		__cdada_set_autogen_destroy_##TYPE, \
+		__cdada_set_autogen_clear_##TYPE, \
+		__cdada_set_autogen_empty_##TYPE, \
+		__cdada_set_autogen_size_##TYPE, \
+		__cdada_set_autogen_insert_##TYPE, \
+		__cdada_set_autogen_erase_##TYPE, \
+		__cdada_set_autogen_find_##TYPE, \
+		__cdada_set_autogen_first_last_##TYPE, \
+		__cdada_set_autogen_traverse_##TYPE, \
+		__cdada_set_autogen_rtraverse_##TYPE, \
+		__cdada_set_autogen_dump_##TYPE, \
 		}
 
 /**

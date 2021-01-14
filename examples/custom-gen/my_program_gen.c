@@ -19,6 +19,7 @@ int main(int args, char** argv){
 	bar_t bar_key;
 	int i, rv, values[32];
 	int* val;
+	void* val_aux; //Avoid alias warnings
 
 	cdada_list_t* list;
 	cdada_map_t* map;
@@ -69,11 +70,12 @@ int main(int args, char** argv){
 
 	bar_key.aa = 2*5;
 	bar_key.bb = 0.55;
-	rv = cdada_map_find(map, &bar_key, (void**)&val);
+	rv = cdada_map_find(map, &bar_key, &val_aux);
 	if(rv != CDADA_SUCCESS){
 		//libcdada has a bug
 		exit(1);
 	}
+	val = (int*)val_aux;
 
 	assert(*val == 5);
 	fprintf(stdout, "Value for aa: %u, bb: %f -> %d\n", bar_key.aa,

@@ -142,14 +142,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_STACK_CUSTOM_OPS(TYPE) \
 	__cdada_stack_ops_t __cdada_stack_autogen_##TYPE = { \
-		.create  = __cdada_stack_autogen_create_##TYPE, \
-		.destroy = __cdada_stack_autogen_destroy_##TYPE, \
-		.empty = __cdada_stack_autogen_empty_##TYPE, \
-		.size = __cdada_stack_autogen_size_##TYPE, \
-		.push = __cdada_stack_autogen_push_##TYPE, \
-		.pop = __cdada_stack_autogen_pop_##TYPE, \
-		.top = __cdada_stack_autogen_top_##TYPE, \
-		.dump = __cdada_stack_autogen_dump_##TYPE, \
+		__cdada_stack_autogen_create_##TYPE, \
+		__cdada_stack_autogen_destroy_##TYPE, \
+		__cdada_stack_autogen_empty_##TYPE, \
+		__cdada_stack_autogen_size_##TYPE, \
+		__cdada_stack_autogen_push_##TYPE, \
+		__cdada_stack_autogen_pop_##TYPE, \
+		__cdada_stack_autogen_top_##TYPE, \
+		__cdada_stack_autogen_dump_##TYPE, \
 		}
 
 /**
