@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/msune/libcdada.svg?branch=master)](https://travis-ci.org/msune/libcdada)
+master [![Build status](https://github.com/msune/libcdada/workflows/ci/badge.svg?branch=master)](https://github.com/msune/libcdada/actions), devel [![Build status](https://github.com/msune/libcdada/workflows/ci/badge.svg?branch=devel)](https://github.com/msune/libcdada/actions)
 
 **libcdada** - basic data structures in C (`libstdc++` wrapper)
 ---------------------------------------------------------------
