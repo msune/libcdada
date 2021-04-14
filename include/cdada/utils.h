@@ -55,6 +55,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	# define CDADA_END_DECLS
 #endif //__cplusplus
 
+//Compilation assert
+#define COMPILATION_ASSERT(tag, cond) \
+	enum { COMPILATION_ASSERT__ ## tag = 1/(cond) }
+
 CDADA_BEGIN_DECLS
 
 /**
