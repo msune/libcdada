@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/set.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Set data structure. Wraps std::set data structure
+* @brief Set data structure.
+*
+* `cdada_set` data structure is a collection of unique elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `key` will be stored in the set.
+* During accesses (e.g. `cdada_set_first`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `key`.
+*
+* Uses std::set as a backend
 */
 
 /**
@@ -65,7 +72,7 @@ typedef void (*cdada_set_it)(const cdada_set_t* set, const void* key,
 /**
 * @brief Create and initialize a set data structure
 *
-* Allocate and initialize a set structure (std::set). Containers will perform
+* Allocate and initialize a set structure. Containers will perform
 * better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
@@ -79,7 +86,7 @@ typedef void (*cdada_set_it)(const cdada_set_t* set, const void* key,
 int cdada_set_destroy(cdada_set_t* set);
 
 /**
-* Clears the contents of the set
+* Clear the contents of the set
 */
 int cdada_set_clear(cdada_set_t* set);
 
@@ -118,7 +125,7 @@ uint32_t cdada_set_size(const cdada_set_t* set);
 //Element manipulation
 
 /**
-* Inserts an element in the set
+* Insert an element (a copy) in the set
 *
 * @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
@@ -134,24 +141,26 @@ int cdada_set_insert(cdada_set_t* set, const void* key);
 int cdada_set_erase(cdada_set_t* set, const void* key);
 
 /**
-* Finds a key in the set
+* Find a key in the set
 *
 * @param set Set pointer
-* @param key Key
+* @param key Key to search
 */
 bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
 * Get the first element in the set
 * @param set Set pointer
-* @param key Key
+* @param key If set has elements, a copy of the first element will be stored
+*            in *key
 */
 int cdada_set_first(const cdada_set_t* set, void* key);
 
 /**
 * Get the last element in the set
 * @param set Set pointer
-* @param key Key
+* @param key If set has elements, a copy of the last element will be stored
+*            in *key
 */
 int cdada_set_last(const cdada_set_t* set, void* key);
 
