@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/list.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief List data structure. Wraps std::list data structure
+* @brief List data structure
+*
+* `cdada_list` data structure is an ordered list of elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `val` will be stored in the list.
+* During accesses (e.g. `cdada_list_first`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `val`.
+*
+* Uses std::list as a backend
 */
 
 /**
@@ -65,8 +72,8 @@ typedef void (*cdada_list_it)(const cdada_list_t* list, const void* val,
 /**
 * @brief Create and initialize a list data structure
 *
-* Allocate and initialize a list structure (std::list). Containers will perform
-* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+* Allocate and initialize a list structure. Containers will perform  better when
+* TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
 */
@@ -79,7 +86,7 @@ typedef void (*cdada_list_it)(const cdada_list_t* list, const void* val,
 int cdada_list_destroy(cdada_list_t* list);
 
 /**
-* Clears the contents of the list
+* Clear the contents of the list
 */
 int cdada_list_clear(cdada_list_t* list);
 
@@ -118,7 +125,7 @@ uint32_t cdada_list_size(const cdada_list_t* list);
 //Element manipulation
 
 /**
-* Inserts an element in the list
+* Insert an element (a copy) in the list
 *
 * @param list List pointer
 * @param val Value
@@ -131,21 +138,24 @@ int cdada_list_insert(cdada_list_t* list, const void* val, const uint32_t pos);
 *
 * @param list List pointer
 * @param pos Position in the list
-* @param val Value if found
+* @param val If an element in the position `pos` (starting from 0) exists,
+*            a copy of the element will be stored in *val
 */
 int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val);
 
 /**
-* Get the first element in the list
+* Get the first element (a copy) in the list
 * @param list Map pointer
-* @param val Value if found
+* @param val When the list has elements, a copy of the first element will
+*            be stored in *val
 */
 int cdada_list_first(const cdada_list_t* list, void* val);
 
 /**
-* Get the last element in the list
+* Get the last element (a copy) in the list
 * @param list Map pointer
-* @param val Value if found
+* @param val When the list has elements, a copy of the last element will
+*            be stored in *val
 */
 int cdada_list_last(const cdada_list_t* list, void* val);
 
@@ -161,40 +171,37 @@ int cdada_list_erase(cdada_list_t* list, uint32_t pos);
 * Remove elements with a specific value
 *
 * @param list List pointer
-* @param val Val. The val type _must_ have all bytes initialized
+* @param val Element
 */
 int cdada_list_remove(cdada_list_t* list, const void* val);
 
 /**
-* Push front
+* Push front (a copy)
 *
 * @param list List pointer
-* @param val Val. The val type _must_ have all bytes initialized
-* @param pos Position in the list
+* @param val Element
 */
 int cdada_list_push_front(cdada_list_t* list, const void* val);
 
 /**
-* Push back
+* Push back (a copy)
 *
 * @param list List pointer
-* @param val Val. The val type _must_ have all bytes initialized
+* @param val Element
 */
 int cdada_list_push_back(cdada_list_t* list, const void* val);
 
 /**
-* Pop front
+* Pop (remove) from the front of the list
 *
 * @param list List pointer
-* @param val Val. The val type _must_ have all bytes initialized
 */
 int cdada_list_pop_front(cdada_list_t* list);
 
 /**
-* Pop back
+* Pop (remove) from the back of the list
 *
 * @param list List pointer
-* @param val Val. The val type _must_ have all bytes initialized
 */
 int cdada_list_pop_back(cdada_list_t* list);
 
