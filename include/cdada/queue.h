@@ -175,7 +175,7 @@ int cdada_queue_pop(cdada_queue_t* queue);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: front element is retrieved
-*          CDADA_E_NOT_FOUND: queue has no elements
+*          CDADA_E_EMPTY: queue has no elements
 *          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
 *          CDADA_E_INVALID: queue is NULL or corrupted
 */
@@ -190,7 +190,7 @@ int cdada_queue_front(const cdada_queue_t* queue, void *val);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: back element is retrieved
-*          CDADA_E_NOT_FOUND: queue has no elements
+*          CDADA_E_EMPTY: queue has no elements
 *          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
 *          CDADA_E_INVALID: queue is NULL or corrupted
 */
