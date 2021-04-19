@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.5 (20th April 2021)
+
+- [+] Improved public API documentation
+
 ### v0.3.4 (14th January 2021)
 
 - [B] Fix several build errors on old GCC versions (GCC4.2)
