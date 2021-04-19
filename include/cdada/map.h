@@ -36,7 +36,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/map.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Map {key, value} data structure. Wraps std::map data structure
+* @brief Map (hashmap, hashtable) data structure
+*
+* `cdada_map` data structure is a collection of unique elements of type `TYPE`
+* which have associated a value {key, value}.
+* During insertions, a _copy_ of the key `key` and a copy of the pointer value
+* `val` will be sotred in the container.
+* During accesses (e.g. `cdada_map_find`), if found, a _copy_ of the key is
+* stored in the region of memory pointed by `key`, and the (double) pointer
+* of value `val` is set.
+*
+* Uses std::map as a backend
 */
 
 /**
@@ -67,8 +77,8 @@ typedef void (*cdada_map_it)(const cdada_map_t* map, const void* key,
 /**
 * @brief Create and initialize a map data structure
 *
-* Allocate and initialize a map structure (std::map). Containers will perform
-* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+* Allocate and initialize a map structure. Containers will perform  better when
+* TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
 */
@@ -81,7 +91,7 @@ typedef void (*cdada_map_it)(const cdada_map_t* map, const void* key,
 int cdada_map_destroy(cdada_map_t* map);
 
 /**
-* Clears the contents of the map
+* Clear the contents of the map
 */
 int cdada_map_clear(cdada_map_t* map);
 
@@ -120,7 +130,7 @@ uint32_t cdada_map_size(const cdada_map_t* map);
 //Element manipulation
 
 /**
-* Inserts an element in the map
+* Insert an element (a copy of `key` and pointer `val`) in the map
 *
 * @param map Map pointer
 * @param key Key. The key type _must_ have all bytes initialized
@@ -137,27 +147,29 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 int cdada_map_erase(cdada_map_t* map, const void* key);
 
 /**
-* Finds a key in the map
+* Find a key in the map
 *
 * @param map Map pointer
-* @param key Key
-* @param val Pointer to the value
+* @param key Key to search
+* @param val If element is found, *val will be set to the value pointer
 */
 int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
 
 /**
 * Get the first element in the map
 * @param map Map pointer
-* @param key Key
-* @param val Pointer to the value
+* @param key If map has elements, a copy of the first element key will be stored
+*            in *key
+* @param val If map has elements, *val will be set to the value pointer
 */
 int cdada_map_first(const cdada_map_t* map, void* key, void** val);
 
 /**
 * Get the last element in the map
 * @param map Map pointer
-* @param key Key. The key type _must_ have all bytes initialized
-* @param val Pointer to the value
+* @param key If map has elements, a copy of the first element key will be stored
+*            in *key
+* @param val If map has elements, *val will be set to the value pointer
 */
 int cdada_map_last(const cdada_map_t* map, void* key, void** val);
 
