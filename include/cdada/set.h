@@ -200,7 +200,7 @@ bool cdada_set_find(const cdada_set_t* set, const void* key);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: first element was retrieved
-*          CDADA_E_NOT_FOUND: set has no elements
+*          CDADA_E_EMPTY: set has no elements
 *          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
 *          CDADA_E_INVALID: set is NULL or corrupted
 */
@@ -214,7 +214,7 @@ int cdada_set_first(const cdada_set_t* set, void* key);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: last element was retrieved
-*          CDADA_E_NOT_FOUND: set has no elements
+*          CDADA_E_EMPTY: set has no elements
 *          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
 *          CDADA_E_INVALID: set is NULL or corrupted
 */

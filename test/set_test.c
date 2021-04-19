@@ -45,8 +45,8 @@ int test_u8_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -148,8 +148,8 @@ int test_u16_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -250,8 +250,8 @@ int test_u32_insert_removal(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -352,8 +352,8 @@ int test_u64_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0ULL;
@@ -537,8 +537,8 @@ int _test_u552_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key.mid = 0;
@@ -660,8 +660,8 @@ int test_u3552_insert_removal_traverse_custom(){
 
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
-	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_NOT_FOUND);
-	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(cdada_set_first(set, &key) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_set_last(set, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key.mid = 0;
