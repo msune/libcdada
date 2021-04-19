@@ -115,7 +115,7 @@ int cdada_stack_push_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
 template<typename T>
 int cdada_stack_pop_u(__cdada_stack_int_t* m, std::stack<T>* m_u){
 
-	int rv = CDADA_E_NOT_FOUND;
+	int rv = CDADA_E_EMPTY;
 
 	if(!m_u->empty()){
 		m_u->pop();
@@ -130,7 +130,7 @@ int cdada_stack_top_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
-	int rv = CDADA_E_NOT_FOUND;
+	int rv = CDADA_E_EMPTY;
 
 	if(!m_u->empty()){
 		if(m->val_len == m->user_val_len){

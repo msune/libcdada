@@ -28,7 +28,10 @@ int test_u8_push_pop(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -105,7 +108,7 @@ int test_u8_push_pop(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
@@ -167,7 +170,10 @@ int test_u16_push_pop(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -244,7 +250,7 @@ int test_u16_push_pop(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
@@ -306,7 +312,10 @@ int test_u32_push_pop(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0;
@@ -383,7 +392,7 @@ int test_u32_push_pop(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
@@ -445,7 +454,10 @@ int test_u64_push_pop(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key = 0ULL;
@@ -522,7 +534,7 @@ int test_u64_push_pop(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
@@ -638,7 +650,10 @@ int _test_u552_push_pop(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key.mid = 0;
@@ -715,7 +730,7 @@ int _test_u552_push_pop(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 
@@ -795,7 +810,10 @@ int test_u3552_push_pop_custom(){
 
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
-	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_NOT_FOUND);
+
+	//Check E_EMPTY
+	TEST_ASSERT(cdada_stack_pop(stack) == CDADA_E_EMPTY);
+	TEST_ASSERT(cdada_stack_top(stack, &key) == CDADA_E_EMPTY);
 
 	//Add one key & get
 	key.mid = 0;
@@ -872,7 +890,7 @@ int test_u3552_push_pop_custom(){
 	rv = cdada_stack_pop(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_stack_pop(stack);
-	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
 	TEST_ASSERT(cdada_stack_size(stack) == 0);
 	TEST_ASSERT(cdada_stack_empty(stack) == true);
 

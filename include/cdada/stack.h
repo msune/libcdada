@@ -176,7 +176,7 @@ int cdada_stack_pop(cdada_stack_t* stack);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: top element is retrieved
-*          CDADA_E_NOT_FOUND: stack has no elements
+*          CDADA_E_EMPTY: stack is empty
 *          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
 *          CDADA_E_INVALID: stack is NULL or corrupted
 */
