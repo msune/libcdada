@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/stack.h
 * @author Peter Dobransky<pdobransky101 (at) gmail.com>
 *
-* @brief Stack data structure. Wraps std::stack data structure
+* @brief Stack(LIFO) data structure.
+*
+* `cdada_stack` data structure is a stack(LIFO) of elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `val` will be stored in the stack.
+* During accesses (e.g. `cdada_stack_top`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `val`.
+*
+* Uses std::stack as a backend
 */
 
 /**
@@ -53,10 +60,10 @@ cdada_stack_t* __cdada_stack_create(const uint16_t val_size,
 						struct __cdada_stack_ops* ops);
 
 /**
-* @brief Create and initialize a stack data structure
+* @brief Create and initialize a stack(LIFO) data structure
 *
-* Allocate and initialize a stack structure (std::stack). Containers will perform
-* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+* Allocate and initialize a stack structure (std::stack). Containers will
+* perform better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
 */
@@ -114,27 +121,27 @@ int cdada_stack_set_max_capacity(const cdada_stack_t* stack,
 //Element manipulation
 
 /**
-* Push front
+* Push an element (a copy) to the front of the stack
 *
 * @param stack Stack pointer
-* @param val Val. The val type _must_ have all bytes initialized
+* @param val Element to push
 */
 int cdada_stack_push(cdada_stack_t* stack, const void* val);
 
 /**
-* Pop front
+* Pop (remove) an element from the top
 *
 * @param stack Stack pointer
 */
 int cdada_stack_pop(cdada_stack_t* stack);
 
 /**
-* Get the top element in the stack. The value pointer must
-* be passed since the function cannot return multiple types.
-* This differs from the libstdc++ stack implementation.
+* Get the element (a copy) on the top of the stack.
 *
 * @param stack Stack pointer
 * @param val Value pointer
+* @param val If stack has elements, a copy of the top element will be stored
+*            in *val
 */
 int cdada_stack_top(const cdada_stack_t* stack, void *val);
 
