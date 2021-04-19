@@ -193,7 +193,7 @@ int cdada_list_get(const cdada_list_t* list, const uint32_t pos, void* val);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: first element was retrieved
-*          CDADA_E_NOT_FOUND: list has no elements
+*          CDADA_E_EMPTY: list has no elements
 *          CDADA_E_UNKNOWN: corrupted list or internal error (bug)
 *          CDADA_E_INVALID: list is NULL or corrupted
 */
@@ -207,7 +207,7 @@ int cdada_list_first(const cdada_list_t* list, void* val);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: last element was retrieved
-*          CDADA_E_NOT_FOUND: list has no elements
+*          CDADA_E_EMPTY: list has no elements
 *          CDADA_E_UNKNOWN: corrupted list or internal error (bug)
 *          CDADA_E_INVALID: list is NULL or corrupted
 */

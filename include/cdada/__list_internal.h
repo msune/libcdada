@@ -169,7 +169,7 @@ int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 		typename std::list<T>::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->val_len == m->user_val_len)
 			*aux = *it;
@@ -179,7 +179,7 @@ int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 		typename std::list<T>::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->val_len == m->user_val_len)
 			*aux = *rit;
@@ -262,12 +262,14 @@ int cdada_list_push_u(__cdada_list_int_t* m, std::list<T>* m_u,
 	else
 		m_u->push_back(aux);
 
-
 	return CDADA_SUCCESS;
 }
 
 template<typename T>
 int cdada_list_pop_u(__cdada_list_int_t* m, std::list<T>* m_u, bool front){
+
+	if(m_u->size() == 0)
+		return CDADA_E_EMPTY;
 
 	if(front)
 		m_u->pop_front();
