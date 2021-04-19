@@ -35,7 +35,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/str.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief String data structure. Wraps std::string data structure
+* @brief String data structure
+*
+* Uses std::string as a backend
 */
 
 /**
@@ -180,12 +182,12 @@ int cdada_str_last_c(const cdada_str_t* str, char* c);
 //Manipulation
 
 /**
-* Set the contens of the string
+* Set or replace the contents of the string
 */
 int cdada_str_set(cdada_str_t* str, const char* new_str);
 
 /**
-* Clears the contents of the str
+* Clears the contents of the str ("")
 */
 static inline int cdada_str_clear(cdada_str_t* str){
 	return cdada_str_set(str, "");
@@ -208,7 +210,7 @@ int cdada_str_append(cdada_str_t* str, const char* substr);
 int cdada_str_trim(cdada_str_t* str, const uint32_t n);
 
 /**
-* Inserts a substring in a specific position of the string
+* Insert a substring in a specific position of the string
 *
 * @param str String pointer
 * @param pos Position where to inser the substring
