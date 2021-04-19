@@ -213,7 +213,7 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: first element was retrieved
-*          CDADA_E_NOT_FOUND: map has no elements
+*          CDADA_E_EMPTY: map has no elements
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
 *          CDADA_E_INVALID: map is NULL or corrupted
 */
@@ -228,7 +228,7 @@ int cdada_map_first(const cdada_map_t* map, void* key, void** val);
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: last element was retrieved
-*          CDADA_E_NOT_FOUND: map has no elements
+*          CDADA_E_EMPTY: map has no elements
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
 *          CDADA_E_INVALID: map is NULL or corrupted
 */

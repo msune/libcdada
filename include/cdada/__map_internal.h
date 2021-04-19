@@ -206,7 +206,7 @@ int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 		typename std::map<T, void*>::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->key_len == m->user_key_len)
 			*aux = it->first;
@@ -218,7 +218,7 @@ int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 		typename std::map<T, void*>::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->key_len == m->user_key_len)
 			*aux = rit->first;
