@@ -52,36 +52,65 @@ CDADA_BEGIN_DECLS
 
 /**
 * Create a big bitmap with n_bits number of bits, from bit 0...n_bits-1
+*
+* @returns Returns a cdada_bbitmap object or NULL, if some error is found
 */
 cdada_bbitmap_t* cdada_bbitmap_create(const uint32_t n_bits);
 
 /**
 * Destroy a big bitmap
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: bitmap is destroyed
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or corrupted
 */
 int cdada_bbitmap_destroy(cdada_bbitmap_t* bitmap);
 
 /**
 * Set bit in big bitmap
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: bit is set
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or bit is beyond bounds
 */
 int cdada_bbitmap_set(cdada_bbitmap_t* bitmap, const uint32_t bit);
 
 /**
 * Set all bits in big bitmap
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: all bits set
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or corrupted
 */
 int cdada_bbitmap_set_all(cdada_bbitmap_t* bitmap);
 
 /**
 * Is bit set
+*
+* @returns Returns true if bit is set else (including invalid) false
 */
 bool cdada_bbitmap_is_set(cdada_bbitmap_t* bitmap, const uint32_t bit);
 
 /**
 * Clear bit in big bitmap
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: bit is cleared
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or bit is beyond bounds
 */
 int cdada_bbitmap_clear(cdada_bbitmap_t* bitmap, const uint32_t bit);
 
 /**
 * Clear all bits in big bitmap
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: all bits cleared
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or corrupted
 */
 int cdada_bbitmap_clear_all(cdada_bbitmap_t* bitmap);
 
@@ -96,6 +125,13 @@ int cdada_bbitmap_clear_all(cdada_bbitmap_t* bitmap);
 *               'size_used'
 * @param size_used If buffer != NULL, the number of bytes written else number of
 *                  bytes necessary to write, including '\0'
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: bitmap was dumped to buffer
+*          CDADA_E_INCOMPLETE: not enough room in buffer
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or corrupted
 */
 int cdada_bbitmap_dump(cdada_bbitmap_t* bitmap, uint32_t size, char* buffer,
 							uint32_t* bytes_used);
@@ -105,6 +141,12 @@ int cdada_bbitmap_dump(cdada_bbitmap_t* bitmap, uint32_t size, char* buffer,
 *
 * @param bitmap Bitmap object
 * @param stream stdout or stderr
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: bitmap was dumped to `stream`
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted bitmap or internal error (bug)
+*          CDADA_E_INVALID: bitmap is NULL or corrupted
 */
 int cdada_bbitmap_print(cdada_bbitmap_t* bitmap, FILE *stream);
 

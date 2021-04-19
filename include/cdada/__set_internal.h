@@ -187,7 +187,7 @@ int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 		typename std::set<T>::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->key_len == m->user_key_len)
 			*aux = *it;
@@ -197,7 +197,7 @@ int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 		typename std::set<T>::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
-			return CDADA_E_NOT_FOUND;
+			return CDADA_E_EMPTY;
 
 		if(m->key_len == m->user_key_len)
 			*aux = *rit;

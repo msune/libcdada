@@ -259,24 +259,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_LIST_CUSTOM_OPS(TYPE) \
 	__cdada_list_ops_t __cdada_list_autogen_##TYPE = { \
-		.create  = __cdada_list_autogen_create_##TYPE, \
-		.destroy = __cdada_list_autogen_destroy_##TYPE, \
-		.clear = __cdada_list_autogen_clear_##TYPE, \
-		.empty = __cdada_list_autogen_empty_##TYPE, \
-		.size = __cdada_list_autogen_size_##TYPE, \
-		.insert = __cdada_list_autogen_insert_##TYPE, \
-		.get = __cdada_list_autogen_get_##TYPE, \
-		.first_last = __cdada_list_autogen_first_last_##TYPE, \
-		.erase = __cdada_list_autogen_erase_##TYPE, \
-		.remove = __cdada_list_autogen_remove_##TYPE, \
-		.push = __cdada_list_autogen_push_##TYPE, \
-		.pop = __cdada_list_autogen_pop_##TYPE, \
-		.sort = __cdada_list_autogen_sort_##TYPE, \
-		.reverse = __cdada_list_autogen_reverse_##TYPE, \
-		.unique = __cdada_list_autogen_unique_##TYPE, \
-		.traverse = __cdada_list_autogen_traverse_##TYPE, \
-		.rtraverse = __cdada_list_autogen_rtraverse_##TYPE, \
-		.dump = __cdada_list_autogen_dump_##TYPE, \
+		__cdada_list_autogen_create_##TYPE, \
+		__cdada_list_autogen_destroy_##TYPE, \
+		__cdada_list_autogen_clear_##TYPE, \
+		__cdada_list_autogen_empty_##TYPE, \
+		__cdada_list_autogen_size_##TYPE, \
+		__cdada_list_autogen_insert_##TYPE, \
+		__cdada_list_autogen_get_##TYPE, \
+		__cdada_list_autogen_first_last_##TYPE, \
+		__cdada_list_autogen_erase_##TYPE, \
+		__cdada_list_autogen_remove_##TYPE, \
+		__cdada_list_autogen_push_##TYPE, \
+		__cdada_list_autogen_pop_##TYPE, \
+		__cdada_list_autogen_sort_##TYPE, \
+		__cdada_list_autogen_reverse_##TYPE, \
+		__cdada_list_autogen_unique_##TYPE, \
+		__cdada_list_autogen_traverse_##TYPE, \
+		__cdada_list_autogen_rtraverse_##TYPE, \
+		__cdada_list_autogen_dump_##TYPE, \
 		}
 
 /**

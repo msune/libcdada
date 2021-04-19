@@ -1,0 +1,172 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
+
+jobs:
+  gcc-4_8:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC4.8"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-4.8
+          CXX: g++-4.8
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC4.8 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-4.8
+          CXX: g++-4.8
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+  gcc-5:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC5"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-5
+          CXX: g++-5
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC5 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-5
+          CXX: g++-5
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
+  gcc-6:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC6"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-6
+          CXX: g++-6
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC6 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-6
+          CXX: g++-6
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+  gcc-8:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC8"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-8
+          CXX: g++-8
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC8 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-8
+          CXX: g++-8
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+  gcc-9:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC9"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-9
+          CXX: g++-9
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC9 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-9
+          CXX: g++-9
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+  gcc-10:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using GCC10"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-10
+          CXX: g++-10
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC10 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: gcc-10
+          CXX: g++-10
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
+  clang:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh
+
+      - name: "Compile and test using clang"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: clang
+          CXX: clang++
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using clang (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CC: clang
+          CXX: clang++
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug

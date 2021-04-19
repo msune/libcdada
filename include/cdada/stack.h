@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/stack.h
 * @author Peter Dobransky<pdobransky101 (at) gmail.com>
 *
-* @brief Stack data structure. Wraps std::stack data structure
+* @brief Stack(LIFO) data structure.
+*
+* `cdada_stack` data structure is a stack(LIFO) of elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `val` will be stored in the stack.
+* During accesses (e.g. `cdada_stack_top`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `val`.
+*
+* Uses std::stack as a backend
 */
 
 /**
@@ -48,17 +55,20 @@ typedef void cdada_stack_t;
 CDADA_BEGIN_DECLS
 
 //Fwd decl
+//See cdada_stack_create() for return codes
 struct __cdada_stack_ops;
 cdada_stack_t* __cdada_stack_create(const uint16_t val_size,
 						struct __cdada_stack_ops* ops);
 
 /**
-* @brief Create and initialize a stack data structure
+* @brief Create and initialize a stack(LIFO) data structure
 *
-* Allocate and initialize a stack structure (std::stack). Containers will perform
-* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+* Allocate and initialize a stack structure (std::stack). Containers will
+* perform better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
+*
+* @returns Returns a cdada_stack object or NULL, if some error is found
 */
 #define cdada_stack_create(TYPE) \
 	__cdada_stack_create(sizeof( TYPE ), NULL)
@@ -67,6 +77,11 @@ cdada_stack_t* __cdada_stack_create(const uint16_t val_size,
 * Destroy a stack structure
 *
 * @param stack Stack pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: stack was destroyed
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_destroy(cdada_stack_t* stack);
 
@@ -76,6 +91,8 @@ int cdada_stack_destroy(cdada_stack_t* stack);
 * Is the stack empty
 *
 * @param stack Stack pointer
+*
+* @returns Returns true if stack is empty else (including invalid) false
 */
 bool cdada_stack_empty(const cdada_stack_t* stack);
 
@@ -83,6 +100,8 @@ bool cdada_stack_empty(const cdada_stack_t* stack);
 * Return the size (number of elements) in the stack
 *
 * @param stack Stack pointer
+*
+* @returns Returns number of elements. If stack is NULL or corrupted, returns 0
 */
 uint32_t cdada_stack_size(const cdada_stack_t* stack);
 
@@ -91,7 +110,7 @@ uint32_t cdada_stack_size(const cdada_stack_t* stack);
 *
 * @param stack Stack pointer
 *
-* @ret Will return the maximum capacity of the stack or 0 if unlimited
+* @returns Will return the maximum capacity of the stack or 0 if unlimited
 */
 uint64_t cdada_stack_get_max_capacity(const cdada_stack_t* stack);
 
@@ -107,6 +126,11 @@ uint64_t cdada_stack_get_max_capacity(const cdada_stack_t* stack);
 *
 * @param stack Stack pointer
 * @param limit Limit of the capacity (set to 0 for unlimited)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: max capacity was successfully set
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_set_max_capacity(const cdada_stack_t* stack,
 						const uint64_t limit);
@@ -114,27 +138,47 @@ int cdada_stack_set_max_capacity(const cdada_stack_t* stack,
 //Element manipulation
 
 /**
-* Push front
+* Push an element (a copy) to the front of the stack
 *
 * @param stack Stack pointer
-* @param val Val. The val type _must_ have all bytes initialized
+* @param val Element to push
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is pushed
+*          CDADA_E_FULL: stack is full
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_push(cdada_stack_t* stack, const void* val);
 
 /**
-* Pop front
+* Pop (remove) an element from the top
 *
 * @param stack Stack pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is popped
+*          CDADA_E_EMPTY: stack is empty
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_pop(cdada_stack_t* stack);
 
 /**
-* Get the top element in the stack. The value pointer must
-* be passed since the function cannot return multiple types.
-* This differs from the libstdc++ stack implementation.
+* Get the element (a copy) on the top of the stack.
 *
 * @param stack Stack pointer
 * @param val Value pointer
+* @param val If stack has elements, a copy of the top element will be stored
+*            in *val
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: top element is retrieved
+*          CDADA_E_EMPTY: stack is empty
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_top(const cdada_stack_t* stack, void *val);
 
@@ -149,6 +193,13 @@ int cdada_stack_top(const cdada_stack_t* stack, void *val);
 *               in 'size_used'
 * @param size_used If buffer != NULL, the number of bytes written else number of
 *                  bytes necessary to write, including '\0'
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: stack was dumped to buffer
+*          CDADA_E_INCOMPLETE: not enough room in buffer
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_dump(cdada_stack_t* stack, uint32_t size, char* buffer,
 							uint32_t* bytes_used);
@@ -158,6 +209,12 @@ int cdada_stack_dump(cdada_stack_t* stack, uint32_t size, char* buffer,
 *
 * @param stack Stack object
 * @param stream stdout or stderr
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: stack was dumped to `stream`
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted stack or internal error (bug)
+*          CDADA_E_INVALID: stack is NULL or corrupted
 */
 int cdada_stack_print(cdada_stack_t* stack, FILE *stream);
 

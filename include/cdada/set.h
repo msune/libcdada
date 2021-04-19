@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/set.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Set data structure. Wraps std::set data structure
+* @brief Set data structure.
+*
+* `cdada_set` data structure is a collection of unique elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `key` will be stored in the set.
+* During accesses (e.g. `cdada_set_first`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `key`.
+*
+* Uses std::set as a backend
 */
 
 /**
@@ -48,6 +55,7 @@ typedef void cdada_set_t;
 CDADA_BEGIN_DECLS
 
 //Fwd decl
+//See cdada_set_create() for return codes
 struct __cdada_set_ops;
 cdada_set_t* __cdada_set_create(const uint16_t key_size,
 						struct __cdada_set_ops* ops);
@@ -65,21 +73,34 @@ typedef void (*cdada_set_it)(const cdada_set_t* set, const void* key,
 /**
 * @brief Create and initialize a set data structure
 *
-* Allocate and initialize a set structure (std::set). Containers will perform
+* Allocate and initialize a set structure. Containers will perform
 * better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
+*
+* @returns Returns a cdada_set object or NULL, if some error is found
 */
 #define cdada_set_create(TYPE) \
 	__cdada_set_create(sizeof( TYPE ), NULL)
 
 /**
 * Destroy a set structure
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set is destroyed
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_destroy(cdada_set_t* set);
 
 /**
-* Clears the contents of the set
+* Clear the contents of the set
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set is cleared
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_clear(cdada_set_t* set);
 
@@ -89,6 +110,11 @@ int cdada_set_clear(cdada_set_t* set);
 * @param set Set
 * @param func Traverse function for this specific set
 * @param opaque User data (opaque ptr)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set was successfully traversed
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_traverse(const cdada_set_t* set, cdada_set_it func,
 							void* opaque);
@@ -99,6 +125,11 @@ int cdada_set_traverse(const cdada_set_t* set, cdada_set_it func,
 * @param set Set
 * @param func Traverse function for this specific set
 * @param opaque User data (opaque ptr)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set was successfully reverse traversed
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_rtraverse(const cdada_set_t* set, cdada_set_it func,
 							void* opaque);
@@ -107,21 +138,32 @@ int cdada_set_rtraverse(const cdada_set_t* set, cdada_set_it func,
 
 /**
 * Is the set empty
+*
+* @returns Returns true if set is empty else (including invalid) false
 */
 bool cdada_set_empty(const cdada_set_t* set);
 
 /**
 * Return the size (number of elements) in the set
+*
+* @returns Returns number of elements. If set is NULL or corrupted, returns 0
 */
 uint32_t cdada_set_size(const cdada_set_t* set);
 
 //Element manipulation
 
 /**
-* Inserts an element in the set
+* Insert an element (a copy) in the set
 *
 * @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is inserted
+*          CDADA_E_EXISTS: element exists
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_insert(cdada_set_t* set, const void* key);
 
@@ -130,28 +172,51 @@ int cdada_set_insert(cdada_set_t* set, const void* key);
 *
 * @param set Set pointer
 * @param key Key. The key type _must_ have all bytes initialized
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element was successfully erased
+*          CDADA_E_NOT_FOUND: no element `key` was found
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_erase(cdada_set_t* set, const void* key);
 
 /**
-* Finds a key in the set
+* Find a key in the set
 *
 * @param set Set pointer
-* @param key Key
+* @param key Key to search
+*
+* @returns Returns true if set has element else (including invalid) false
 */
 bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
 * Get the first element in the set
 * @param set Set pointer
-* @param key Key
+* @param key If set has elements, a copy of the first element will be stored
+*            in *key
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: first element was retrieved
+*          CDADA_E_EMPTY: set has no elements
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_first(const cdada_set_t* set, void* key);
 
 /**
 * Get the last element in the set
 * @param set Set pointer
-* @param key Key
+* @param key If set has elements, a copy of the last element will be stored
+*            in *key
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: last element was retrieved
+*          CDADA_E_EMPTY: set has no elements
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_last(const cdada_set_t* set, void* key);
 
@@ -166,6 +231,13 @@ int cdada_set_last(const cdada_set_t* set, void* key);
 *               'size_used'
 * @param size_used If buffer != NULL, the number of bytes written else number of
 *                  bytes necessary to write, including '\0'
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set was dumped to buffer
+*          CDADA_E_INCOMPLETE: not enough room in buffer
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_dump(cdada_set_t* set, uint32_t size, char* buffer,
 							uint32_t* bytes_used);
@@ -175,6 +247,12 @@ int cdada_set_dump(cdada_set_t* set, uint32_t size, char* buffer,
 *
 * @param set Set object
 * @param stream stdout or stderr
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: set was dumped to `stream`
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
 */
 int cdada_set_print(cdada_set_t* set, FILE *stream);
 

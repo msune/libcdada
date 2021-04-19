@@ -35,7 +35,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/str.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief String data structure. Wraps std::string data structure
+* @brief String data structure
+*
+* Uses std::string as a backend
 */
 
 /**
@@ -58,11 +60,18 @@ typedef void (*cdada_str_it)(const cdada_str_t* str, const char it,
 
 /**
 * Create a string data structure (in heap)
+*
+* @returns Returns a cdada_string object or NULL, if some error is found
 */
 cdada_str_t* cdada_str_create(const char* str);
 
 /**
 * Destroy a str structure
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string is destroyed
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_destroy(cdada_str_t* str);
 
@@ -72,6 +81,11 @@ int cdada_str_destroy(cdada_str_t* str);
 * @param str String
 * @param func Traverse function for this specific str
 * @param opaque User data (opaque ptr)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string was successfully traversed
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_traverse(const cdada_str_t* str, cdada_str_it func,
 							void* opaque);
@@ -82,6 +96,11 @@ int cdada_str_traverse(const cdada_str_t* str, cdada_str_it func,
 * @param str String
 * @param func Traverse function for this specific str
 * @param opaque User data (opaque ptr)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string was successfully reverse traversed
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_rtraverse(const cdada_str_t* str, cdada_str_it func,
 							void* opaque);
@@ -90,11 +109,15 @@ int cdada_str_rtraverse(const cdada_str_t* str, cdada_str_it func,
 
 /**
 * Is the str empty string ("")
+*
+* @returns Returns true if string is empty("") else (including invalid) false
 */
 bool cdada_str_empty(const cdada_str_t* str);
 
 /**
 * Return the length, excluding '\0'
+*
+* @returns Returns length. If string is NULL or corrupted, returns 0
 */
 uint32_t cdada_str_length(const cdada_str_t* str);
 
@@ -104,6 +127,8 @@ uint32_t cdada_str_length(const cdada_str_t* str);
 * Get the C string
 *
 * @param str String pointer
+*
+* @returns Returns C string. If string is NULL or corrupted, returns NULL
 */
 const char* cdada_str(const cdada_str_t* str);
 
@@ -113,6 +138,12 @@ const char* cdada_str(const cdada_str_t* str);
 * @param str String pointer
 * @param substr Substring to match
 * @param pos Position where to substring was found
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substring was found
+*          CDADA_E_NOT_FOUND: substring not found
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, substr, pos is NULL
 */
 int cdada_str_find_first(const cdada_str_t* str, const char* substr,
 						uint32_t* pos);
@@ -123,6 +154,12 @@ int cdada_str_find_first(const cdada_str_t* str, const char* substr,
 * @param str String pointer
 * @param substr Substring to match
 * @param pos Position where to substring was found
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substring was found
+*          CDADA_E_NOT_FOUND: substring not found
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, substr or n are NULL
 */
 int cdada_str_find_last(const cdada_str_t* str, const char* substr,
 						uint32_t* pos);
@@ -133,6 +170,12 @@ int cdada_str_find_last(const cdada_str_t* str, const char* substr,
 * @param str String pointer
 * @param substr Substring to match
 * @param n Number of occurrences
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substring was found
+*          CDADA_E_NOT_FOUND: substring not found
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, substr or n are NULL
 */
 int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 						uint32_t* n);
@@ -149,6 +192,13 @@ int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 * @param size Size of the array of occurences
 * @param poss Array of positions
 * @param cnt Number of find() occurrences
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substring was found
+*          CDADA_E_NOT_FOUND: substring not found
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, substr, size=0, poss or
+*                           or cnt are NULL
 */
 int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 						const uint32_t size,
@@ -159,6 +209,12 @@ int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 * Get the first char in the str
 * @param str String pointer
 * @param c char
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: got first char
+*          CDADA_E_EMPTY: string is empty
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, c is NULL
 */
 int cdada_str_first_c(const cdada_str_t* str, char* c);
 
@@ -167,6 +223,12 @@ int cdada_str_first_c(const cdada_str_t* str, char* c);
 * @param str String pointer
 * @param pos Position of the char
 * @param c char
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: got char
+*          CDADA_E_EMPTY: string is empty
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, c is NULL
 */
 int cdada_str_get_c(const cdada_str_t* str, const uint32_t pos, char* c);
 
@@ -174,18 +236,36 @@ int cdada_str_get_c(const cdada_str_t* str, const uint32_t pos, char* c);
 * Get the last char in the str
 * @param str String pointer
 * @param c char
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: got last char
+*          CDADA_E_EMPTY: string is empty
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, c is NULL
 */
 int cdada_str_last_c(const cdada_str_t* str, char* c);
 
 //Manipulation
 
 /**
-* Set the contens of the string
+* Set or replace the contents of the string
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string reset
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_set(cdada_str_t* str, const char* new_str);
 
 /**
-* Clears the contents of the str
+* Clears the contents of the str ("")
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string is cleared
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 static inline int cdada_str_clear(cdada_str_t* str){
 	return cdada_str_set(str, "");
@@ -196,6 +276,12 @@ static inline int cdada_str_clear(cdada_str_t* str){
 *
 * @param str String pointer
 * @param substr Substring to insert
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substr appended
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, substr is NULL
 */
 int cdada_str_append(cdada_str_t* str, const char* substr);
 
@@ -204,15 +290,27 @@ int cdada_str_append(cdada_str_t* str, const char* substr);
 *
 * @param str String pointer
 * @param n Number of characters
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substr appended
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, n > length
 */
 int cdada_str_trim(cdada_str_t* str, const uint32_t n);
 
 /**
-* Inserts a substring in a specific position of the string
+* Insert a substring in a specific position of the string
 *
 * @param str String pointer
 * @param pos Position where to inser the substring
 * @param substr Substring to insert
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substr inserted
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, pos > length
 */
 int cdada_str_insert(cdada_str_t* str, uint32_t pos, const char* substr);
 
@@ -222,6 +320,13 @@ int cdada_str_insert(cdada_str_t* str, uint32_t pos, const char* substr);
 * @param str String pointer
 * @param pos Position where to insert the substring
 * @param substr_len Length of the substr
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: substr erased
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted, pos > length,
+*                           (pos+substr_len) > length
 */
 int cdada_str_erase(cdada_str_t* str, const uint32_t pos,
 						const uint32_t substr_len);
@@ -230,6 +335,12 @@ int cdada_str_erase(cdada_str_t* str, const uint32_t pos,
 * Convert string to all lower case
 *
 * @param str String pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string transformed to lower
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_lower(cdada_str_t* str);
 
@@ -237,6 +348,12 @@ int cdada_str_lower(cdada_str_t* str);
 * Convert string to all upper case
 *
 * @param str String pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string transformed to upper
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_upper(cdada_str_t* str);
 
@@ -246,6 +363,12 @@ int cdada_str_upper(cdada_str_t* str);
 * @param str String pointer
 * @param match Match substring
 * @param new_str Substring to replace with
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string replaced
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_replace_all(cdada_str_t* str, const char* match,
 							const char* new_str);
@@ -257,6 +380,12 @@ int cdada_str_replace_all(cdada_str_t* str, const char* match,
 * @param match Match substring
 * @param new_str Substring to replace with
 * @param pos Start position
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: string replaced
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted string or internal error (bug)
+*          CDADA_E_INVALID: string is NULL or corrupted
 */
 int cdada_str_replace(cdada_str_t* str, const char* match, const char* new_str,
 							const uint32_t pos);

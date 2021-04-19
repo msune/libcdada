@@ -36,7 +36,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * @file cdada/queue.h
 * @author Marc Sune<marcdevel (at) gmail.com>
 *
-* @brief Queue data structure. Wraps std::queue data structure
+* @brief Queue(FIFO) data structure.
+*
+* `cdada_queue` data structure is a queue(FIFO) of elements of type 'TYPE'.
+* During insertions, a _copy_ of the element `val` will be stored in the queue.
+* During accesses (e.g. `cdada_queue_front`), if found, a _copy_ of the value
+* will be stored in the region of memory pointed by `val`.
+*
+* Uses std::queue as a backend
 */
 
 /**
@@ -48,17 +55,20 @@ typedef void cdada_queue_t;
 CDADA_BEGIN_DECLS
 
 //Fwd decl
+//See cdada_queue_create() for return codes
 struct __cdada_queue_ops;
 cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 						struct __cdada_queue_ops* ops);
 
 /**
-* @brief Create and initialize a queue data structure
+* @brief Create and initialize a queue(FIFO) data structure
 *
-* Allocate and initialize a queue structure (std::queue). Containers will perform
-* better when TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
+* Allocate and initialize a queue structure. Containers will perform better when
+* TYPE has a size of {1,2,4,8,16,32,64,128,256} bytes
 *
 * For types > 256, use custom containers
+*
+* @returns Returns a cdada_queue object or NULL, if some error is found
 */
 #define cdada_queue_create(TYPE) \
 	__cdada_queue_create(sizeof( TYPE ), NULL)
@@ -67,6 +77,11 @@ cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 * Destroy a queue structure
 *
 * @param queue Queue pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: queue was destroyed
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_destroy(cdada_queue_t* queue);
 
@@ -76,6 +91,8 @@ int cdada_queue_destroy(cdada_queue_t* queue);
 * Is the queue empty
 *
 * @param queue Queue pointer
+*
+* @returns Returns true if queue is empty else (including invalid) false
 */
 bool cdada_queue_empty(const cdada_queue_t* queue);
 
@@ -83,6 +100,8 @@ bool cdada_queue_empty(const cdada_queue_t* queue);
 * Return the size (number of elements) in the queue
 *
 * @param queue Queue pointer
+*
+* @returns Returns number of elements. If queue is NULL or corrupted, returns 0
 */
 uint32_t cdada_queue_size(const cdada_queue_t* queue);
 
@@ -91,7 +110,7 @@ uint32_t cdada_queue_size(const cdada_queue_t* queue);
 *
 * @param queue Queue pointer
 *
-* @ret Will return the maximum capacity of the queue or 0 if unlimited
+* @returns Will return the maximum capacity of the queue or 0 if unlimited
 */
 uint64_t cdada_queue_get_max_capacity(const cdada_queue_t* queue);
 
@@ -107,6 +126,11 @@ uint64_t cdada_queue_get_max_capacity(const cdada_queue_t* queue);
 *
 * @param queue Queue pointer
 * @param limit Limit of the capacity (set to 0 for unlimited)
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: max capacity was successfully set
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_set_max_capacity(const cdada_queue_t* queue,
 						const uint64_t limit);
@@ -114,33 +138,61 @@ int cdada_queue_set_max_capacity(const cdada_queue_t* queue,
 //Element manipulation
 
 /**
-* Push an element at the end of the queue
+* Push an element (a copy) at the end of the queue
 *
 * @param queue Queue pointer
-* @param val Val. The val type _must_ have all bytes initialized
+* @param val Element to add
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is pushed
+*          CDADA_E_FULL: queue is full
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_push(cdada_queue_t* queue, const void* val);
 
 /**
-* Remove an element at the end of the queue
+* Remove an element from the front of the queue (oldest)
 *
 * @param queue Queue pointer
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is popped
+*          CDADA_E_EMPTY: queue is empty
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_pop(cdada_queue_t* queue);
 
 /**
-* Get the first element in the queue.
+* Get the first element (a copy) in the queue.
 *
 * @param queue Queue pointer
-* @param val Value pointer
+* @param val When the queue has elements, a copy of the front element will
+*            be stored in *val
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: front element is retrieved
+*          CDADA_E_EMPTY: queue has no elements
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_front(const cdada_queue_t* queue, void *val);
 
 /**
-* Get the last element in the queue.
+* Get the last element (a copy) in the queue.
 *
 * @param queue Queue pointer
-* @param val Value pointer
+* @param val When the queue has elements, a copy of the back element will
+*            be stored in *val
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: back element is retrieved
+*          CDADA_E_EMPTY: queue has no elements
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_back(const cdada_queue_t* queue, void *val);
 
@@ -156,6 +208,13 @@ int cdada_queue_back(const cdada_queue_t* queue, void *val);
 *               in 'size_used'
 * @param size_used If buffer != NULL, the number of bytes written else number of
 *                  bytes necessary to write, including '\0'
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: queue was dumped to buffer
+*          CDADA_E_INCOMPLETE: not enough room in buffer
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,
 							uint32_t* bytes_used);
@@ -165,6 +224,12 @@ int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,
 *
 * @param queue Queue object
 * @param stream stdout or stderr
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: queue was dumped to `stream`
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted queue or internal error (bug)
+*          CDADA_E_INVALID: queue is NULL or corrupted
 */
 int cdada_queue_print(cdada_queue_t* queue, FILE *stream);
 

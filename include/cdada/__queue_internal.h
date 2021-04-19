@@ -116,7 +116,7 @@ int cdada_queue_push_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 template<typename T>
 int cdada_queue_pop_u(__cdada_queue_int_t* m, std::queue<T>* m_u){
 
-	int rv = CDADA_E_NOT_FOUND;
+	int rv = CDADA_E_EMPTY;
 
 	if(!m_u->empty()){
 		m_u->pop();
@@ -131,7 +131,7 @@ int cdada_queue_front_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
-	int rv = CDADA_E_NOT_FOUND;
+	int rv = CDADA_E_EMPTY;
 
 	if(!m_u->empty()){
 		if(m->val_len == m->user_val_len){
@@ -154,7 +154,7 @@ int cdada_queue_back_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
-	int rv = CDADA_E_NOT_FOUND;
+	int rv = CDADA_E_EMPTY;
 
 	if(!m_u->empty()){
 		if(m->val_len == m->user_val_len){

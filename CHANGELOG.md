@@ -9,6 +9,18 @@ Legend:
 - [O] Other
 ```
 
+### v0.3.5 (20th April 2021)
+
+- [+] Improved public API documentation
+- [+] build: add --without-tests --without-examples build options
+- [B] Fix `E_EMPTY` return codes set/map/list/stack/queue
+- [B] Fix `make check` when valgrind is not installed
+
+### v0.3.4 (14th January 2021)
+
+- [B] Fix several build errors on old GCC versions (GCC4.2)
+- [O] Replace travis-ci.com/org with Github Actions
+
 ### v0.3.3 (27th November 2020)
 
 - [B] Fix several issues with documentation

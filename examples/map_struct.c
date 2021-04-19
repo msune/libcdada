@@ -38,6 +38,7 @@ void print_inventory(cdada_map_t* m){
 int main(int args, char** argv){
 	my_key_t key;
 	my_val_t* val;
+	void* val_aux; //Avoid alias warnings
 
 	cdada_map_t* m = cdada_map_create(my_key_t);
 
@@ -86,7 +87,8 @@ int main(int args, char** argv){
 	snprintf(key.corridor, 20, "central");
 	snprintf(key.shelf, 20, "2nd");
 	snprintf(key.item, 24, "Apple MacBook Pro");
-	cdada_map_find(m, &key, (void**)&val);
+	cdada_map_find(m, &key, &val_aux);
+	val = (my_val_t*)val_aux;
 
 	fprintf(stdout, "Macbook pro price: %f, discount: %f %%\n", val->price,
 						val->percentage_discount);
@@ -102,8 +104,8 @@ int main(int args, char** argv){
 				cdada_map_size(m));
 
 	//Cleanup
-	while(cdada_map_first(m, &key, (void**)&val) == CDADA_SUCCESS){
-		free(val);
+	while(cdada_map_first(m, &key, &val_aux) == CDADA_SUCCESS){
+		free(val_aux);
 		cdada_map_erase(m, &key);
 	}
 
