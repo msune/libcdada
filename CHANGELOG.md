@@ -14,6 +14,7 @@ Legend:
 - [+] Improved public API documentation
 - [+] build: add --without-tests --without-examples build options
 - [B] Fix `E_EMPTY` return codes set/map/list/stack/queue
+- [B] Fix `make check` when valgrind is not installed
 
 ### v0.3.4 (14th January 2021)
 
