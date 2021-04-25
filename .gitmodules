@@ -1,0 +1,3 @@
+[submodule "libs/etl"]
+	path = libs/etl
+	url = https://github.com/msune/etl.git
