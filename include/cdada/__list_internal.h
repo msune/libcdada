@@ -82,18 +82,21 @@ typedef struct{
 	uint32_t magic_num;
 	uint32_t user_val_len;
 	uint32_t val_len;
-	union {
-		std::list<uint8_t>* u8;
-		std::list<uint16_t>* u16;
-		std::list<uint32_t>* u32;
-		std::list<uint64_t>* u64;
-		std::list<cdada_u128_t>* u128;
-		std::list<cdada_u256_t>* u256;
-		std::list<cdada_u512_t>* u512;
-		std::list<cdada_u1024_t>* u1024;
-		std::list<cdada_u2048_t>* u2048;
+	union{
+		union{
+			std::list<uint8_t>* u8;
+			std::list<uint16_t>* u16;
+			std::list<uint32_t>* u32;
+			std::list<uint64_t>* u64;
+			std::list<cdada_u128_t>* u128;
+			std::list<cdada_u256_t>* u256;
+			std::list<cdada_u512_t>* u512;
+			std::list<cdada_u1024_t>* u1024;
+			std::list<cdada_u2048_t>* u2048;
+		}stl;
+
 		void* custom;
-	}list;
+	}l;
 	__cdada_list_ops_t* ops;
 }__cdada_list_int_t;
 

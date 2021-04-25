@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_STACK_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_stack_autogen_create_##TYPE (void* m){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
-		s->stack.custom = (void*)new __CDADA_STD_STACK_TYPE(TYPE)(); \
+		s->s.custom = (void*)new __CDADA_STD_STACK_TYPE(TYPE)(); \
 	}
 
 /**
@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_stack_autogen_destroy_##TYPE (void* m){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		delete p; \
 	}
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_stack_autogen_empty_##TYPE (const void* m){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		return p->empty(); \
 	}
 /**
@@ -88,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	uint32_t __cdada_stack_autogen_size_##TYPE (const void* m){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		return p->size(); \
 	}
 
@@ -99,7 +99,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_stack_autogen_push_##TYPE (void* m, const void* val){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		return cdada_stack_push_u< TYPE > (s, p, val);\
 	}
 
@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_stack_autogen_pop_##TYPE (void* m){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		return cdada_stack_pop_u< TYPE > (s, p);\
 	}
 
@@ -121,7 +121,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_stack_autogen_top_##TYPE (const void* m, void* val){ \
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom; \
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom; \
 		return cdada_stack_top_u< TYPE > (s, p, val);\
 	}
 
@@ -133,7 +133,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							std::stringstream& ss){\
 		__cdada_stack_int_t* s = (__cdada_stack_int_t*)m; \
 		__CDADA_STD_STACK_TYPE(TYPE)* p = \
-				(__CDADA_STD_STACK_TYPE(TYPE)*)s->stack.custom;\
+				(__CDADA_STD_STACK_TYPE(TYPE)*)s->s.custom;\
 		return cdada_stack_dump_u< TYPE > (s, p, ss);\
 	}
 

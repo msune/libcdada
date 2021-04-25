@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_MAP_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_map_autogen_create_##TYPE (void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
-		s->map.custom = (void*)new __CDADA_STD_MAP_TYPE(TYPE)(); \
+		s->m.custom = (void*)new __CDADA_STD_MAP_TYPE(TYPE)(); \
 	}
 
 /**
@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_map_autogen_destroy_##TYPE (void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		delete p; \
 	}
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_map_autogen_clear_##TYPE (void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		p->clear(); \
 	}
 
@@ -89,7 +89,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_map_autogen_empty_##TYPE (const void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return p->empty(); \
 	}
 /**
@@ -99,7 +99,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	uint32_t __cdada_map_autogen_size_##TYPE (const void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return p->size(); \
 	}
 /**
@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* val){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_insert_u< TYPE > (s, p, key, val);\
 	}
 /**
@@ -120,7 +120,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_map_autogen_erase_##TYPE (void* m, const void* key){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_erase_u< TYPE > (s, p, key);\
 	}
 
@@ -132,7 +132,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void** val){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_find_u< TYPE > (s, p, key, val);\
 	}
 
@@ -145,7 +145,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void** val){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_first_last_u< TYPE > (s, p, first, key, val);\
 	}
 
@@ -158,7 +158,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_traverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -171,7 +171,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_rtraverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -183,7 +183,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							std::stringstream& ss){\
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
-				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
 		return cdada_map_dump_u< TYPE > (s, p, ss);\
 	}
 

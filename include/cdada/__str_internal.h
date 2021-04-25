@@ -55,7 +55,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 typedef struct{
 	uint32_t magic_num;
-	std::string* str;
+
+	union{
+		std::string* stl_str;
+	}s;
 }__cdada_str_int_t;
 
 #endif //__CDADA_STR_INT__

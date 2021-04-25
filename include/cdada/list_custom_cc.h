@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_LIST_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_list_autogen_create_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
-		s->list.custom = (void*)new __CDADA_STD_LIST_TYPE(TYPE)(); \
+		s->l.custom = (void*)new __CDADA_STD_LIST_TYPE(TYPE)(); \
 	}
 
 /**
@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_list_autogen_destroy_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		delete p; \
 	}
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_list_autogen_clear_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		p->clear(); \
 	}
 
@@ -89,7 +89,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_list_autogen_empty_##TYPE (const void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return p->empty(); \
 	}
 /**
@@ -99,7 +99,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	uint32_t __cdada_list_autogen_size_##TYPE (const void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return p->size(); \
 	}
 /**
@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							const uint32_t pos){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_insert_u< TYPE > (s, p, val, pos);\
 	}
 
@@ -122,7 +122,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* val){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_get_u< TYPE > (s, p, pos, val);\
 	}
 
@@ -134,7 +134,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* key){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_first_last_u< TYPE > (s, p, first, key);\
 	}
 
@@ -145,7 +145,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_list_autogen_erase_##TYPE (void* m, const uint32_t pos){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_erase_u< TYPE > (s, p, pos);\
 	}
 
@@ -156,7 +156,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_list_autogen_remove_##TYPE (void* m, const void* val){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_remove_u< TYPE > (s, p, val);\
 	}
 
@@ -168,7 +168,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 								bool front){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_push_u< TYPE > (s, p, val, front);\
 	}
 
@@ -179,7 +179,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_list_autogen_pop_##TYPE (void* m, bool front){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_pop_u< TYPE > (s, p, front);\
 	}
 
@@ -190,7 +190,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_list_autogen_sort_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		p->sort(); \
 	}
 
@@ -201,7 +201,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_list_autogen_reverse_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		p->reverse(); \
 	}
 
@@ -212,7 +212,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_list_autogen_unique_##TYPE (void* m){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		p->unique(); \
 	}
 
@@ -225,7 +225,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_traverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -238,7 +238,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_rtraverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -250,7 +250,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							std::stringstream& ss){\
 		__cdada_list_int_t* s = (__cdada_list_int_t*)m; \
 		__CDADA_STD_LIST_TYPE(TYPE)* p = \
-				(__CDADA_STD_LIST_TYPE(TYPE)*)s->list.custom; \
+				(__CDADA_STD_LIST_TYPE(TYPE)*)s->l.custom; \
 		return cdada_list_dump_u< TYPE > (s, p, ss);\
 	}
 

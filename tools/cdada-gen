@@ -27,94 +27,94 @@ LIST="""
 //Operator
 void __cdada_list_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
-	s->list.custom = (void*)new std::list<TT_TYPE_TT>();
+	s->l.custom = (void*)new std::list<TT_TYPE_TT>();
 }
 void __cdada_list_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	delete p;
 }
 void __cdada_list_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	p->clear();
 }
 bool __cdada_list_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return p->empty();
 }
 uint32_t __cdada_list_autogen_size_TT_TYPE_TT (const void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return p->size();
 }
 int __cdada_list_autogen_insert_TT_TYPE_TT (void* m, const void* val,
 						const uint32_t pos){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_insert_u<TT_TYPE_TT> (s, p, val, pos);
 }
 int __cdada_list_autogen_get_TT_TYPE_TT (const void* m, const uint32_t pos,
 						void* val){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_get_u<TT_TYPE_TT> (s, p, pos, val);
 }
 int __cdada_list_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 						void* key){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_first_last_u<TT_TYPE_TT> (s, p, first, key);
 }
 int __cdada_list_autogen_erase_TT_TYPE_TT (void* m, const uint32_t pos){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_erase_u<TT_TYPE_TT> (s, p, pos);
 }
 int __cdada_list_autogen_remove_TT_TYPE_TT (void* m, const void* val){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_remove_u<TT_TYPE_TT> (s, p, val);
 }
 int __cdada_list_autogen_push_TT_TYPE_TT (void* m, const void* val,
 							bool front){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_push_u<TT_TYPE_TT> (s, p, val, front);
 }
 int __cdada_list_autogen_pop_TT_TYPE_TT (void* m, bool front){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_pop_u<TT_TYPE_TT> (s, p, front);
 }
 void __cdada_list_autogen_sort_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	p->sort();
 }
 void __cdada_list_autogen_reverse_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	p->reverse();
 }
 void __cdada_list_autogen_unique_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	p->unique();
 }
 void __cdada_list_autogen_traverse_TT_TYPE_TT (const void* m,
@@ -122,7 +122,7 @@ void __cdada_list_autogen_traverse_TT_TYPE_TT (const void* m,
 						void* opaque){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_traverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
 void __cdada_list_autogen_rtraverse_TT_TYPE_TT (const void* m,
@@ -130,14 +130,14 @@ void __cdada_list_autogen_rtraverse_TT_TYPE_TT (const void* m,
 						void* opaque){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
-			(std::list<TT_TYPE_TT>*)s->list.custom;
+			(std::list<TT_TYPE_TT>*)s->l.custom;
 	return cdada_list_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
 void __cdada_list_autogen_dump_TT_TYPE_TT (const void* m,
                                                 std::stringstream& ss){
         __cdada_list_int_t* s = (__cdada_list_int_t*)m;
         std::list<TT_TYPE_TT>* p =
-                        (std::list<TT_TYPE_TT>*)s->list.custom;
+                        (std::list<TT_TYPE_TT>*)s->l.custom;
         return cdada_list_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
@@ -165,50 +165,50 @@ __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
 MAP ="""
 void __cdada_map_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
-	s->map.custom = (void*)new std::map<TT_TYPE_TT, void*>();
+	s->m.custom = (void*)new std::map<TT_TYPE_TT, void*>();
 }
 void __cdada_map_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	delete p;
 }
 void __cdada_map_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	p->clear();
 }
 bool __cdada_map_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return p->empty();
 }
 uint32_t __cdada_map_autogen_size_TT_TYPE_TT (const void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return p->size();
 }
 int __cdada_map_autogen_insert_TT_TYPE_TT (void* m, const void* key,
 						void* val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val);
 }
 int __cdada_map_autogen_erase_TT_TYPE_TT (void* m, const void* key){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_erase_u<TT_TYPE_TT> (s, p, key);
 }
 int __cdada_map_autogen_find_TT_TYPE_TT (const void* m, const void* key,
 						void** val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_find_u<TT_TYPE_TT> (s, p, key, val);
 }
 int __cdada_map_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
@@ -216,7 +216,7 @@ int __cdada_map_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 						void** val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_first_last_u<TT_TYPE_TT> (s, p, first, key, val);
 }
 void __cdada_map_autogen_traverse_TT_TYPE_TT (const void* m,
@@ -224,7 +224,7 @@ void __cdada_map_autogen_traverse_TT_TYPE_TT (const void* m,
 						void* opaque){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_traverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
 void __cdada_map_autogen_rtraverse_TT_TYPE_TT (const void* m,
@@ -232,14 +232,14 @@ void __cdada_map_autogen_rtraverse_TT_TYPE_TT (const void* m,
 						void* opaque){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
-			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
 	return cdada_map_rtraverse_u<TT_TYPE_TT> (s, p, f, opaque);
 }
 void __cdada_map_autogen_dump_TT_TYPE_TT (const void* m,
                                                 std::stringstream& ss){
         __cdada_map_int_t* s = (__cdada_map_int_t*)m;
         std::map<TT_TYPE_TT, void*>* p =
-                        (std::map<TT_TYPE_TT, void*>*)s->map.custom;
+                        (std::map<TT_TYPE_TT, void*>*)s->m.custom;
         return cdada_map_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
@@ -263,55 +263,55 @@ QUEUE="""
 //Operator
 void __cdada_queue_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
-	s->queue.custom = (void*)new std::queue<TT_TYPE_TT>();
+	s->q.custom = (void*)new std::queue<TT_TYPE_TT>();
 }
 void __cdada_queue_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	delete p;
 }
 bool __cdada_queue_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return p->empty();
 }
 uint32_t __cdada_queue_autogen_size_TT_TYPE_TT (const void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return p->size();
 }
 int __cdada_queue_autogen_push_TT_TYPE_TT (void* m, const void* val){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return cdada_queue_push_u<TT_TYPE_TT> (s, p, val);
 }
 int __cdada_queue_autogen_pop_TT_TYPE_TT (void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return cdada_queue_pop_u<TT_TYPE_TT> (s, p);
 }
 int __cdada_queue_autogen_front_TT_TYPE_TT (const void* m, void* val){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return cdada_queue_front_u<TT_TYPE_TT> (s, p, val);
 }
 int __cdada_queue_autogen_back_TT_TYPE_TT (const void* m, void* val){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
-			(std::queue<TT_TYPE_TT>*)s->queue.custom;
+			(std::queue<TT_TYPE_TT>*)s->q.custom;
 	return cdada_queue_back_u<TT_TYPE_TT> (s, p, val);
 }
 void __cdada_queue_autogen_dump_TT_TYPE_TT (const void* m,
                                                 std::stringstream& ss){
         __cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
         std::queue<TT_TYPE_TT>* p =
-                        (std::queue<TT_TYPE_TT>*)s->queue.custom;
+                        (std::queue<TT_TYPE_TT>*)s->q.custom;
         return cdada_queue_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_queue_ops_t __cdada_queue_autogen_TT_TYPE_TT = {
@@ -330,68 +330,68 @@ __cdada_queue_ops_t __cdada_queue_autogen_TT_TYPE_TT = {
 SET ="""
 void __cdada_set_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	s->set.custom = (void*)new std::set<TT_TYPE_TT>();
+	s->s.custom = (void*)new std::set<TT_TYPE_TT>();
 }
 void __cdada_set_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	delete p;
 }
 void __cdada_set_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	p->clear();
 }
 bool __cdada_set_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return p->empty();
 }
 uint32_t __cdada_set_autogen_size_TT_TYPE_TT (const void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return p->size();
 }
 int __cdada_set_autogen_insert_TT_TYPE_TT (void* m, const void* key){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_insert_u< TT_TYPE_TT > (s, p, key);
 }
 int __cdada_set_autogen_erase_TT_TYPE_TT (void* m, const void* key){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p =(std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p =(std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_erase_u< TT_TYPE_TT > (s, p, key);
 }
 bool __cdada_set_autogen_find_TT_TYPE_TT (const void* m, const void* key){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_find_u< TT_TYPE_TT > (s, p, key);
 }
 int __cdada_set_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 							void* key){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_first_last_u< TT_TYPE_TT > (s, p, first, key);
 }
 void __cdada_set_autogen_traverse_TT_TYPE_TT (const void* m,
 							cdada_set_it f,
 							void* opaque){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_traverse_u< TT_TYPE_TT > (s, p, f, opaque);
 }
 void __cdada_set_autogen_rtraverse_TT_TYPE_TT (const void* m,
 							cdada_set_it f,
 							void* opaque){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
 	return cdada_set_rtraverse_u< TT_TYPE_TT > (s, p, f, opaque);
 }
 void __cdada_set_autogen_dump_TT_TYPE_TT (const void* m,
                                                 std::stringstream& ss){
         __cdada_set_int_t* s = (__cdada_set_int_t*)m;
         std::set<TT_TYPE_TT>* p =
-                        (std::set<TT_TYPE_TT>*)s->set.custom;
+                        (std::set<TT_TYPE_TT>*)s->s.custom;
         return cdada_set_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
@@ -415,49 +415,49 @@ STACK="""
 //Operator
 void __cdada_stack_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
-	s->stack.custom = (void*)new std::stack<TT_TYPE_TT>();
+	s->s.custom = (void*)new std::stack<TT_TYPE_TT>();
 }
 void __cdada_stack_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	delete p;
 }
 bool __cdada_stack_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	return p->empty();
 }
 uint32_t __cdada_stack_autogen_size_TT_TYPE_TT (const void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	return p->size();
 }
 int __cdada_stack_autogen_push_TT_TYPE_TT (void* m, const void* val){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	return cdada_stack_push_u<TT_TYPE_TT> (s, p, val);
 }
 int __cdada_stack_autogen_pop_TT_TYPE_TT (void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	return cdada_stack_pop_u<TT_TYPE_TT> (s, p);
 }
 int __cdada_stack_autogen_top_TT_TYPE_TT (const void* m, void* val){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
-			(std::stack<TT_TYPE_TT>*)s->stack.custom;
+			(std::stack<TT_TYPE_TT>*)s->s.custom;
 	return cdada_stack_top_u<TT_TYPE_TT> (s, p, val);
 }
 void __cdada_stack_autogen_dump_TT_TYPE_TT (const void* m,
                                                 std::stringstream& ss){
         __cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
         std::stack<TT_TYPE_TT>* p =
-                        (std::stack<TT_TYPE_TT>*)s->stack.custom;
+                        (std::stack<TT_TYPE_TT>*)s->s.custom;
         return cdada_stack_dump_u< TT_TYPE_TT > (s, p, ss);
 }
 __cdada_stack_ops_t __cdada_stack_autogen_TT_TYPE_TT = {

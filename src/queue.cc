@@ -30,31 +30,31 @@ cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 		}
 
 		if(val_size == 1){
-			m->queue.u8 = new queue<uint8_t>();
+			m->q.stl.u8 = new queue<uint8_t>();
 			m->val_len = 1;
 		}else if(val_size == 2){
-			m->queue.u16 = new queue<uint16_t>();
+			m->q.stl.u16 = new queue<uint16_t>();
 			m->val_len = 2;
 		}else if(val_size > 2 && val_size <= 4){
-			m->queue.u32 = new queue<uint32_t>();
+			m->q.stl.u32 = new queue<uint32_t>();
 			m->val_len = 4;
 		}else if(val_size > 4 && val_size <= 8){
-			m->queue.u64 = new queue<uint64_t>();
+			m->q.stl.u64 = new queue<uint64_t>();
 			m->val_len = 8;
 		}else if(val_size > 8 && val_size <= 16){
-			m->queue.u128 = new queue<cdada_u128_t>();
+			m->q.stl.u128 = new queue<cdada_u128_t>();
 			m->val_len = 16;
 		}else if(val_size > 16 && val_size <= 32){
-			m->queue.u256 = new queue<cdada_u256_t>();
+			m->q.stl.u256 = new queue<cdada_u256_t>();
 			m->val_len = 32;
 		}else if(val_size > 32 && val_size <= 64){
-			m->queue.u512 = new queue<cdada_u512_t>();
+			m->q.stl.u512 = new queue<cdada_u512_t>();
 			m->val_len = 64;
 		}else if(val_size > 64 && val_size <= 128){
-			m->queue.u1024 = new queue<cdada_u1024_t>();
+			m->q.stl.u1024 = new queue<cdada_u1024_t>();
 			m->val_len = 128;
 		}else if(val_size > 128 && val_size <= 256){
-			m->queue.u2048 = new queue<cdada_u2048_t>();
+			m->q.stl.u2048 = new queue<cdada_u2048_t>();
 			m->val_len = 256;
 		}else{
 			goto ROLLBACK;
@@ -86,31 +86,31 @@ int cdada_queue_destroy(cdada_queue_t* queue){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				delete m->queue.u8;
+				delete m->q.stl.u8;
 				break;
 			case 2:
-				delete m->queue.u16;
+				delete m->q.stl.u16;
 				break;
 			case 4:
-				delete m->queue.u32;
+				delete m->q.stl.u32;
 				break;
 			case 8:
-				delete m->queue.u64;
+				delete m->q.stl.u64;
 				break;
 			case 16:
-				delete m->queue.u128;
+				delete m->q.stl.u128;
 				break;
 			case 32:
-				delete m->queue.u256;
+				delete m->q.stl.u256;
 				break;
 			case 64:
-				delete m->queue.u512;
+				delete m->q.stl.u512;
 				break;
 			case 128:
-				delete m->queue.u1024;
+				delete m->q.stl.u1024;
 				break;
 			case 256:
-				delete m->queue.u2048;
+				delete m->q.stl.u2048;
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);
@@ -147,39 +147,39 @@ int cdada_queue_push(cdada_queue_t* queue, const void* val){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				return cdada_queue_push_u<uint8_t>(m, m->queue.u8,
+				return cdada_queue_push_u<uint8_t>(m, m->q.stl.u8,
 								val);
 			case 2:
 				return cdada_queue_push_u<uint16_t>(m,
-								m->queue.u16,
+								m->q.stl.u16,
 								val);
 			case 4:
 				return cdada_queue_push_u<uint32_t>(m,
-								m->queue.u32,
+								m->q.stl.u32,
 								val);
 			case 8:
 				return cdada_queue_push_u<uint64_t>(m,
-								m->queue.u64,
+								m->q.stl.u64,
 								val);
 			case 16:
 				return cdada_queue_push_u<cdada_u128_t>(m,
-								m->queue.u128,
+								m->q.stl.u128,
 								val);
 			case 32:
 				return cdada_queue_push_u<cdada_u256_t>(m,
-								m->queue.u256,
+								m->q.stl.u256,
 								val);
 			case 64:
 				return cdada_queue_push_u<cdada_u512_t>(m,
-								m->queue.u512,
+								m->q.stl.u512,
 								val);
 			case 128:
 				return cdada_queue_push_u<cdada_u1024_t>(m,
-								m->queue.u1024,
+								m->q.stl.u1024,
 								val);
 			case 256:
 				return cdada_queue_push_u<cdada_u2048_t>(m,
-								m->queue.u2048,
+								m->q.stl.u2048,
 								val);
 			case 0:
 				CDADA_ASSERT(m->ops);
@@ -206,31 +206,31 @@ int cdada_queue_pop(cdada_queue_t* queue){
 		switch(c){
 			case 1:
 				return cdada_queue_pop_u<uint8_t>(m,
-								m->queue.u8);
+								m->q.stl.u8);
 			case 2:
 				return cdada_queue_pop_u<uint16_t>(m,
-								m->queue.u16);
+								m->q.stl.u16);
 			case 4:
 				return cdada_queue_pop_u<uint32_t>(m,
-								m->queue.u32);
+								m->q.stl.u32);
 			case 8:
 				return cdada_queue_pop_u<uint64_t>(m,
-								m->queue.u64);
+								m->q.stl.u64);
 			case 16:
 				return cdada_queue_pop_u<cdada_u128_t>(m,
-								m->queue.u128);
+								m->q.stl.u128);
 			case 32:
 				return cdada_queue_pop_u<cdada_u256_t>(m,
-								m->queue.u256);
+								m->q.stl.u256);
 			case 64:
 				return cdada_queue_pop_u<cdada_u512_t>(m,
-								m->queue.u512);
+								m->q.stl.u512);
 			case 128:
 				return cdada_queue_pop_u<cdada_u1024_t>(m,
-								m->queue.u1024);
+								m->q.stl.u1024);
 			case 256:
 				return cdada_queue_pop_u<cdada_u2048_t>(m,
-								m->queue.u2048);
+								m->q.stl.u2048);
 			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->pop)(m);
@@ -254,23 +254,23 @@ uint32_t cdada_queue_size(const cdada_queue_t* queue){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				return m->queue.u8->size();
+				return m->q.stl.u8->size();
 			case 2:
-				return m->queue.u16->size();
+				return m->q.stl.u16->size();
 			case 4:
-				return m->queue.u32->size();
+				return m->q.stl.u32->size();
 			case 8:
-				return m->queue.u64->size();
+				return m->q.stl.u64->size();
 			case 16:
-				return m->queue.u128->size();
+				return m->q.stl.u128->size();
 			case 32:
-				return m->queue.u256->size();
+				return m->q.stl.u256->size();
 			case 64:
-				return m->queue.u512->size();
+				return m->q.stl.u512->size();
 			case 128:
-				return m->queue.u1024->size();
+				return m->q.stl.u1024->size();
 			case 256:
-				return m->queue.u2048->size();
+				return m->q.stl.u2048->size();
 			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->size)(m);
@@ -297,39 +297,39 @@ int cdada_queue_front(const cdada_queue_t* queue, void* val){
 		switch(c){
 			case 1:
 				return cdada_queue_front_u<uint8_t>(m,
-								m->queue.u8,
+								m->q.stl.u8,
 								val);
 			case 2:
 				return cdada_queue_front_u<uint16_t>(m,
-								m->queue.u16,
+								m->q.stl.u16,
 								val);
 			case 4:
 				return cdada_queue_front_u<uint32_t>(m,
-								m->queue.u32,
+								m->q.stl.u32,
 								val);
 			case 8:
 				return cdada_queue_front_u<uint64_t>(m,
-								m->queue.u64,
+								m->q.stl.u64,
 								val);
 			case 16:
 				return cdada_queue_front_u<cdada_u128_t>(m,
-								m->queue.u128,
+								m->q.stl.u128,
 								val);
 			case 32:
 				return cdada_queue_front_u<cdada_u256_t>(m,
-								m->queue.u256,
+								m->q.stl.u256,
 								val);
 			case 64:
 				return cdada_queue_front_u<cdada_u512_t>(m,
-								m->queue.u512,
+								m->q.stl.u512,
 								val);
 			case 128:
 				return cdada_queue_front_u<cdada_u1024_t>(m,
-								m->queue.u1024,
+								m->q.stl.u1024,
 								val);
 			case 256:
 				return cdada_queue_front_u<cdada_u2048_t>(m,
-								m->queue.u2048,
+								m->q.stl.u2048,
 								val);
 			case 0:
 				CDADA_ASSERT(m->ops);
@@ -359,39 +359,39 @@ int cdada_queue_back(const cdada_queue_t* queue, void* val){
 		switch(c){
 			case 1:
 				return cdada_queue_back_u<uint8_t>(m,
-								m->queue.u8,
+								m->q.stl.u8,
 								val);
 			case 2:
 				return cdada_queue_back_u<uint16_t>(m,
-								m->queue.u16,
+								m->q.stl.u16,
 								val);
 			case 4:
 				return cdada_queue_back_u<uint32_t>(m,
-								m->queue.u32,
+								m->q.stl.u32,
 								val);
 			case 8:
 				return cdada_queue_back_u<uint64_t>(m,
-								m->queue.u64,
+								m->q.stl.u64,
 								val);
 			case 16:
 				return cdada_queue_back_u<cdada_u128_t>(m,
-								m->queue.u128,
+								m->q.stl.u128,
 								val);
 			case 32:
 				return cdada_queue_back_u<cdada_u256_t>(m,
-								m->queue.u256,
+								m->q.stl.u256,
 								val);
 			case 64:
 				return cdada_queue_back_u<cdada_u512_t>(m,
-								m->queue.u512,
+								m->q.stl.u512,
 								val);
 			case 128:
 				return cdada_queue_back_u<cdada_u1024_t>(m,
-								m->queue.u1024,
+								m->q.stl.u1024,
 								val);
 			case 256:
 				return cdada_queue_back_u<cdada_u2048_t>(m,
-								m->queue.u2048,
+								m->q.stl.u2048,
 								val);
 			case 0:
 				CDADA_ASSERT(m->ops);
@@ -419,31 +419,31 @@ bool cdada_queue_empty(const cdada_queue_t* queue){
 		switch(c){
 			case 1:
 				return cdada_queue_empty_u<uint8_t>(m,
-								m->queue.u8);
+								m->q.stl.u8);
 			case 2:
 				return cdada_queue_empty_u<uint16_t>(m,
-								m->queue.u16);
+								m->q.stl.u16);
 			case 4:
 				return cdada_queue_empty_u<uint32_t>(m,
-								m->queue.u32);
+								m->q.stl.u32);
 			case 8:
 				return cdada_queue_empty_u<uint64_t>(m,
-								m->queue.u64);
+								m->q.stl.u64);
 			case 16:
 				return cdada_queue_empty_u<cdada_u128_t>(m,
-								m->queue.u128);
+								m->q.stl.u128);
 			case 32:
 				return cdada_queue_empty_u<cdada_u256_t>(m,
-								m->queue.u256);
+								m->q.stl.u256);
 			case 64:
 				return cdada_queue_empty_u<cdada_u512_t>(m,
-								m->queue.u512);
+								m->q.stl.u512);
 			case 128:
 				return cdada_queue_empty_u<cdada_u1024_t>(m,
-								m->queue.u1024);
+								m->q.stl.u1024);
 			case 256:
 				return cdada_queue_empty_u<cdada_u2048_t>(m,
-								m->queue.u2048);
+								m->q.stl.u2048);
 			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->empty)(m);
@@ -494,43 +494,43 @@ int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_queue_dump_u<uint8_t>(m, m->queue.u8, ss);
+				cdada_queue_dump_u<uint8_t>(m, m->q.stl.u8, ss);
 				break;
 			case 2:
-				cdada_queue_dump_u<uint16_t>(m, m->queue.u16,
+				cdada_queue_dump_u<uint16_t>(m, m->q.stl.u16,
 									ss);
 				break;
 			case 4:
-				cdada_queue_dump_u<uint32_t>(m, m->queue.u32,
+				cdada_queue_dump_u<uint32_t>(m, m->q.stl.u32,
 									ss);
 				break;
 			case 8:
-				cdada_queue_dump_u<uint64_t>(m, m->queue.u64,
+				cdada_queue_dump_u<uint64_t>(m, m->q.stl.u64,
 									ss);
 				break;
 			case 16:
 				cdada_queue_dump_u<cdada_u128_t>(m,
-								m->queue.u128,
+								m->q.stl.u128,
 								ss);
 				break;
 			case 32:
 				cdada_queue_dump_u<cdada_u256_t>(m,
-								m->queue.u256,
+								m->q.stl.u256,
 								ss);
 				break;
 			case 64:
 				cdada_queue_dump_u<cdada_u512_t>(m,
-								m->queue.u512,
+								m->q.stl.u512,
 								ss);
 				break;
 			case 128:
 				cdada_queue_dump_u<cdada_u1024_t>(m,
-								m->queue.u1024,
+								m->q.stl.u1024,
 								ss);
 				break;
 			case 256:
 				cdada_queue_dump_u<cdada_u2048_t>(m,
-								m->queue.u2048,
+								m->q.stl.u2048,
 								ss);
 				break;
 			case 0:
@@ -573,43 +573,43 @@ int cdada_queue_print(cdada_queue_t* queue, FILE *stream){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_queue_dump_u<uint8_t>(m, m->queue.u8, ss);
+				cdada_queue_dump_u<uint8_t>(m, m->q.stl.u8, ss);
 				break;
 			case 2:
-				cdada_queue_dump_u<uint16_t>(m, m->queue.u16,
+				cdada_queue_dump_u<uint16_t>(m, m->q.stl.u16,
 									ss);
 				break;
 			case 4:
-				cdada_queue_dump_u<uint32_t>(m, m->queue.u32,
+				cdada_queue_dump_u<uint32_t>(m, m->q.stl.u32,
 									ss);
 				break;
 			case 8:
-				cdada_queue_dump_u<uint64_t>(m, m->queue.u64,
+				cdada_queue_dump_u<uint64_t>(m, m->q.stl.u64,
 									ss);
 				break;
 			case 16:
 				cdada_queue_dump_u<cdada_u128_t>(m,
-								m->queue.u128,
+								m->q.stl.u128,
 								ss);
 				break;
 			case 32:
 				cdada_queue_dump_u<cdada_u256_t>(m,
-								m->queue.u256,
+								m->q.stl.u256,
 								ss);
 				break;
 			case 64:
 				cdada_queue_dump_u<cdada_u512_t>(m,
-								m->queue.u512,
+								m->q.stl.u512,
 								ss);
 				break;
 			case 128:
 				cdada_queue_dump_u<cdada_u1024_t>(m,
-								m->queue.u1024,
+								m->q.stl.u1024,
 								ss);
 				break;
 			case 256:
 				cdada_queue_dump_u<cdada_u2048_t>(m,
-								m->queue.u2048,
+								m->q.stl.u2048,
 								ss);
 				break;
 			case 0:

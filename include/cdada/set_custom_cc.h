@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_SET_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_set_autogen_create_##TYPE (void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
-		s->set.custom = (void*)new __CDADA_STD_SET_TYPE(TYPE)(); \
+		s->s.custom = (void*)new __CDADA_STD_SET_TYPE(TYPE)(); \
 	}
 
 /**
@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_set_autogen_destroy_##TYPE (void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		delete p; \
 	}
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_set_autogen_clear_##TYPE (void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		p->clear(); \
 	}
 
@@ -89,7 +89,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_set_autogen_empty_##TYPE (const void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return p->empty(); \
 	}
 /**
@@ -99,7 +99,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	uint32_t __cdada_set_autogen_size_##TYPE (const void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return p->size(); \
 	}
 /**
@@ -109,7 +109,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_set_autogen_insert_##TYPE (void* m, const void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_insert_u< TYPE > (s, p, key);\
 	}
 /**
@@ -119,7 +119,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_set_autogen_erase_##TYPE (void* m, const void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_erase_u< TYPE > (s, p, key);\
 	}
 
@@ -130,7 +130,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_set_autogen_find_##TYPE (const void* m, const void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_find_u< TYPE > (s, p, key);\
 	}
 
@@ -142,7 +142,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* key){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_first_last_u< TYPE > (s, p, first, key);\
 	}
 
@@ -155,7 +155,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_traverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -168,7 +168,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							void* opaque){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_rtraverse_u< TYPE > (s, p, f, opaque);\
 	}
 
@@ -180,7 +180,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							std::stringstream& ss){\
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
-				(__CDADA_STD_SET_TYPE(TYPE)*)s->set.custom; \
+				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
 		return cdada_set_dump_u< TYPE > (s, p, ss);\
 	}
 

@@ -76,18 +76,21 @@ typedef struct{
 	uint32_t magic_num;
 	uint32_t user_key_len;
 	uint32_t key_len;
-	union {
-		std::set<uint8_t>* u8;
-		std::set<uint16_t>* u16;
-		std::set<uint32_t>* u32;
-		std::set<uint64_t>* u64;
-		std::set<cdada_u128_t>* u128;
-		std::set<cdada_u256_t>* u256;
-		std::set<cdada_u512_t>* u512;
-		std::set<cdada_u1024_t>* u1024;
-		std::set<cdada_u2048_t>* u2048;
+	union{
+		union{
+			std::set<uint8_t>* u8;
+			std::set<uint16_t>* u16;
+			std::set<uint32_t>* u32;
+			std::set<uint64_t>* u64;
+			std::set<cdada_u128_t>* u128;
+			std::set<cdada_u256_t>* u256;
+			std::set<cdada_u512_t>* u512;
+			std::set<cdada_u1024_t>* u1024;
+			std::set<cdada_u2048_t>* u2048;
+		}stl;
+
 		void* custom;
-	}set;
+	}s;
 	__cdada_set_ops_t* ops;
 }__cdada_set_int_t;
 

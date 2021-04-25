@@ -72,18 +72,21 @@ typedef struct{
 	uint32_t user_val_len;
 	uint32_t val_len;
 	uint64_t max_capacity;
-	union {
-		std::stack<uint8_t>* u8;
-		std::stack<uint16_t>* u16;
-		std::stack<uint32_t>* u32;
-		std::stack<uint64_t>* u64;
-		std::stack<cdada_u128_t>* u128;
-		std::stack<cdada_u256_t>* u256;
-		std::stack<cdada_u512_t>* u512;
-		std::stack<cdada_u1024_t>* u1024;
-		std::stack<cdada_u2048_t>* u2048;
+	union{
+		union{
+			std::stack<uint8_t>* u8;
+			std::stack<uint16_t>* u16;
+			std::stack<uint32_t>* u32;
+			std::stack<uint64_t>* u64;
+			std::stack<cdada_u128_t>* u128;
+			std::stack<cdada_u256_t>* u256;
+			std::stack<cdada_u512_t>* u512;
+			std::stack<cdada_u1024_t>* u1024;
+			std::stack<cdada_u2048_t>* u2048;
+		}stl;
+
 		void* custom;
-	}stack;
+	}s;
 	__cdada_stack_ops_t* ops;
 }__cdada_stack_int_t;
 

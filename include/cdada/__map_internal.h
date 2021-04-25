@@ -77,24 +77,26 @@ typedef struct{
 	uint32_t magic_num;
 	uint32_t user_key_len;
 	uint32_t key_len;
-	union {
-		std::map<uint8_t, void*>* u8;
-		std::map<uint16_t, void*>* u16;
-		std::map<uint32_t, void*>* u32;
-		std::map<uint64_t, void*>* u64;
-		std::map<cdada_u128_t, void*>* u128;
-		std::map<cdada_u256_t, void*>* u256;
-		std::map<cdada_u512_t, void*>* u512;
-		std::map<cdada_u1024_t, void*>* u1024;
-		std::map<cdada_u2048_t, void*>* u2048;
+	union{
+		union{
+			std::map<uint8_t, void*>* u8;
+			std::map<uint16_t, void*>* u16;
+			std::map<uint32_t, void*>* u32;
+			std::map<uint64_t, void*>* u64;
+			std::map<cdada_u128_t, void*>* u128;
+			std::map<cdada_u256_t, void*>* u256;
+			std::map<cdada_u512_t, void*>* u512;
+			std::map<cdada_u1024_t, void*>* u1024;
+			std::map<cdada_u2048_t, void*>* u2048;
+		}stl;
+
 		void* custom;
-	}map;
+	}m;
 	__cdada_map_ops_t* ops;
 }__cdada_map_int_t;
 
 template<typename T, typename CONT_MAP>
-int cdada_map_insert_u(__cdada_map_int_t* m, CONT_MAP* m_u,
-								const void* key,
+int cdada_map_insert_u(__cdada_map_int_t* m, CONT_MAP* m_u, const void* key,
 								void* val){
 	typename CONT_MAP::iterator it;
 

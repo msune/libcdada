@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_QUEUE_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_queue_autogen_create_##TYPE (void* m){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
-		s->queue.custom = (void*)new __CDADA_STD_QUEUE_TYPE(TYPE)(); \
+		s->q.custom = (void*)new __CDADA_STD_QUEUE_TYPE(TYPE)(); \
 	}
 
 /**
@@ -67,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	void __cdada_queue_autogen_destroy_##TYPE (void* m){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		delete p; \
 	}
 
@@ -78,7 +78,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	bool __cdada_queue_autogen_empty_##TYPE (const void* m){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return p->empty(); \
 	}
 /**
@@ -88,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	uint32_t __cdada_queue_autogen_size_##TYPE (const void* m){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return p->size(); \
 	}
 
@@ -99,7 +99,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_queue_autogen_push_##TYPE (void* m, const void* val){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return cdada_queue_push_u< TYPE > (s, p, val);\
 	}
 
@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_queue_autogen_pop_##TYPE (void* m){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return cdada_queue_pop_u< TYPE > (s, p);\
 	}
 
@@ -121,7 +121,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_queue_autogen_front_##TYPE (const void* m, void* val){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return cdada_queue_front_u< TYPE > (s, p, val);\
 	}
 
@@ -132,7 +132,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	int __cdada_queue_autogen_back_##TYPE (const void* m, void* val){ \
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom; \
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom; \
 		return cdada_queue_back_u< TYPE > (s, p, val);\
 	}
 
@@ -144,7 +144,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							std::stringstream& ss){\
 		__cdada_queue_int_t* s = (__cdada_queue_int_t*)m; \
 		__CDADA_STD_QUEUE_TYPE(TYPE)* p = \
-				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->queue.custom;\
+				(__CDADA_STD_QUEUE_TYPE(TYPE)*)s->q.custom;\
 		return cdada_queue_dump_u< TYPE > (s, p, ss);\
 	}
 
