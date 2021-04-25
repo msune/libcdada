@@ -88,8 +88,8 @@ typedef struct{
 	__cdada_queue_ops_t* ops;
 }__cdada_queue_int_t;
 
-template<typename T>
-int cdada_queue_push_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
+template<typename T, typename CONT_QUEUE>
+int cdada_queue_push_u(__cdada_queue_int_t* m, CONT_QUEUE* m_u,
 							const void* val){
 
 	if(m->val_len == m->user_val_len){
@@ -113,8 +113,8 @@ int cdada_queue_push_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_queue_pop_u(__cdada_queue_int_t* m, std::queue<T>* m_u){
+template<typename T, typename CONT_QUEUE>
+int cdada_queue_pop_u(__cdada_queue_int_t* m, CONT_QUEUE* m_u){
 
 	int rv = CDADA_E_EMPTY;
 
@@ -126,8 +126,8 @@ int cdada_queue_pop_u(__cdada_queue_int_t* m, std::queue<T>* m_u){
 	return rv;
 }
 
-template<typename T>
-int cdada_queue_front_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
+template<typename T, typename CONT_QUEUE>
+int cdada_queue_front_u(__cdada_queue_int_t* m, CONT_QUEUE* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
@@ -149,8 +149,8 @@ int cdada_queue_front_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 	return rv;
 }
 
-template<typename T>
-int cdada_queue_back_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
+template<typename T, typename CONT_QUEUE>
+int cdada_queue_back_u(__cdada_queue_int_t* m, CONT_QUEUE* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
@@ -172,17 +172,17 @@ int cdada_queue_back_u(__cdada_queue_int_t* m, std::queue<T>* m_u,
 	return rv;
 }
 
-template<typename T>
-bool cdada_queue_empty_u(__cdada_queue_int_t* m, std::queue<T>* m_u){
+template<typename T, typename CONT_QUEUE>
+bool cdada_queue_empty_u(__cdada_queue_int_t* m, CONT_QUEUE* m_u){
 
 	return m_u->empty();
 }
 
-template<typename T>
-void cdada_queue_dump_u(const __cdada_queue_int_t* queue, std::queue<T>* m_u,
+template<typename T, typename CONT_QUEUE>
+void cdada_queue_dump_u(const __cdada_queue_int_t* queue, CONT_QUEUE* m_u,
 							std::stringstream& ss){
 
-	typename std::queue<T> aux;
+	CONT_QUEUE aux;
 
 	//No iterators in queue, ephemeral copy
 	//TODO use extended queue class to avoid extra copy instead

@@ -92,11 +92,11 @@ typedef struct{
 	__cdada_map_ops_t* ops;
 }__cdada_map_int_t;
 
-template<typename T>
-int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+int cdada_map_insert_u(__cdada_map_int_t* m, CONT_MAP* m_u,
 								const void* key,
 								void* val){
-	typename std::map<T, void*>::iterator it;
+	typename CONT_MAP::iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -126,10 +126,9 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
-							const void* key){
-	typename std::map<T, void*>::iterator it;
+template<typename T, typename CONT_MAP>
+int cdada_map_erase_u(__cdada_map_int_t* m, CONT_MAP* m_u, const void* key){
+	typename CONT_MAP::iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -159,11 +158,11 @@ int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+int cdada_map_find_u(const __cdada_map_int_t* m, CONT_MAP* m_u,
 							const void* key,
 							void** val){
-	typename std::map<T, void*>::const_iterator it;
+	typename CONT_MAP::const_iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -194,8 +193,8 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+int cdada_map_first_last_u(const __cdada_map_int_t* m, CONT_MAP* m_u,
 							bool first,
 							void* key,
 							void** val){
@@ -203,7 +202,7 @@ int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	aux = (T*)key;
 
 	if(first){
-		typename std::map<T, void*>::const_iterator it;
+		typename CONT_MAP::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
 			return CDADA_E_EMPTY;
@@ -215,7 +214,7 @@ int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 
 		*val = it->second;
 	}else{
-		typename std::map<T, void*>::const_reverse_iterator rit;
+		typename CONT_MAP::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
 			return CDADA_E_EMPTY;
@@ -231,33 +230,33 @@ int cdada_map_first_last_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-void cdada_map_traverse_u(const cdada_map_t* map, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+void cdada_map_traverse_u(const cdada_map_t* map, CONT_MAP* m_u,
 							cdada_map_it f,
 							void* opaque){
 
-	typename std::map<T, void*>::const_iterator it;
+	typename CONT_MAP::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end(); ++it)
 		(*f)(map, &it->first, it->second, opaque);
 }
 
-template<typename T>
-void cdada_map_rtraverse_u(const cdada_map_t* map, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+void cdada_map_rtraverse_u(const cdada_map_t* map, CONT_MAP* m_u,
 							cdada_map_it f,
 							void* opaque){
 
-	typename std::map<T, void*>::const_reverse_iterator it;
+	typename CONT_MAP::const_reverse_iterator it;
 
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it)
 		(*f)(map, &it->first, it->second, opaque);
 }
 
-template<typename T>
-void cdada_map_dump_u(const __cdada_map_int_t* map, std::map<T, void*>* m_u,
+template<typename T, typename CONT_MAP>
+void cdada_map_dump_u(const __cdada_map_int_t* map, CONT_MAP* m_u,
 							std::stringstream& ss){
 
-	typename std::map<T, void*>::const_iterator it;
+	typename CONT_MAP::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end();){
 		__cdada_str_obj(ss, it->first, map->user_key_len);

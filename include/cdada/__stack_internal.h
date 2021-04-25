@@ -87,8 +87,8 @@ typedef struct{
 	__cdada_stack_ops_t* ops;
 }__cdada_stack_int_t;
 
-template<typename T>
-int cdada_stack_push_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
+template<typename T, typename CONT_STACK>
+int cdada_stack_push_u(__cdada_stack_int_t* m, CONT_STACK* m_u,
 							const void* val){
 
 	if(m->val_len == m->user_val_len){
@@ -112,8 +112,8 @@ int cdada_stack_push_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_stack_pop_u(__cdada_stack_int_t* m, std::stack<T>* m_u){
+template<typename T, typename CONT_STACK>
+int cdada_stack_pop_u(__cdada_stack_int_t* m, CONT_STACK* m_u){
 
 	int rv = CDADA_E_EMPTY;
 
@@ -125,8 +125,8 @@ int cdada_stack_pop_u(__cdada_stack_int_t* m, std::stack<T>* m_u){
 	return rv;
 }
 
-template<typename T>
-int cdada_stack_top_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
+template<typename T, typename CONT_STACK>
+int cdada_stack_top_u(__cdada_stack_int_t* m, CONT_STACK* m_u,
 							void *val){
 
 	T* __attribute((__may_alias__)) aux = (T*)val;
@@ -148,17 +148,17 @@ int cdada_stack_top_u(__cdada_stack_int_t* m, std::stack<T>* m_u,
 	return rv;
 }
 
-template<typename T>
-bool cdada_stack_empty_u(__cdada_stack_int_t* m, std::stack<T>* m_u){
+template<typename T, typename CONT_STACK>
+bool cdada_stack_empty_u(__cdada_stack_int_t* m, CONT_STACK* m_u){
 
 	return m_u->empty();
 }
 
-template<typename T>
-void cdada_stack_dump_u(const __cdada_stack_int_t* stack, std::stack<T>* m_u,
+template<typename T, typename CONT_STACK>
+void cdada_stack_dump_u(const __cdada_stack_int_t* stack, CONT_STACK* m_u,
 							std::stringstream& ss){
 
-	typename std::stack<T> aux;
+	CONT_STACK aux;
 
 	//No iterators in stack, ephemeral copy
 	//TODO use extended stack class to avoid extra copy instead

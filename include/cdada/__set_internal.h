@@ -91,10 +91,10 @@ typedef struct{
 	__cdada_set_ops_t* ops;
 }__cdada_set_int_t;
 
-template<typename T>
-int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+int cdada_set_insert_u(__cdada_set_int_t* m, CONT_SET* m_u,
 							const void* key){
-	typename std::set<T>::iterator it;
+	typename CONT_SET::iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -124,10 +124,10 @@ int cdada_set_insert_u(__cdada_set_int_t* m, std::set<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+int cdada_set_erase_u(__cdada_set_int_t* m, CONT_SET* m_u,
 							const void* key){
-	typename std::set<T>::iterator it;
+	typename CONT_SET::iterator it;
 
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -158,8 +158,8 @@ int cdada_set_erase_u(__cdada_set_int_t* m, std::set<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-bool cdada_set_find_u(const __cdada_set_int_t* m, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+bool cdada_set_find_u(const __cdada_set_int_t* m, CONT_SET* m_u,
 							const void* key){
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
@@ -176,15 +176,15 @@ bool cdada_set_find_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 	return m_u->find(aux) != m_u->end();
 }
 
-template<typename T>
-int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+int cdada_set_first_last_u(const __cdada_set_int_t* m, CONT_SET* m_u,
 							bool first,
 							void* key){
 	T* __attribute((__may_alias__)) aux;
 	aux = (T*)key;
 
 	if(first){
-		typename std::set<T>::const_iterator it;
+		typename CONT_SET::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
 			return CDADA_E_EMPTY;
@@ -194,7 +194,7 @@ int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 		else
 			memcpy(aux, &(*it), m->user_key_len);
 	}else{
-		typename std::set<T>::const_reverse_iterator rit;
+		typename CONT_SET::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
 			return CDADA_E_EMPTY;
@@ -208,12 +208,12 @@ int cdada_set_first_last_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-void cdada_set_traverse_u(const cdada_set_t* set, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+void cdada_set_traverse_u(const cdada_set_t* set, CONT_SET* m_u,
 							cdada_set_it f,
 							void* opaque){
 
-	typename std::set<T>::const_iterator it;
+	typename CONT_SET::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end(); ++it){
 		const T& t = *it;
@@ -221,12 +221,12 @@ void cdada_set_traverse_u(const cdada_set_t* set, std::set<T>* m_u,
 	}
 }
 
-template<typename T>
-void cdada_set_rtraverse_u(const cdada_set_t* set, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+void cdada_set_rtraverse_u(const cdada_set_t* set, CONT_SET* m_u,
 							cdada_set_it f,
 							void* opaque){
 
-	typename std::set<T>::const_reverse_iterator it;
+	typename CONT_SET::const_reverse_iterator it;
 
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
 		const T& t = *it;
@@ -234,11 +234,11 @@ void cdada_set_rtraverse_u(const cdada_set_t* set, std::set<T>* m_u,
 	}
 }
 
-template<typename T>
-void cdada_set_dump_u(const __cdada_set_int_t* set, std::set<T>* m_u,
+template<typename T, typename CONT_SET>
+void cdada_set_dump_u(const __cdada_set_int_t* set, CONT_SET* m_u,
 							std::stringstream& ss){
 
-	typename std::set<T>::const_iterator it;
+	typename CONT_SET::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end();){
 		__cdada_str_obj(ss, *it, set->user_key_len);

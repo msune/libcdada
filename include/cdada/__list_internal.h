@@ -97,13 +97,13 @@ typedef struct{
 	__cdada_list_ops_t* ops;
 }__cdada_list_int_t;
 
-template<typename T>
-int cdada_list_insert_u(__cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_insert_u(__cdada_list_int_t* m, CONT_LIST* m_u,
 							const void* val,
 							const uint32_t pos){
 
 	int i = pos;
-	typename std::list<T>::iterator it;
+	typename CONT_LIST::iterator it;
 
 	it = m_u->begin();
 	for(it = m_u->begin(); i>0; --i){
@@ -132,13 +132,13 @@ int cdada_list_insert_u(__cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_get_u(const __cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_get_u(const __cdada_list_int_t* m, CONT_LIST* m_u,
 							const uint32_t pos,
 							void* val){
 
 	int i = pos;
-	typename std::list<T>::iterator it;
+	typename CONT_LIST::iterator it;
 	T* __attribute((__may_alias__)) aux = (T*)val;
 
 	it = m_u->begin();
@@ -158,15 +158,15 @@ int cdada_list_get_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_first_last_u(const __cdada_list_int_t* m, CONT_LIST* m_u,
 							bool first,
 							void* key){
 	T* __attribute((__may_alias__)) aux;
 	aux = (T*)key;
 
 	if(first){
-		typename std::list<T>::const_iterator it;
+		typename CONT_LIST::const_iterator it;
 		it = m_u->begin();
 		if(it == m_u->end())
 			return CDADA_E_EMPTY;
@@ -176,7 +176,7 @@ int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 		else
 			memcpy(aux, &(*it), m->user_val_len);
 	}else{
-		typename std::list<T>::const_reverse_iterator rit;
+		typename CONT_LIST::const_reverse_iterator rit;
 		rit = m_u->rbegin();
 		if(rit == m_u->rend())
 			return CDADA_E_EMPTY;
@@ -190,11 +190,11 @@ int cdada_list_first_last_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_erase_u(__cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_erase_u(__cdada_list_int_t* m, CONT_LIST* m_u,
 							const uint32_t pos){
 	int i = pos;
-	typename std::list<T>::iterator it;
+	typename CONT_LIST::iterator it;
 
 	it = m_u->begin();
 	for(it = m_u->begin(); i>0; --i){
@@ -210,8 +210,8 @@ int cdada_list_erase_u(__cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_remove_u(__cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_remove_u(__cdada_list_int_t* m, CONT_LIST* m_u,
 							const void* val){
 
 	if(m->val_len == m->user_val_len){
@@ -232,8 +232,8 @@ int cdada_list_remove_u(__cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_push_u(__cdada_list_int_t* m, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+int cdada_list_push_u(__cdada_list_int_t* m, CONT_LIST* m_u,
 							const void* val,
 							bool front){
 
@@ -265,8 +265,8 @@ int cdada_list_push_u(__cdada_list_int_t* m, std::list<T>* m_u,
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-int cdada_list_pop_u(__cdada_list_int_t* m, std::list<T>* m_u, bool front){
+template<typename T, typename CONT_LIST>
+int cdada_list_pop_u(__cdada_list_int_t* m, CONT_LIST* m_u, bool front){
 
 	if(m_u->size() == 0)
 		return CDADA_E_EMPTY;
@@ -278,12 +278,12 @@ int cdada_list_pop_u(__cdada_list_int_t* m, std::list<T>* m_u, bool front){
 	return CDADA_SUCCESS;
 }
 
-template<typename T>
-void cdada_list_traverse_u(const cdada_list_t* list, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+void cdada_list_traverse_u(const cdada_list_t* list, CONT_LIST* m_u,
 							cdada_list_it f,
 							void* opaque){
 
-	typename std::list<T>::const_iterator it;
+	typename CONT_LIST::const_iterator it;
 
 	for(it = m_u->begin(); it != m_u->end(); ++it){
 		const T& t = *it;
@@ -291,12 +291,12 @@ void cdada_list_traverse_u(const cdada_list_t* list, std::list<T>* m_u,
 	}
 }
 
-template<typename T>
-void cdada_list_rtraverse_u(const cdada_list_t* list, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+void cdada_list_rtraverse_u(const cdada_list_t* list, CONT_LIST* m_u,
 							cdada_list_it f,
 							void* opaque){
 
-	typename std::list<T>::const_reverse_iterator it;
+	typename CONT_LIST::const_reverse_iterator it;
 
 	for(it = m_u->rbegin(); it != m_u->rend(); ++it){
 		const T& t = *it;
@@ -304,12 +304,12 @@ void cdada_list_rtraverse_u(const cdada_list_t* list, std::list<T>* m_u,
 	}
 }
 
-template<typename T>
-void cdada_list_dump_u(const __cdada_list_int_t* list, std::list<T>* m_u,
+template<typename T, typename CONT_LIST>
+void cdada_list_dump_u(const __cdada_list_int_t* list, CONT_LIST* m_u,
 							std::stringstream& ss){
 
 	uint32_t i;
-	typename std::list<T>::const_iterator it;
+	typename CONT_LIST::const_iterator it;
 
 	for(it = m_u->begin(), i=0; it != m_u->end(); ++i){
 		ss << "[" << i <<"]:";
