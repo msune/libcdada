@@ -1,7 +1,9 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-nobase_include_HEADERS = cdada.h cdada/version.h	  \
-				cdada/bbitmap.h		  \
+nobase_include_HEADERS = cdada.h \
+				cdada/etl/config.h        \
+				cdada/version.h           \
+				cdada/bbitmap.h           \
 				cdada/list.h              \
 				cdada/list_custom_cc.h    \
 				cdada/map.h               \

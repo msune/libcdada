@@ -47,6 +47,9 @@ m4_include([config_m4/valgrind.m4])
 # Checking RDTSC
 m4_include([config_m4/rdtsc.m4])
 
+# ETL
+m4_include([config_m4/etl.m4])
+
 # Tests
 m4_include([config_m4/tests.m4])
 
