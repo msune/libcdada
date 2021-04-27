@@ -334,6 +334,10 @@ int test_u8_insert_removal(){
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -609,6 +613,10 @@ int test_u16_insert_removal(){
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -882,6 +890,10 @@ int test_u32_insert_removal(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -1162,6 +1174,10 @@ int test_u64_insert_removal_traverse(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -1577,6 +1593,10 @@ int _test_u552_insert_removal_traverse(){
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -1871,6 +1891,10 @@ int test_u3552_insert_removal_traverse_custom(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(cdada_list_size(list) == 0);
 	TEST_ASSERT(cdada_list_empty(list) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_list_insert(list, &key, 0);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_list_destroy(list);
 	TEST_ASSERT(rv == CDADA_SUCCESS);

@@ -154,6 +154,10 @@ int test_u8_insert_removal(){
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -267,6 +271,10 @@ int test_u16_insert_removal(){
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -379,6 +387,10 @@ int test_u32_insert_removal(){
 	rv = cdada_map_clear(map);
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -499,6 +511,10 @@ int test_u64_insert_removal_traverse(){
 	rv = cdada_map_clear(map);
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -719,6 +735,10 @@ int _test_u552_insert_removal_traverse(){
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -859,6 +879,10 @@ int test_u3552_insert_removal_traverse_custom(){
 	rv = cdada_map_clear(map);
 	TEST_ASSERT(cdada_map_size(map) == 0);
 	TEST_ASSERT(cdada_map_empty(map) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_map_insert(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_destroy(map);
 	TEST_ASSERT(rv == CDADA_SUCCESS);

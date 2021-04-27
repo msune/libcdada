@@ -130,6 +130,9 @@ int test_u8_insert_removal(){
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -233,6 +236,10 @@ int test_u16_insert_removal(){
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -334,6 +341,10 @@ int test_u32_insert_removal(){
 	rv = cdada_set_clear(set);
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -443,6 +454,10 @@ int test_u64_insert_removal_traverse(){
 	rv = cdada_set_clear(set);
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -629,6 +644,10 @@ int _test_u552_insert_removal_traverse(){
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
 
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
@@ -751,6 +770,10 @@ int test_u3552_insert_removal_traverse_custom(){
 	rv = cdada_set_clear(set);
 	TEST_ASSERT(cdada_set_size(set) == 0);
 	TEST_ASSERT(cdada_set_empty(set) == true);
+
+	//Add an item to test destructor (no leaks)
+	rv = cdada_set_insert(set, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_set_destroy(set);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
