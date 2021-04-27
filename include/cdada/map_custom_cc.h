@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_MAP_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_map_autogen_create_##TYPE (void* m){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
-		s->m.custom = (void*)new __CDADA_STD_MAP_TYPE(TYPE)(); \
+		s->m.custom = (void*)new (s->buf) __CDADA_STD_MAP_TYPE(TYPE)();\
 	}
 
 /**
@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
 				(__CDADA_STD_MAP_TYPE(TYPE)*)s->m.custom; \
-		delete p; \
+		p->~map< TYPE, void* >(); \
 	}
 
 /**

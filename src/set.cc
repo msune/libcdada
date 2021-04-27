@@ -31,31 +31,31 @@ cdada_set_t* __cdada_set_create(const uint16_t key_size,
 
 		//Regular
 		if(key_size == 1){
-			m->s.stl.u8 = new set<uint8_t>();
+			m->s.stl.u8 = new (m->buf) set<uint8_t>();
 			m->key_len = 1;
 		}else if(key_size == 2){
-			m->s.stl.u16 = new set<uint16_t>();
+			m->s.stl.u16 = new (m->buf) set<uint16_t>();
 			m->key_len = 2;
 		}else if(key_size > 2 && key_size <= 4){
-			m->s.stl.u32 = new set<uint32_t>();
+			m->s.stl.u32 = new (m->buf) set<uint32_t>();
 			m->key_len = 4;
 		}else if(key_size > 4 && key_size <= 8){
-			m->s.stl.u64 = new set<uint64_t>();
+			m->s.stl.u64 = new (m->buf) set<uint64_t>();
 			m->key_len = 8;
 		}else if(key_size > 8 && key_size <= 16){
-			m->s.stl.u128 = new set<cdada_u128_t>();
+			m->s.stl.u128 = new (m->buf) set<cdada_u128_t>();
 			m->key_len = 16;
 		}else if(key_size > 16 && key_size <= 32){
-			m->s.stl.u256 = new set<cdada_u256_t>();
+			m->s.stl.u256 = new (m->buf) set<cdada_u256_t>();
 			m->key_len = 32;
 		}else if(key_size > 32 && key_size <= 64){
-			m->s.stl.u512 = new set<cdada_u512_t>();
+			m->s.stl.u512 = new (m->buf) set<cdada_u512_t>();
 			m->key_len = 64;
 		}else if(key_size > 64 && key_size <= 128){
-			m->s.stl.u1024 = new set<cdada_u1024_t>();
+			m->s.stl.u1024 = new (m->buf) set<cdada_u1024_t>();
 			m->key_len = 128;
 		}else if(key_size > 128 && key_size <= 256){
-			m->s.stl.u2048 = new set<cdada_u2048_t>();
+			m->s.stl.u2048 = new (m->buf) set<cdada_u2048_t>();
 			m->key_len = 256;
 		}else{
 			//Unsupported; use custom type
@@ -90,31 +90,31 @@ int cdada_set_destroy(cdada_set_t* set){
 		}else{
 			switch(m->key_len){
 				case 1:
-					delete m->s.stl.u8;
+					m->s.stl.u8->~set<uint8_t>();
 					break;
 				case 2:
-					delete m->s.stl.u16;
+					m->s.stl.u16->~set<uint16_t>();
 					break;
 				case 4:
-					delete m->s.stl.u32;
+					m->s.stl.u32->~set<uint32_t>();
 					break;
 				case 8:
-					delete m->s.stl.u64;
+					m->s.stl.u64->~set<uint64_t>();
 					break;
 				case 16:
-					delete m->s.stl.u128;
+					m->s.stl.u128->~set<cdada_u128_t>();
 					break;
 				case 32:
-					delete m->s.stl.u256;
+					m->s.stl.u256->~set<cdada_u256_t>();
 					break;
 				case 64:
-					delete m->s.stl.u512;
+					m->s.stl.u512->~set<cdada_u512_t>();
 					break;
 				case 128:
-					delete m->s.stl.u1024;
+					m->s.stl.u1024->~set<cdada_u1024_t>();
 					break;
 				case 256:
-					delete m->s.stl.u2048;
+					m->s.stl.u2048->~set<cdada_u2048_t>();
 					break;
 				default:
 					CDADA_ASSERT(0);

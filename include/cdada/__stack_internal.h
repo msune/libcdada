@@ -65,6 +65,11 @@ typedef struct __cdada_stack_ops{
 }__cdada_stack_ops_t;
 
 /**
+* @internal Memory buffer size to hold container
+*/
+#define __CDADA_STACK_BUF_SIZE 128
+
+/**
 * @internal Main internal structure
 */
 typedef struct{
@@ -87,8 +92,31 @@ typedef struct{
 
 		void* custom;
 	}s;
+
+	//Holds the container data structure itself
+	uint8_t buf[__CDADA_STACK_BUF_SIZE];
+
 	__cdada_stack_ops_t* ops;
 }__cdada_stack_int_t;
+
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_1,
+		sizeof(std::stack<uint8_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_2,
+		sizeof(std::stack<uint16_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_4,
+		sizeof(std::stack<uint32_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_8,
+		sizeof(std::stack<uint64_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_16,
+		sizeof(std::stack<cdada_u128_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_32,
+		sizeof(std::stack<cdada_u256_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_64,
+		sizeof(std::stack<cdada_u512_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_128,
+		sizeof(std::stack<cdada_u1024_t>) <= __CDADA_STACK_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_STACK_BUFFER_TOO_SMALL_256,
+		sizeof(std::stack<cdada_u2048_t>) <= __CDADA_STACK_BUF_SIZE);
 
 template<typename T, typename CONT_STACK>
 int cdada_stack_push_u(__cdada_stack_int_t* m, CONT_STACK* m_u,

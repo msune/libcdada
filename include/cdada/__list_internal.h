@@ -76,6 +76,11 @@ typedef struct __cdada_list_ops{
 }__cdada_list_ops_t;
 
 /**
+* @internal Memory buffer size to hold container
+*/
+#define __CDADA_LIST_BUF_SIZE 64
+
+/**
 * @internal Main internal structure
 */
 typedef struct{
@@ -97,8 +102,31 @@ typedef struct{
 
 		void* custom;
 	}l;
+
+	//Holds the container data structure itself
+	uint8_t buf[__CDADA_LIST_BUF_SIZE];
+
 	__cdada_list_ops_t* ops;
 }__cdada_list_int_t;
+
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_1,
+		sizeof(std::list<uint8_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_2,
+		sizeof(std::list<uint16_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_4,
+		sizeof(std::list<uint32_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_8,
+		sizeof(std::list<uint64_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_16,
+		sizeof(std::list<cdada_u128_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_32,
+		sizeof(std::list<cdada_u256_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_64,
+		sizeof(std::list<cdada_u512_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_128,
+		sizeof(std::list<cdada_u1024_t>) <= __CDADA_LIST_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_256,
+		sizeof(std::list<cdada_u2048_t>) <= __CDADA_LIST_BUF_SIZE);
 
 template<typename T, typename CONT_LIST>
 int cdada_list_insert_u(__cdada_list_int_t* m, CONT_LIST* m_u,

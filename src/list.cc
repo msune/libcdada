@@ -30,31 +30,31 @@ cdada_list_t* __cdada_list_create(const uint16_t val_size,
 		}
 
 		if(val_size == 1){
-			m->l.stl.u8 = new list<uint8_t>();
+			m->l.stl.u8 = new (m->buf) list<uint8_t>();
 			m->val_len = 1;
 		}else if(val_size == 2){
-			m->l.stl.u16 = new list<uint16_t>();
+			m->l.stl.u16 = new (m->buf) list<uint16_t>();
 			m->val_len = 2;
 		}else if(val_size > 2 && val_size <= 4){
-			m->l.stl.u32 = new list<uint32_t>();
+			m->l.stl.u32 = new (m->buf) list<uint32_t>();
 			m->val_len = 4;
 		}else if(val_size > 4 && val_size <= 8){
-			m->l.stl.u64 = new list<uint64_t>();
+			m->l.stl.u64 = new (m->buf) list<uint64_t>();
 			m->val_len = 8;
 		}else if(val_size > 8 && val_size <= 16){
-			m->l.stl.u128 = new list<cdada_u128_t>();
+			m->l.stl.u128 = new (m->buf) list<cdada_u128_t>();
 			m->val_len = 16;
 		}else if(val_size > 16 && val_size <= 32){
-			m->l.stl.u256 = new list<cdada_u256_t>();
+			m->l.stl.u256 = new (m->buf) list<cdada_u256_t>();
 			m->val_len = 32;
 		}else if(val_size > 32 && val_size <= 64){
-			m->l.stl.u512 = new list<cdada_u512_t>();
+			m->l.stl.u512 = new (m->buf) list<cdada_u512_t>();
 			m->val_len = 64;
 		}else if(val_size > 64 && val_size <= 128){
-			m->l.stl.u1024 = new list<cdada_u1024_t>();
+			m->l.stl.u1024 = new (m->buf) list<cdada_u1024_t>();
 			m->val_len = 128;
 		}else if(val_size > 128 && val_size <= 256){
-			m->l.stl.u2048 = new list<cdada_u2048_t>();
+			m->l.stl.u2048 = new (m->buf) list<cdada_u2048_t>();
 			m->val_len = 256;
 		}else{
 			goto ROLLBACK;
@@ -86,31 +86,31 @@ int cdada_list_destroy(cdada_list_t* list){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				delete m->l.stl.u8;
+				m->l.stl.u8->~list<uint8_t>();
 				break;
 			case 2:
-				delete m->l.stl.u16;
+				m->l.stl.u16->~list<uint16_t>();
 				break;
 			case 4:
-				delete m->l.stl.u32;
+				m->l.stl.u32->~list<uint32_t>();
 				break;
 			case 8:
-				delete m->l.stl.u64;
+				m->l.stl.u64->~list<uint64_t>();
 				break;
 			case 16:
-				delete m->l.stl.u128;
+				m->l.stl.u128->~list<cdada_u128_t>();
 				break;
 			case 32:
-				delete m->l.stl.u256;
+				m->l.stl.u256->~list<cdada_u256_t>();
 				break;
 			case 64:
-				delete m->l.stl.u512;
+				m->l.stl.u512->~list<cdada_u512_t>();
 				break;
 			case 128:
-				delete m->l.stl.u1024;
+				m->l.stl.u1024->~list<cdada_u1024_t>();
 				break;
 			case 256:
-				delete m->l.stl.u2048;
+				m->l.stl.u2048->~list<cdada_u2048_t>();
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);

@@ -51,6 +51,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
+* @internal Memory buffer size to hold container
+*/
+#define __CDADA_STR_BUF_SIZE 64
+
+/**
 * @internal Main internal structure
 */
 typedef struct{
@@ -59,6 +64,13 @@ typedef struct{
 	union{
 		std::string* stl_str;
 	}s;
+
+	//Holds the container data structure itself
+	uint8_t buf[__CDADA_STR_BUF_SIZE];
+
 }__cdada_str_int_t;
+
+COMPILATION_ASSERT(__CDADA_STR_BUFFER_TOO_SMALL,
+		sizeof(std::string) <= __CDADA_STR_BUF_SIZE);
 
 #endif //__CDADA_STR_INT__

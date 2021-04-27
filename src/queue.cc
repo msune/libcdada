@@ -30,31 +30,31 @@ cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 		}
 
 		if(val_size == 1){
-			m->q.stl.u8 = new queue<uint8_t>();
+			m->q.stl.u8 = new (m->buf) queue<uint8_t>();
 			m->val_len = 1;
 		}else if(val_size == 2){
-			m->q.stl.u16 = new queue<uint16_t>();
+			m->q.stl.u16 = new (m->buf) queue<uint16_t>();
 			m->val_len = 2;
 		}else if(val_size > 2 && val_size <= 4){
-			m->q.stl.u32 = new queue<uint32_t>();
+			m->q.stl.u32 = new (m->buf) queue<uint32_t>();
 			m->val_len = 4;
 		}else if(val_size > 4 && val_size <= 8){
-			m->q.stl.u64 = new queue<uint64_t>();
+			m->q.stl.u64 = new (m->buf) queue<uint64_t>();
 			m->val_len = 8;
 		}else if(val_size > 8 && val_size <= 16){
-			m->q.stl.u128 = new queue<cdada_u128_t>();
+			m->q.stl.u128 = new (m->buf) queue<cdada_u128_t>();
 			m->val_len = 16;
 		}else if(val_size > 16 && val_size <= 32){
-			m->q.stl.u256 = new queue<cdada_u256_t>();
+			m->q.stl.u256 = new (m->buf) queue<cdada_u256_t>();
 			m->val_len = 32;
 		}else if(val_size > 32 && val_size <= 64){
-			m->q.stl.u512 = new queue<cdada_u512_t>();
+			m->q.stl.u512 = new (m->buf) queue<cdada_u512_t>();
 			m->val_len = 64;
 		}else if(val_size > 64 && val_size <= 128){
-			m->q.stl.u1024 = new queue<cdada_u1024_t>();
+			m->q.stl.u1024 = new (m->buf) queue<cdada_u1024_t>();
 			m->val_len = 128;
 		}else if(val_size > 128 && val_size <= 256){
-			m->q.stl.u2048 = new queue<cdada_u2048_t>();
+			m->q.stl.u2048 = new (m->buf) queue<cdada_u2048_t>();
 			m->val_len = 256;
 		}else{
 			goto ROLLBACK;
@@ -86,31 +86,31 @@ int cdada_queue_destroy(cdada_queue_t* queue){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				delete m->q.stl.u8;
+				m->q.stl.u8->~queue<uint8_t>();
 				break;
 			case 2:
-				delete m->q.stl.u16;
+				m->q.stl.u16->~queue<uint16_t>();
 				break;
 			case 4:
-				delete m->q.stl.u32;
+				m->q.stl.u32->~queue<uint32_t>();
 				break;
 			case 8:
-				delete m->q.stl.u64;
+				m->q.stl.u64->~queue<uint64_t>();
 				break;
 			case 16:
-				delete m->q.stl.u128;
+				m->q.stl.u128->~queue<cdada_u128_t>();
 				break;
 			case 32:
-				delete m->q.stl.u256;
+				m->q.stl.u256->~queue<cdada_u256_t>();
 				break;
 			case 64:
-				delete m->q.stl.u512;
+				m->q.stl.u512->~queue<cdada_u512_t>();
 				break;
 			case 128:
-				delete m->q.stl.u1024;
+				m->q.stl.u1024->~queue<cdada_u1024_t>();
 				break;
 			case 256:
-				delete m->q.stl.u2048;
+				m->q.stl.u2048->~queue<cdada_u2048_t>();
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);

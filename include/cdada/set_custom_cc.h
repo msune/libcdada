@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_SET_CUSTOM_CREATE_F(TYPE) \
 	void __cdada_set_autogen_create_##TYPE (void* m){ \
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
-		s->s.custom = (void*)new __CDADA_STD_SET_TYPE(TYPE)(); \
+		s->s.custom = (void*)new (s->buf) __CDADA_STD_SET_TYPE(TYPE)();\
 	}
 
 /**
@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__cdada_set_int_t* s = (__cdada_set_int_t*)m; \
 		__CDADA_STD_SET_TYPE(TYPE)* p = \
 				(__CDADA_STD_SET_TYPE(TYPE)*)s->s.custom; \
-		delete p; \
+		p->~set<TYPE>(); \
 	}
 
 /**

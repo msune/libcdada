@@ -14,7 +14,9 @@
 #include <string.h>
 #include <cdada/list_custom_cc.h>
 #include <cdada/map_custom_cc.h>
+#include <cdada/queue_custom_cc.h>
 #include <cdada/set_custom_cc.h>
+#include <cdada/stack_custom_cc.h>
 
 //C++ comparison operators for user stypes (memcmp)
 
@@ -44,13 +46,13 @@ inline bool operator==(const bar_t & a1, const bar_t & a2){
 //Operator
 void __cdada_list_autogen_create_foo_t (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
-	s->l.custom = (void*)new std::list<foo_t>();
+	s->l.custom = (void*)new (s->buf) std::list<foo_t>();
 }
 void __cdada_list_autogen_destroy_foo_t (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<foo_t>* p =
 			(std::list<foo_t>*)s->l.custom;
-	delete p;
+	p->~list<foo_t>();
 }
 void __cdada_list_autogen_clear_foo_t (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
@@ -150,6 +152,13 @@ void __cdada_list_autogen_rtraverse_foo_t (const void* m,
 			(std::list<foo_t>*)s->l.custom;
 	return cdada_list_rtraverse_u<foo_t> (s, p, f, opaque);
 }
+void __cdada_list_autogen_dump_foo_t (const void* m,
+                                                std::stringstream& ss){
+        __cdada_list_int_t* s = (__cdada_list_int_t*)m;
+        std::list<foo_t>* p =
+                        (std::list<foo_t>*)s->l.custom;
+        return cdada_list_dump_u< foo_t > (s, p, ss);
+}
 __cdada_list_ops_t __cdada_list_autogen_foo_t = {
 	__cdada_list_autogen_create_foo_t,
 	__cdada_list_autogen_destroy_foo_t,
@@ -168,6 +177,7 @@ __cdada_list_ops_t __cdada_list_autogen_foo_t = {
 	__cdada_list_autogen_unique_foo_t,
 	__cdada_list_autogen_traverse_foo_t,
 	__cdada_list_autogen_rtraverse_foo_t,
+	__cdada_list_autogen_dump_foo_t,
 };
 
 //END list for foo_t (std::list<foo_t>)
@@ -176,13 +186,13 @@ __cdada_list_ops_t __cdada_list_autogen_foo_t = {
 
 void __cdada_map_autogen_create_bar_t (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
-	s->m.custom = (void*)new std::map<bar_t, void*>();
+	s->m.custom = (void*)new (s->buf) std::map<bar_t, void*>();
 }
 void __cdada_map_autogen_destroy_bar_t (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<bar_t, void*>* p =
 			(std::map<bar_t, void*>*)s->m.custom;
-	delete p;
+	p->~map<bar_t, void*>();
 }
 void __cdada_map_autogen_clear_bar_t (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
@@ -246,6 +256,13 @@ void __cdada_map_autogen_rtraverse_bar_t (const void* m,
 			(std::map<bar_t, void*>*)s->m.custom;
 	return cdada_map_rtraverse_u<bar_t> (s, p, f, opaque);
 }
+void __cdada_map_autogen_dump_bar_t (const void* m,
+                                                std::stringstream& ss){
+        __cdada_map_int_t* s = (__cdada_map_int_t*)m;
+        std::map<bar_t, void*>* p =
+                        (std::map<bar_t, void*>*)s->m.custom;
+        return cdada_map_dump_u< bar_t > (s, p, ss);
+}
 __cdada_map_ops_t __cdada_map_autogen_bar_t = {
 	__cdada_map_autogen_create_bar_t,
 	__cdada_map_autogen_destroy_bar_t,
@@ -258,6 +275,7 @@ __cdada_map_ops_t __cdada_map_autogen_bar_t = {
 	__cdada_map_autogen_first_last_bar_t,
 	__cdada_map_autogen_traverse_bar_t,
 	__cdada_map_autogen_rtraverse_bar_t,
+	__cdada_map_autogen_dump_bar_t,
 };
 
 //END map for bar_t (std::map<bar_t>)

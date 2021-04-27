@@ -27,13 +27,13 @@ LIST="""
 //Operator
 void __cdada_list_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
-	s->l.custom = (void*)new std::list<TT_TYPE_TT>();
+	s->l.custom = (void*)new (s->buf) std::list<TT_TYPE_TT>();
 }
 void __cdada_list_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
 	std::list<TT_TYPE_TT>* p =
 			(std::list<TT_TYPE_TT>*)s->l.custom;
-	delete p;
+	p->~list<TT_TYPE_TT>();
 }
 void __cdada_list_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_list_int_t* s = (__cdada_list_int_t*)m;
@@ -165,13 +165,13 @@ __cdada_list_ops_t __cdada_list_autogen_TT_TYPE_TT = {
 MAP ="""
 void __cdada_map_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
-	s->m.custom = (void*)new std::map<TT_TYPE_TT, void*>();
+	s->m.custom = (void*)new (s->buf) std::map<TT_TYPE_TT, void*>();
 }
 void __cdada_map_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
 			(std::map<TT_TYPE_TT, void*>*)s->m.custom;
-	delete p;
+	p->~map<TT_TYPE_TT, void*>();
 }
 void __cdada_map_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
@@ -263,13 +263,13 @@ QUEUE="""
 //Operator
 void __cdada_queue_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
-	s->q.custom = (void*)new std::queue<TT_TYPE_TT>();
+	s->q.custom = (void*)new (s->buf) std::queue<TT_TYPE_TT>();
 }
 void __cdada_queue_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
 	std::queue<TT_TYPE_TT>* p =
 			(std::queue<TT_TYPE_TT>*)s->q.custom;
-	delete p;
+        p->~queue<TT_TYPE_TT>();
 }
 bool __cdada_queue_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_queue_int_t* s = (__cdada_queue_int_t*)m;
@@ -330,12 +330,12 @@ __cdada_queue_ops_t __cdada_queue_autogen_TT_TYPE_TT = {
 SET ="""
 void __cdada_set_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
-	s->s.custom = (void*)new std::set<TT_TYPE_TT>();
+	s->s.custom = (void*)new (s->buf) std::set<TT_TYPE_TT>();
 }
 void __cdada_set_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
 	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->s.custom;
-	delete p;
+	p->~set<TT_TYPE_TT>();
 }
 void __cdada_set_autogen_clear_TT_TYPE_TT (void* m){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
@@ -415,13 +415,13 @@ STACK="""
 //Operator
 void __cdada_stack_autogen_create_TT_TYPE_TT (void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
-	s->s.custom = (void*)new std::stack<TT_TYPE_TT>();
+	s->s.custom = (void*)new (s->buf) std::stack<TT_TYPE_TT>();
 }
 void __cdada_stack_autogen_destroy_TT_TYPE_TT (void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;
 	std::stack<TT_TYPE_TT>* p =
 			(std::stack<TT_TYPE_TT>*)s->s.custom;
-	delete p;
+	p->~stack<TT_TYPE_TT>();
 }
 bool __cdada_stack_autogen_empty_TT_TYPE_TT (const void* m){
 	__cdada_stack_int_t* s = (__cdada_stack_int_t*)m;

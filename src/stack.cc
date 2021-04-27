@@ -30,31 +30,31 @@ cdada_stack_t* __cdada_stack_create(const uint16_t val_size,
 		}
 
 		if(val_size == 1){
-			m->s.stl.u8 = new stack<uint8_t>();
+			m->s.stl.u8 = new (m->buf) stack<uint8_t>();
 			m->val_len = 1;
 		}else if(val_size == 2){
-			m->s.stl.u16 = new stack<uint16_t>();
+			m->s.stl.u16 = new (m->buf) stack<uint16_t>();
 			m->val_len = 2;
 		}else if(val_size > 2 && val_size <= 4){
-			m->s.stl.u32 = new stack<uint32_t>();
+			m->s.stl.u32 = new (m->buf) stack<uint32_t>();
 			m->val_len = 4;
 		}else if(val_size > 4 && val_size <= 8){
-			m->s.stl.u64 = new stack<uint64_t>();
+			m->s.stl.u64 = new (m->buf) stack<uint64_t>();
 			m->val_len = 8;
 		}else if(val_size > 8 && val_size <= 16){
-			m->s.stl.u128 = new stack<cdada_u128_t>();
+			m->s.stl.u128 = new (m->buf) stack<cdada_u128_t>();
 			m->val_len = 16;
 		}else if(val_size > 16 && val_size <= 32){
-			m->s.stl.u256 = new stack<cdada_u256_t>();
+			m->s.stl.u256 = new (m->buf) stack<cdada_u256_t>();
 			m->val_len = 32;
 		}else if(val_size > 32 && val_size <= 64){
-			m->s.stl.u512 = new stack<cdada_u512_t>();
+			m->s.stl.u512 = new (m->buf) stack<cdada_u512_t>();
 			m->val_len = 64;
 		}else if(val_size > 64 && val_size <= 128){
-			m->s.stl.u1024 = new stack<cdada_u1024_t>();
+			m->s.stl.u1024 = new (m->buf) stack<cdada_u1024_t>();
 			m->val_len = 128;
 		}else if(val_size > 128 && val_size <= 256){
-			m->s.stl.u2048 = new stack<cdada_u2048_t>();
+			m->s.stl.u2048 = new (m->buf) stack<cdada_u2048_t>();
 			m->val_len = 256;
 		}else{
 			goto ROLLBACK;
@@ -86,31 +86,31 @@ int cdada_stack_destroy(cdada_stack_t* stack){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				delete m->s.stl.u8;
+				m->s.stl.u8->~stack<uint8_t>();
 				break;
 			case 2:
-				delete m->s.stl.u16;
+				m->s.stl.u16->~stack<uint16_t>();
 				break;
 			case 4:
-				delete m->s.stl.u32;
+				m->s.stl.u32->~stack<uint32_t>();
 				break;
 			case 8:
-				delete m->s.stl.u64;
+				m->s.stl.u64->~stack<uint64_t>();
 				break;
 			case 16:
-				delete m->s.stl.u128;
+				m->s.stl.u128->~stack<cdada_u128_t>();
 				break;
 			case 32:
-				delete m->s.stl.u256;
+				m->s.stl.u256->~stack<cdada_u256_t>();
 				break;
 			case 64:
-				delete m->s.stl.u512;
+				m->s.stl.u512->~stack<cdada_u512_t>();
 				break;
 			case 128:
-				delete m->s.stl.u1024;
+				m->s.stl.u1024->~stack<cdada_u1024_t>();
 				break;
 			case 256:
-				delete m->s.stl.u2048;
+				m->s.stl.u2048->~stack<cdada_u2048_t>();
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);

@@ -69,6 +69,10 @@ typedef struct __cdada_map_ops{
 	void (*dump)(const cdada_map_t* m, std::stringstream& ss);
 }__cdada_map_ops_t;
 
+/**
+* @internal Memory buffer size to hold container
+*/
+#define __CDADA_MAP_BUF_SIZE 64
 
 /**
 * @internal Main internal structure
@@ -92,8 +96,31 @@ typedef struct{
 
 		void* custom;
 	}m;
+
+	//Holds the container data structure itself
+	uint8_t buf[__CDADA_MAP_BUF_SIZE];
+
 	__cdada_map_ops_t* ops;
 }__cdada_map_int_t;
+
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_1,
+		sizeof(std::map<uint8_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_2,
+		sizeof(std::map<uint16_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_4,
+		sizeof(std::map<uint32_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_8,
+		sizeof(std::map<uint64_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_16,
+		sizeof(std::map<cdada_u128_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_32,
+		sizeof(std::map<cdada_u256_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_64,
+		sizeof(std::map<cdada_u512_t, void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_128,
+		sizeof(std::map<cdada_u1024_t,void*>) <= __CDADA_MAP_BUF_SIZE);
+COMPILATION_ASSERT(__CDADA_MAP_BUFFER_TOO_SMALL_256,
+		sizeof(std::map<cdada_u2048_t,void*>) <= __CDADA_MAP_BUF_SIZE);
 
 template<typename T, typename CONT_MAP>
 int cdada_map_insert_u(__cdada_map_int_t* m, CONT_MAP* m_u, const void* key,

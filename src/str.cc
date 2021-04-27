@@ -18,7 +18,7 @@ cdada_str_t* cdada_str_create(const char* str){
 
 	try{
 		m->magic_num = CDADA_MAGIC;
-		m->s.stl_str = new std::string(str);
+		m->s.stl_str = new (m->buf) std::string(str);
 	}catch(bad_alloc& e){
 		free(m);
 		return NULL;
@@ -38,7 +38,7 @@ int cdada_str_destroy(cdada_str_t* str){
 
 	m->magic_num = 0x0;
 	try{
-		delete m->s.stl_str;
+		m->s.stl_str->~string();
 	}catch(...){
 		CDADA_ASSERT(0);
 		return CDADA_E_UNKNOWN;
