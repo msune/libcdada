@@ -39,10 +39,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <cdada/utils.h>
-#include <cdada/__common_internal.h>
 #include <list>
 #include <sstream>
+
+#include <cdada/ext_libs/etl_config.h>
+#include <cdada/ext_libs/etl/list.h>
+#include <cdada/utils.h>
+#include <cdada/__common_internal.h>
 
 /**
 * @file cdada/list_internal.h
@@ -100,32 +103,38 @@ typedef struct{
 			std::list<cdada_u2048_t>* u2048;
 		}stl;
 
+		struct{
+			uint64_t capacity;
+		}etl;
 		void* custom;
 	}l;
 
-	//Holds the container data structure itself
-	uint8_t buf[__CDADA_LIST_BUF_SIZE];
-
 	__cdada_list_ops_t* ops;
+
+	//Holds the container data structure itself
+	//For ETL containers, this struct will be wrapper to further
+	//extend the buffer to the total size of the container (with
+	//all elements)
+	uint8_t buf[__CDADA_LIST_BUF_SIZE];
 }__cdada_list_int_t;
 
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_1,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_1,
 		sizeof(std::list<uint8_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_2,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_2,
 		sizeof(std::list<uint16_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_4,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_4,
 		sizeof(std::list<uint32_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_8,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_8,
 		sizeof(std::list<uint64_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_16,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_16,
 		sizeof(std::list<cdada_u128_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_32,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_32,
 		sizeof(std::list<cdada_u256_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_64,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_64,
 		sizeof(std::list<cdada_u512_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_128,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_128,
 		sizeof(std::list<cdada_u1024_t>) <= __CDADA_LIST_BUF_SIZE);
-COMPILATION_ASSERT(__CDADA_LIST_BUFFER_TOO_SMALL_256,
+COMPILATION_ASSERT(__CDADA_STL_LIST_BUF_TOO_SMALL_256,
 		sizeof(std::list<cdada_u2048_t>) <= __CDADA_LIST_BUF_SIZE);
 
 template<typename T, typename CONT_LIST>

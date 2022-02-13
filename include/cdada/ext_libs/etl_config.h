@@ -31,9 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ETL_NO_STL
 
 #if defined(_MSC_VER)
-	#include "profiles/msvc_x86.h"
+	#include "cdada/ext_libs/etl/profiles/msvc_x86.h"
 #elif defined(__GNUC__)
-	#include "profiles/gcc_generic.h"
+	#include "cdada/ext_libs/etl/profiles/gcc_generic.h"
 #endif
 
 #endif //__CDADA_ETL_CONFIG_H__
