@@ -174,6 +174,21 @@ uint32_t cdada_map_size(const cdada_map_t* map);
 int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 
 /**
+* Insert or replace an element (a copy of `key` and pointer `val`) in the map
+*
+* @param map Map pointer
+* @param key Key. The key type _must_ have all bytes initialized
+* @param val Pointer to the value
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element is inserted
+*          CDADA_E_MEM: out of memory
+*          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
+*          CDADA_E_INVALID: map is NULL or corrupted
+*/
+int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val);
+
+/**
 * Erase an element in the map
 *
 * @param map Map pointer

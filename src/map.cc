@@ -265,7 +265,8 @@ uint32_t cdada_map_size(const cdada_map_t* map){
 	return 0;
 }
 
-int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
+int _cdada_map_insert(cdada_map_t* map, const void* key, void* val,
+						const bool replace){
 
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
@@ -281,51 +282,60 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
 		switch(c){
 			case 1:
 				return cdada_map_insert_u<uint8_t>(m, m->map.u8,
-									key,
-									val);
+								key,
+								val,
+								replace);
 			case 2:
 				return cdada_map_insert_u<uint16_t>(m,
 								m->map.u16,
 								key,
-								val);
+								val,
+								replace);
 			case 4:
 				return cdada_map_insert_u<uint32_t>(m,
 								m->map.u32,
 								key,
-								val);
+								val,
+								replace);
 			case 8:
 				return cdada_map_insert_u<uint64_t>(m,
 								m->map.u64,
 								key,
-								val);
+								val,
+								replace);
 			case 16:
 				return cdada_map_insert_u<cdada_u128_t>(m,
 								m->map.u128,
 								key,
-								val);
+								val,
+								replace);
 			case 32:
 				return cdada_map_insert_u<cdada_u256_t>(m,
 								m->map.u256,
 								key,
-								val);
+								val,
+								replace);
 			case 64:
 				return cdada_map_insert_u<cdada_u512_t>(m,
 								m->map.u512,
 								key,
-								val);
+								val,
+								replace);
 			case 128:
 				return cdada_map_insert_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								key,
-								val);
+								val,
+								replace);
 			case 256:
 				return cdada_map_insert_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								key,
-								val);
+								val,
+								replace);
 			case 0:
 				CDADA_ASSERT(m->ops);
-				return (*m->ops->insert)(m, key, val);
+				return (*m->ops->insert)(m, key, val, replace);
 			default:
 				break;
 		}
@@ -335,6 +345,14 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
 
 	CDADA_ASSERT(0);
 	return CDADA_E_UNKNOWN;
+}
+
+int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
+	return _cdada_map_insert(map, key, val, false);
+}
+
+int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val){
+	return _cdada_map_insert(map, key, val, true);
 }
 
 int cdada_map_erase(cdada_map_t* map, const void* key){
