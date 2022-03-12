@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.4.0 (12th March 2022)
+
+- [+] Add `cdada_map_insert_replace()`
+
 ### v0.3.5 (20th April 2021)
 
 - [+] Improved public API documentation
