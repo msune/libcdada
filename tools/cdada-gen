@@ -574,7 +574,7 @@ if __name__ == "__main__":
         ut = ut.replace("TT_TYPE_TT", user_type)
         f.write(ut)
     f.write("\n")
-    f.write("//Cdata wrappers\n\n")
+    f.write("//cdada wrappers\n\n")
     f.write(s)
 
     f.write("/*****************************************************************************/\n")
