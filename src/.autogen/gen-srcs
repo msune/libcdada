@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+"""
+Generator for demux
+"""
+
+import sys
+from jinja2 import Template
+
+
+types = [
+    ("u8", "uint8_t", 1),
+    ("u16", "uint16_t", 2),
+    ("u32", "uint32_t", 4),
+    ("u64", "uint64_t", 8),
+    ("u128", "cdada_u128_t", 16),
+    ("u256", "cdada_u256_t", 32),
+    ("u512", "cdada_u512_t", 64),
+    ("u1024", "cdada_u1024_t", 128),
+    ("u2048", "cdada_u2048_t", 256),
+]
+
+def gen_template(file_path, types):
+    output_file = file_path.replace(".autogen/", "").replace("j2.", "")
+    with open(file_path) as f:
+        template = Template(f.read())
+
+    output = template.render(types=types)
+    with open(output_file, 'w') as f:
+        f.write(output)
+
+if __name__ == "__main__":
+    gen_template(".autogen/list.j2.cc", types)
+    gen_template(".autogen/map.j2.cc", types)
+    gen_template(".autogen/queue.j2.cc", types)
+    gen_template(".autogen/set.j2.cc", types)
+    gen_template(".autogen/stack.j2.cc", types)
