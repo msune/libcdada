@@ -107,11 +107,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #define __CDADA_MAP_CUSTOM_INSERT_F(TYPE) \
 	int __cdada_map_autogen_insert_##TYPE (void* m, const void* key, \
-							void* val){ \
+							void* val, \
+							const bool replace){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
 				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
-		return cdada_map_insert_u< TYPE > (s, p, key, val);\
+		return cdada_map_insert_u< TYPE > (s, p, key, val, replace);\
 	}
 /**
 * @internal Custom type erase f

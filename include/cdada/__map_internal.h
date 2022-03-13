@@ -59,7 +59,8 @@ typedef struct __cdada_map_ops{
 	void (*clear)(cdada_map_t* map);
 	bool (*empty)(const cdada_map_t* map);
 	uint32_t (*size)(const cdada_map_t* map);
-	int (*insert)(cdada_map_t* map, const void* key, void* val);
+	int (*insert)(cdada_map_t* map, const void* key, void* val,
+							const bool replace);
 	int (*erase)(cdada_map_t* map, const void* key);
 	int (*find)(const cdada_map_t* map, const void* key, void** val);
 	int (*first_last)(const cdada_map_t* map, bool first, void* key,
@@ -94,8 +95,9 @@ typedef struct{
 
 template<typename T>
 int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
-								const void* key,
-								void* val){
+							const void* key,
+							void* val,
+							const bool replace){
 	typename std::map<T, void*>::iterator it;
 
 	if(m->key_len == m->user_key_len){
@@ -104,9 +106,9 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 		aux = (T*)key;
 
 		it = m_u->find(*aux);
-		if(unlikely(it != m_u->end()))
+		if(!replace && unlikely(it != m_u->end()))
 			return CDADA_E_EXISTS;
-		m_u->insert(std::pair<T, void*>(*aux, val));
+		(*m_u)[*aux] = val;
 
 		return CDADA_SUCCESS;
 	}
@@ -118,10 +120,10 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	it = m_u->find(aux);
-	if(unlikely(it != m_u->end()))
+	if(!replace && unlikely(it != m_u->end()))
 		return CDADA_E_EXISTS;
 
-	m_u->insert(std::pair<T, void*>(aux, val));
+	(*m_u)[aux] = val;
 
 	return CDADA_SUCCESS;
 }

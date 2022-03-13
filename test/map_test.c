@@ -97,6 +97,21 @@ int test_u8_insert_removal(){
 	rv = cdada_map_insert(map, &key, &values[1]);
 	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
+	// -- Replace
+	key = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[1]);
+
+	key = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	// -- End replace
+
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key == 0); //Should never pollute
@@ -650,6 +665,21 @@ int _test_u552_insert_removal_traverse(){
 	rv = cdada_map_insert(map, &key, &values[1]);
 	TEST_ASSERT(rv == CDADA_E_EXISTS);
 
+	// -- Replace
+	key.mid = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[1]);
+
+	key.mid = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	// -- End replace
+
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 0); //Should never pollute
@@ -790,6 +820,21 @@ int test_u3552_insert_removal_traverse_custom(){
 	key.mid = 0;
 	rv = cdada_map_insert(map, &key, &values[1]);
 	TEST_ASSERT(rv == CDADA_E_EXISTS);
+
+	// -- Replace
+	key.mid = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	rv = cdada_map_find(map, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0); //Should never pollute
+	TEST_ASSERT(tmp == &values[1]);
+
+	key.mid = 0;
+	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	// -- End replace
 
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
