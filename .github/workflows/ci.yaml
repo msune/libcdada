@@ -8,7 +8,7 @@ on:
 
 jobs:
   gcc-4_8:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
           CXX: g++-4.8
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
   gcc-5:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
   gcc-6:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -78,7 +78,7 @@ jobs:
           CXX: g++-6
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
   gcc-8:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -101,7 +101,7 @@ jobs:
           CXX: g++-8
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
   gcc-9:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -124,7 +124,7 @@ jobs:
           CXX: g++-9
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
   gcc-10:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -148,7 +148,7 @@ jobs:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
   clang:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
