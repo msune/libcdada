@@ -462,7 +462,7 @@ static int __cdada_set_first_last(const cdada_set_t* set, bool first,
 	__cdada_set_int_t* m = (__cdada_set_int_t*)set;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
-		return false;
+		return CDADA_E_INVALID;
 
 	try{
 		int c = m->ops? 0 : m->key_len;
@@ -512,7 +512,7 @@ static int __cdada_set_first_last(const cdada_set_t* set, bool first,
 	}catch(...){}
 
 	CDADA_ASSERT(0);
-	return false;
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_set_first(const cdada_set_t* set, void* key){
