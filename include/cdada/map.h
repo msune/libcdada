@@ -220,6 +220,23 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
 
 /**
+* Get the Nth element of the map, starting with 0
+* @param map Map pointer
+* @param pos Position in the map [0..size)
+* @param key The key to be filled-in
+* @param value The value pointer to be filled-in
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element and value were retrieved
+*          CDADA_E_EMPTY: map has no elements
+*          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
+*          CDADA_E_NOT_FOUND: no element on that position (>= size)
+*          CDADA_E_INVALID: map is NULL or corrupted or val is NULL
+*/
+int cdada_map_get_pos(const cdada_map_t* map, const uint32_t pos, void* key,
+								void** val);
+
+/**
 * Get the first element in the map
 * @param map Map pointer
 * @param key If map has elements, a copy of the first element key will be stored

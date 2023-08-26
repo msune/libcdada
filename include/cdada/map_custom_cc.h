@@ -138,6 +138,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 
 /**
+* @internal Custom type get_pos f
+*/
+#define __CDADA_MAP_CUSTOM_GET_POS_F(TYPE) \
+	int __cdada_map_autogen_get_pos_##TYPE (const void* m, \
+							const uint32_t pos, \
+							void* key, \
+							void** val){ \
+		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
+		__CDADA_STD_MAP_TYPE(TYPE)* p = \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+		return cdada_map_get_pos_u< TYPE > (s, p, pos, key, val);\
+	}
+
+/**
 * @internal Custom type first_last f
 */
 #define __CDADA_MAP_CUSTOM_FIRST_LAST_F(TYPE) \
@@ -201,6 +215,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__cdada_map_autogen_insert_##TYPE, \
 		__cdada_map_autogen_erase_##TYPE, \
 		__cdada_map_autogen_find_##TYPE, \
+		__cdada_map_autogen_get_pos_##TYPE, \
 		__cdada_map_autogen_first_last_##TYPE, \
 		__cdada_map_autogen_traverse_##TYPE, \
 		__cdada_map_autogen_rtraverse_##TYPE, \
@@ -219,6 +234,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_MAP_CUSTOM_INSERT_F(TYPE); \
 	__CDADA_MAP_CUSTOM_ERASE_F(TYPE); \
 	__CDADA_MAP_CUSTOM_FIND_F(TYPE); \
+	__CDADA_MAP_CUSTOM_GET_POS_F(TYPE); \
 	__CDADA_MAP_CUSTOM_FIRST_LAST_F(TYPE); \
 	__CDADA_MAP_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDADA_MAP_CUSTOM_RTRAVERSE_F(TYPE); \
