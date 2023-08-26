@@ -208,14 +208,15 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 *
 * @param map Map pointer
 * @param key Key to search
-* @param val If element is found, *val will be set to the value pointer
+* @param val NULL if only want to check presence. If not NULL, and element is
+*                 found, *val will be set to the value pointer
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: element was successfully erased
 *          CDADA_E_NOT_FOUND: no element `key` was found
 *          CDADA_E_MEM: out of memory
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
-*          CDADA_E_INVALID: map is NULL or corrupted or val is NULL
+*          CDADA_E_INVALID: map is NULL or corrupted
 */
 int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
 
