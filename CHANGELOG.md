@@ -9,6 +9,13 @@ Legend:
 - [O] Other
 ```
 
+### v0.5.0 (26th August 2023)
+
+- [+] map: add `cdada_map_get_pos()`
+- [+] map: allow NULL ptr for val in `cdada_map_find()` to only check for presence
+- [+] set: add `cdada_set_get_pos()`
+- [O] list: minor change in `cdada_list_get()` to use `std::advance`
+
 ### v0.4.1 (26th August 2023)
 
 - [B] set: fix some error path return values for first()/last()
