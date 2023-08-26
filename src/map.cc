@@ -426,7 +426,7 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(unlikely(!key || val == NULL))
+	if(unlikely(!key))
 		return CDADA_E_INVALID;
 
 	try{

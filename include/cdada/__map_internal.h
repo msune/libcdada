@@ -179,7 +179,8 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 		if(unlikely(it == m_u->end()))
 			return CDADA_E_NOT_FOUND;
 
-		*val = it->second;
+		if(val)
+			*val = it->second;
 
 		return CDADA_SUCCESS;
 	}
@@ -194,7 +195,8 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	if(unlikely(it == m_u->end()))
 		return CDADA_E_NOT_FOUND;
 
-	*val = it->second;
+	if(val)
+		*val = it->second;
 
 	return CDADA_SUCCESS;
 }
