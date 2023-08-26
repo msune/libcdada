@@ -9,6 +9,11 @@ Legend:
 - [O] Other
 ```
 
+### v0.4.1 (26th August 2023)
+
+- [B] set: fix some error path return values for first()/last()
+- [B] set: minor fix in header variable name
+
 ### v0.4.0 (12th March 2022)
 
 - [+] Add `cdada_map_insert_replace()`
