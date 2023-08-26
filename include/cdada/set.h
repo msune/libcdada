@@ -193,6 +193,21 @@ int cdada_set_erase(cdada_set_t* set, const void* key);
 bool cdada_set_find(const cdada_set_t* set, const void* key);
 
 /**
+* Get the Nth element of the set, starting with 0
+* @param set Set pointer
+* @param pos Position in the set [0..size)
+* @param key The key to be filled-in
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element was retrieved
+*          CDADA_E_EMPTY: set has no elements
+*          CDADA_E_NOT_FOUND: no element on that position (>= size)
+*          CDADA_E_UNKNOWN: corrupted set or internal error (bug)
+*          CDADA_E_INVALID: set is NULL or corrupted
+*/
+int cdada_set_get_pos(const cdada_set_t* set, const uint32_t pos, void* key);
+
+/**
 * Get the first element in the set
 * @param set Set pointer
 * @param key If set has elements, a copy of the first element will be stored
