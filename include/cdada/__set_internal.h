@@ -63,6 +63,7 @@ typedef struct __cdada_set_ops{
 	int (*insert)(cdada_set_t* m, const void* key);
 	int (*erase)(cdada_set_t* m, const void* key);
 	bool (*find)(const cdada_set_t* m, const void* key);
+	int (*get_pos)(const cdada_set_t* m, const uint32_t pos, void* key);
 	int (*first_last)(const cdada_set_t* set, bool first, void* key);
 	void (*traverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
 	void (*rtraverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
@@ -174,6 +175,32 @@ bool cdada_set_find_u(const __cdada_set_int_t* m, std::set<T>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	return m_u->find(aux) != m_u->end();
+}
+
+template<typename T>
+int cdada_set_get_pos_u(const __cdada_set_int_t* m, std::set<T>* m_u,
+							uint32_t pos,
+							void* key){
+	T* __attribute((__may_alias__)) aux;
+	typename std::set<T>::iterator it;
+
+	aux = (T*)key;
+
+	it = m_u->begin();
+	if(it == m_u->end())
+		return CDADA_E_EMPTY;
+
+	if(pos >= m_u->size())
+		return CDADA_E_NOT_FOUND;
+
+	std::advance(it, pos);
+
+	if(m->key_len == m->user_key_len)
+		*aux = *it;
+	else
+		memcpy(aux, &(*it), m->user_key_len);
+
+	return CDADA_SUCCESS;
 }
 
 template<typename T>
