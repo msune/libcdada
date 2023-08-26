@@ -489,6 +489,85 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 	return CDADA_E_UNKNOWN;
 }
 
+int cdada_map_get_pos(const cdada_map_t* map, const uint32_t pos, void* key,
+								void** val){
+
+	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
+
+	CDADA_CHECK_MAGIC(m);
+
+	if(unlikely(!key || val == NULL))
+		return CDADA_E_INVALID;
+
+	try{
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
+			case 1:
+				return cdada_map_get_pos_u<uint8_t>(m,
+								m->map.u8,
+								pos,
+								key,
+								val);
+			case 2:
+				return cdada_map_get_pos_u<uint16_t>(m,
+								m->map.u16,
+								pos,
+								key,
+								val);
+			case 4:
+				return cdada_map_get_pos_u<uint32_t>(m,
+								m->map.u32,
+								pos,
+								key,
+								val);
+			case 8:
+				return cdada_map_get_pos_u<uint64_t>(m,
+								m->map.u64,
+								pos,
+								key,
+								val);
+			case 16:
+				return cdada_map_get_pos_u<cdada_u128_t>(m,
+								m->map.u128,
+								pos,
+								key,
+								val);
+			case 32:
+				return cdada_map_get_pos_u<cdada_u256_t>(m,
+								m->map.u256,
+								pos,
+								key,
+								val);
+			case 64:
+				return cdada_map_get_pos_u<cdada_u512_t>(m,
+								m->map.u512,
+								pos,
+								key,
+								val);
+			case 128:
+				return cdada_map_get_pos_u<cdada_u1024_t>(m,
+								m->map.u1024,
+								pos,
+								key,
+								val);
+			case 256:
+				return cdada_map_get_pos_u<cdada_u2048_t>(m,
+								m->map.u2048,
+								pos,
+								key,
+								val);
+			case 0:
+				CDADA_ASSERT(m->ops);
+				return (*m->ops->get_pos)(m, pos, key, val);
+			default:
+				break;
+		}
+	}catch(...){}
+
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
+}
+
 static int __cdada_map_first_last(const cdada_map_t* map, bool first, void* key,
 								void** val){
 

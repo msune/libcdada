@@ -212,6 +212,14 @@ int __cdada_map_autogen_find_TT_TYPE_TT (const void* m, const void* key,
 			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
 	return cdada_map_find_u<TT_TYPE_TT> (s, p, key, val);
 }
+int __cdada_map_autogen_get_pos_TT_TYPE_TT (const void* m, const uint32_t pos,
+                        void* key,
+						void** val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_get_pos_u<TT_TYPE_TT> (s, p, pos, key, val);
+}
 int __cdada_map_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 						void* key,
 						void** val){
@@ -252,6 +260,7 @@ __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
 	__cdada_map_autogen_insert_TT_TYPE_TT,
 	__cdada_map_autogen_erase_TT_TYPE_TT,
 	__cdada_map_autogen_find_TT_TYPE_TT,
+	__cdada_map_autogen_get_pos_TT_TYPE_TT,
 	__cdada_map_autogen_first_last_TT_TYPE_TT,
 	__cdada_map_autogen_traverse_TT_TYPE_TT,
 	__cdada_map_autogen_rtraverse_TT_TYPE_TT,

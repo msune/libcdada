@@ -12,6 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <string.h>
+#include <stdint.h>
 #include <cdada/list_custom_cc.h>
 #include <cdada/map_custom_cc.h>
 #include <cdada/queue_custom_cc.h>
@@ -38,7 +39,7 @@ inline bool operator==(const foo_t & a1, const foo_t & a2){
                                         sizeof( foo_t )) == 0;
 }
 
-//Cdata wrappers
+//cdada wrappers
 
 //BEGIN list for foo_t (std::list<foo_t>)
 
@@ -233,6 +234,14 @@ int __cdada_map_autogen_find_bar_t (const void* m, const void* key,
 			(std::map<bar_t, void*>*)s->map.custom;
 	return cdada_map_find_u<bar_t> (s, p, key, val);
 }
+int __cdada_map_autogen_get_pos_bar_t (const void* m, const uint32_t pos,
+                        void* key,
+						void** val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<bar_t, void*>* p =
+			(std::map<bar_t, void*>*)s->map.custom;
+	return cdada_map_get_pos_u<bar_t> (s, p, pos, key, val);
+}
 int __cdada_map_autogen_first_last_bar_t (const void* m, bool first,
 						void* key,
 						void** val){
@@ -273,6 +282,7 @@ __cdada_map_ops_t __cdada_map_autogen_bar_t = {
 	__cdada_map_autogen_insert_bar_t,
 	__cdada_map_autogen_erase_bar_t,
 	__cdada_map_autogen_find_bar_t,
+	__cdada_map_autogen_get_pos_bar_t,
 	__cdada_map_autogen_first_last_bar_t,
 	__cdada_map_autogen_traverse_bar_t,
 	__cdada_map_autogen_rtraverse_bar_t,

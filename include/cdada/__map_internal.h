@@ -63,6 +63,9 @@ typedef struct __cdada_map_ops{
 							const bool replace);
 	int (*erase)(cdada_map_t* map, const void* key);
 	int (*find)(const cdada_map_t* map, const void* key, void** val);
+	int (*get_pos)(const cdada_map_t* map, const uint32_t pos,
+							void* key,
+							void** val);
 	int (*first_last)(const cdada_map_t* map, bool first, void* key,
 								void** val);
 	void (*traverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
@@ -190,6 +193,33 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	it = m_u->find(aux);
 	if(unlikely(it == m_u->end()))
 		return CDADA_E_NOT_FOUND;
+
+	*val = it->second;
+
+	return CDADA_SUCCESS;
+}
+
+template<typename T>
+int cdada_map_get_pos_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
+							const uint32_t pos,
+							void* key,
+							void** val){
+	T* __attribute((__may_alias__)) aux;
+	typename std::map<T, void*>::const_iterator it;
+
+	aux = (T*)key;
+	it = m_u->begin();
+	if(it == m_u->end())
+		return CDADA_E_EMPTY;
+	if(pos >= m_u->size())
+		return CDADA_E_NOT_FOUND;
+
+	std::advance(it, pos);
+
+	if(m->key_len == m->user_key_len)
+		*aux = it->first;
+	else
+		memcpy(aux, &it->first, m->user_key_len);
 
 	*val = it->second;
 

@@ -468,12 +468,31 @@ int test_u64_insert_removal_traverse(){
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdada_map_insert(map, &key, &values[i]);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0ULL);
+	TEST_ASSERT(tmp == &values[0]);
+	rv = cdada_map_get_pos(map, 12, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 12ULL);
+	TEST_ASSERT(tmp == &values[12]);
+	rv = cdada_map_get_pos(map, 31, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31ULL);
+	TEST_ASSERT(tmp == &values[31]);
+	rv = cdada_map_get_pos(map, 33, &key, &tmp); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_map_print(map, stdout);
@@ -697,12 +716,31 @@ int _test_u552_insert_removal_traverse(){
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdada_map_insert(map, &key, &values[i]);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0ULL);
+	TEST_ASSERT(tmp == &values[0]);
+	rv = cdada_map_get_pos(map, 12, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 12ULL);
+	TEST_ASSERT(tmp == &values[12]);
+	rv = cdada_map_get_pos(map, 31, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31ULL);
+	TEST_ASSERT(tmp == &values[31]);
+	rv = cdada_map_get_pos(map, 33, &key, &tmp); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_map_print(map, stdout);
@@ -853,12 +891,31 @@ int test_u3552_insert_removal_traverse_custom(){
 	rv = cdada_map_find(map, &key, &tmp);
 	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdada_map_insert(map, &key, &values[i]);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_map_get_pos(map, 0, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0ULL);
+	TEST_ASSERT(tmp == &values[0]);
+	rv = cdada_map_get_pos(map, 12, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 12ULL);
+	TEST_ASSERT(tmp == &values[12]);
+	rv = cdada_map_get_pos(map, 31, &key, &tmp);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31ULL);
+	TEST_ASSERT(tmp == &values[31]);
+	rv = cdada_map_get_pos(map, 33, &key, &tmp); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_map_print(map, stdout);
