@@ -137,15 +137,13 @@ int cdada_list_get_u(const __cdada_list_int_t* m, std::list<T>* m_u,
 							const uint32_t pos,
 							void* val){
 
-	int i = pos;
 	typename std::list<T>::iterator it;
 	T* __attribute((__may_alias__)) aux = (T*)val;
 
 	it = m_u->begin();
-	for(it = m_u->begin(); i>0; --i){
-		if(++it == m_u->end())
-			return CDADA_E_NOT_FOUND;
-	}
+	if(pos >= m_u->size())
+		return CDADA_E_NOT_FOUND;
+	std::advance(it, pos);
 
 	if(m->val_len == m->user_val_len){
 		*aux = *it;
