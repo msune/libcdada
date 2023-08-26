@@ -63,7 +63,7 @@ typedef struct __cdada_set_ops{
 	int (*insert)(cdada_set_t* m, const void* key);
 	int (*erase)(cdada_set_t* m, const void* key);
 	bool (*find)(const cdada_set_t* m, const void* key);
-	int (*first_last)(const cdada_set_t* map, bool first, void* key);
+	int (*first_last)(const cdada_set_t* set, bool first, void* key);
 	void (*traverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
 	void (*rtraverse)(const cdada_set_t* m, cdada_set_it f, void* opaque);
 	void (*dump)(const cdada_set_t* m, std::stringstream& ss);
