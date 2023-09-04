@@ -357,6 +357,70 @@ int test_manipulation(){
 	return 0;
 }
 
+int test_cmp(){
+
+	int rv;
+	//Don't use const char; strcmp impl. returns -1,0,1 otherwise
+	//(compile time optimization?)
+	char s1[] = "This is a test test";
+	char s2[] = "This is another test test";
+
+	cdada_str_t* c1 = cdada_str_create(s1);
+	TEST_ASSERT(c1 != NULL);
+	TEST_ASSERT(cdada_str_empty(c1) == false);
+	TEST_ASSERT(cdada_str_length(c1) == strlen(s1));
+
+	cdada_str_t* c2 = cdada_str_create(s2);
+	TEST_ASSERT(c2 != NULL);
+	TEST_ASSERT(cdada_str_empty(c2) == false);
+	TEST_ASSERT(cdada_str_length(c2) == strlen(s2));
+
+	//
+	//strcmp equivalent
+	//
+
+	//cdada
+	TEST_ASSERT(cdada_str_ncmp(c1, c2, 0) == strcmp(s1, s2));
+	TEST_ASSERT(cdada_str_ncmp(c2, c1, 0) == strcmp(s2, s1));
+	TEST_ASSERT(cdada_str_ncmp(c1, c1, 0) == strcmp(s1, s1));
+	TEST_ASSERT(cdada_str_ncmp(c2, c2, 0) == strcmp(s2, s2));
+	TEST_ASSERT(cdada_str_ncmp(c1, c1, 0) == 0);
+	TEST_ASSERT(cdada_str_ncmp(c2, c2, 0) == 0);
+
+	//cdada-C
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, 0) == strcmp(s1, s2));
+	TEST_ASSERT(cdada_str_ncmp_c(c2, s1, 0) == strcmp(s2, s1));
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s1, 0) == strcmp(s1, s1));
+	TEST_ASSERT(cdada_str_ncmp_c(c2, s2, 0) == strcmp(s2, s2));
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s1, 0) == 0);
+	TEST_ASSERT(cdada_str_ncmp_c(c2, s2, 0) == 0);
+
+	//
+	//strncmp equivalent
+	//
+
+	//cdada
+	TEST_ASSERT(cdada_str_ncmp(c1, c2, 7) == strncmp(s1, s2, 7));
+	TEST_ASSERT(cdada_str_ncmp(c1, c2, 10) == strncmp(s1, s2, 10));
+	TEST_ASSERT(cdada_str_ncmp(c1, c2, 12) == strncmp(s1, s2, 12));
+	int overlen_avoid_compiler_warn = cdada_str_length(c1)*8;
+	TEST_ASSERT(cdada_str_ncmp(c1, c2, overlen_avoid_compiler_warn)
+			== strncmp(s1, s2, overlen_avoid_compiler_warn));
+
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, 7) == strncmp(s1, s2, 7));
+	TEST_ASSERT(cdada_str_ncmp(c1, s2, 10) == strncmp(s1, s2, 10));
+	TEST_ASSERT(cdada_str_ncmp(c1, s2, 12) == strncmp(s1, s2, 12));
+	TEST_ASSERT(cdada_str_ncmp(c1, s2, overlen_avoid_compiler_warn)
+			== strncmp(s1, s2, overlen_avoid_compiler_warn));
+
+	rv = cdada_str_destroy(c1);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_destroy(c2);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -371,6 +435,7 @@ int main(int args, char** argv){
 	rv = test_basics();
 	rv |= test_access();
 	rv |= test_manipulation();
+	rv |= test_cmp();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
