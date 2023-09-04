@@ -245,6 +245,30 @@ int cdada_str_get_c(const cdada_str_t* str, const uint32_t pos, char* c);
 */
 int cdada_str_last_c(const cdada_str_t* str, char* c);
 
+//Comparison
+
+/**
+* Compares the two (cdada) strings s1 and s2. Locale is not taken into account.
+* It returns 0 if s1 and s2 are equal, a negative value if s1 is less than s2,
+* 1 if s1 is greater than s2.
+*
+* @param s1 String pointer
+* @param s2 String pointer
+* @param n  Compare at most n characters. Use 0 to behave as strcmp()
+*/
+int cdada_str_ncmp(const cdada_str_t* s1, const cdada_str_t* s2, uint32_t n);
+
+/**
+* Compares the two strings s1 (cdada) and s2 (C string). Locale is not taken
+* into account. It returns 0 if s1 and s2 are equal, a negative value if s1 is
+* less than s2, 1 if s1 is greater than s2.
+*
+* @param s1 cdada string pointer
+* @param s2 C string pointer
+* @param n  Compare at most n characters. Use 0 to behave as strcmp()
+*/
+int cdada_str_ncmp_c(const cdada_str_t* s1, const char* s2, uint32_t n);
+
 //Manipulation
 
 /**

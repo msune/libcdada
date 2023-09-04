@@ -341,6 +341,33 @@ int cdada_str_last_c(const cdada_str_t* str, char* c){
 	return CDADA_SUCCESS;
 }
 
+//Comparison
+
+int cdada_str_ncmp(const cdada_str_t* s1_, const cdada_str_t* s2_, uint32_t n){
+	__cdada_str_int_t* s1 = (__cdada_str_int_t*)s1_;
+	__cdada_str_int_t* s2 = (__cdada_str_int_t*)s2_;
+
+	if(!s1 || s1->magic_num != CDADA_MAGIC)
+		return -1; //Whatever
+	if(!s2 || s2->magic_num != CDADA_MAGIC)
+		return -1; //Whatever
+	if(n == 0)
+		return strcmp(s1->str->c_str(), s2->str->c_str());
+	return strncmp(s1->str->c_str(), s2->str->c_str(), n);
+}
+
+int cdada_str_ncmp_c(const cdada_str_t* s1_, const char* s2, uint32_t n){
+	__cdada_str_int_t* s1 = (__cdada_str_int_t*)s1_;
+
+	if(!s1 || s1->magic_num != CDADA_MAGIC)
+		return -1; //Whatever
+	if(!s2)
+		return -1; //Whatever
+	if(n == 0)
+		return strcmp(s1->str->c_str(), s2);
+	return strncmp(s1->str->c_str(), s2, n);
+}
+
 //Manipulation
 
 int cdada_str_set(cdada_str_t* str, const char* substr){

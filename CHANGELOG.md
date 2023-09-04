@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.5.1 (5th September 2023)
+
+- [+] str: add string comparison functions `cdada_str_ncmp` and `cdada_str_ncmp_c`
+
 ### v0.5.0 (26th August 2023)
 
 - [+] map: add `cdada_map_get_pos()`
