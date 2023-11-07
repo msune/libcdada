@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //This header should _always_ be included from C++
 #ifndef __cplusplus
-	#error CDADA autogeneration headers shall be included only from C++ files
+	#error CDADA autogeneration headers shall be included from C++ files only
 #endif //__cplusplus
 
 #include <stdbool.h>
