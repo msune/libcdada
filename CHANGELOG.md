@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.5.2 (7th November 2023)
+
+- [B] map: don't penalize failed insert/erase/find operations (branch prediction)
+
 ### v0.5.1 (5th September 2023)
 
 - [+] str: add string comparison functions `cdada_str_ncmp` and `cdada_str_ncmp_c`
