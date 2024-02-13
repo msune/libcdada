@@ -12,6 +12,7 @@ Legend:
 ### v0.6.0 (13th February 2024)
 
 - [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
+- [O] CI: add coverage for clang11, 12 and 13.
 
 ### v0.5.2 (7th November 2023)
 

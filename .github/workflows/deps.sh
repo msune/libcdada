@@ -4,8 +4,8 @@ set -e
 
 if [ "${1}" == "gcc" ]; then
 	COMPILER="gcc-${2} g++-${2}"
-elif [ "${CC}" == "clang" ]; then
-	COMPILER="clang"
+elif [ "${1}" == "clang" ]; then
+	COMPILER="clang-${2}"
 else
 	echo "ERROR: invalid compiler version"
 	exit 1
