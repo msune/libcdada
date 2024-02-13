@@ -99,7 +99,7 @@ int test_u8_insert_removal(){
 
 	// -- Replace
 	key = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	rv = cdada_map_insert_replace(map, &key, &values[1], NULL);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_find(map, &key, &tmp);
@@ -108,8 +108,9 @@ int test_u8_insert_removal(){
 	TEST_ASSERT(tmp == &values[1]);
 
 	key = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	rv = cdada_map_insert_replace(map, &key, &values[0], &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(tmp == &values[1]);
 	// -- End replace
 
 	rv = cdada_map_find(map, &key, &tmp);
@@ -693,7 +694,7 @@ int _test_u552_insert_removal_traverse(){
 
 	// -- Replace
 	key.mid = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	rv = cdada_map_insert_replace(map, &key, &values[1], NULL);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_find(map, &key, &tmp);
@@ -702,8 +703,9 @@ int _test_u552_insert_removal_traverse(){
 	TEST_ASSERT(tmp == &values[1]);
 
 	key.mid = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	rv = cdada_map_insert_replace(map, &key, &values[0], &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(tmp == &values[1]);
 	// -- End replace
 
 	rv = cdada_map_find(map, &key, &tmp);
@@ -875,7 +877,7 @@ int test_u3552_insert_removal_traverse_custom(){
 
 	// -- Replace
 	key.mid = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[1]);
+	rv = cdada_map_insert_replace(map, &key, &values[1], NULL);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
 	rv = cdada_map_find(map, &key, &tmp);
@@ -884,8 +886,9 @@ int test_u3552_insert_removal_traverse_custom(){
 	TEST_ASSERT(tmp == &values[1]);
 
 	key.mid = 0;
-	rv = cdada_map_insert_replace(map, &key, &values[0]);
+	rv = cdada_map_insert_replace(map, &key, &values[0], &tmp);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(tmp == &values[1]);
 	// -- End replace
 
 	rv = cdada_map_find(map, &key, &tmp);

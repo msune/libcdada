@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.0 (13th February 2024)
+
+- [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
+
 ### v0.5.2 (7th November 2023)
 
 - [B] map: don't penalize failed insert/erase/find operations (branch prediction)
