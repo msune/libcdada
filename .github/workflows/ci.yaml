@@ -188,6 +188,52 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
+  gcc-11:
+    runs-on: ubuntu-22.04
+    env:
+      CC: gcc-11
+      CXX: g++-11
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh gcc 11
+
+      - name: "Compile and test using GCC11"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC11 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
+  gcc-12:
+    runs-on: ubuntu-22.04
+    env:
+      CC: gcc-12
+      CXX: g++-12
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh gcc 12
+
+      - name: "Compile and test using GCC12"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC12 (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
   clang:
     runs-on: ubuntu-22.04
     env:
