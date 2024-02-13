@@ -179,6 +179,8 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 * @param map Map pointer
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
+* @param prev_val If not NULL, when replacing a value the previous value will be
+*                 set here, regardless if the operation is successful or not
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: element is inserted
@@ -186,7 +188,8 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
 *          CDADA_E_INVALID: map is NULL or corrupted
 */
-int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val);
+int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val,
+							void** prev_val);
 
 /**
 * Erase an element in the map

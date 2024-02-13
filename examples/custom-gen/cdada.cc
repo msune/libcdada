@@ -215,11 +215,12 @@ uint32_t __cdada_map_autogen_size_bar_t (const void* m){
 }
 int __cdada_map_autogen_insert_bar_t (void* m, const void* key,
 						void* val,
-						const bool replace){
+						const bool replace,
+						void** prev_val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<bar_t, void*>* p =
 			(std::map<bar_t, void*>*)s->map.custom;
-	return cdada_map_insert_u<bar_t> (s, p, key, val, replace);
+	return cdada_map_insert_u<bar_t> (s, p, key, val, replace, prev_val);
 }
 int __cdada_map_autogen_erase_bar_t (void* m, const void* key){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;

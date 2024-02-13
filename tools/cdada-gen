@@ -193,11 +193,12 @@ uint32_t __cdada_map_autogen_size_TT_TYPE_TT (const void* m){
 }
 int __cdada_map_autogen_insert_TT_TYPE_TT (void* m, const void* key,
 						void* val,
-						const bool replace){
+						const bool replace,
+						void** prev_val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
 			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
-	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val, replace);
+	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val, replace, prev_val);
 }
 int __cdada_map_autogen_erase_TT_TYPE_TT (void* m, const void* key){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
