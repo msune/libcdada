@@ -97,3 +97,26 @@ jobs:
         run: cd libcdada && .github/workflows/test_script.sh
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
+  arm_gcc_ubuntu_22_04:
+    strategy:
+      matrix:
+        version: [10]
+    runs-on: ubuntu-22.04
+    env:
+      CPP: cpp-${{ matrix.version }}
+      CC: gcc-${{ matrix.version }}
+      CXX: g++-${{ matrix.version }}
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v2
+        with:
+          path: libcdada
+      - name: "Using ARM raspios_lite"
+        uses: pguyot/arm-runner-action@v2
+        with:
+          base_image: dietpi:rpi_armv8_bullseye
+          image_additional_mb: 2048
+          commands: |
+              ./libcdada/.github/workflows/deps_arm.sh gcc ${{ matrix.version }}
+              cd libcdada && CONFIG_FLAGS=--disable-silent-rules .github/workflows/test_script.sh
