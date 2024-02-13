@@ -15,6 +15,7 @@ jobs:
     container:
       image: ubuntu:18.04
     env:
+      CPP: cpp-${{ matrix.version }}
       CC: gcc-${{ matrix.version }}
       CXX: g++-${{ matrix.version }}
     steps:
