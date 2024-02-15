@@ -102,7 +102,7 @@ jobs:
     strategy:
       matrix:
         version: [10]
-        image: [ dietpi:rpi_armv8_bullseye, raspi_1_bullseye:20220121 ]
+        image: [ "dietpi:rpi_armv8_bullseye", "raspi_1_bullseye:20220121" ]
     runs-on: ubuntu-22.04
     env:
       CPP: cpp-${{ matrix.version }}
