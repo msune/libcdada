@@ -9,6 +9,31 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.0 (17th April 2024)
+
+- [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
+- [O] CI: add coverage for clang11, 12 and 13.
+
+### v0.5.2 (7th November 2023)
+
+- [B] map: don't penalize failed insert/erase/find operations (branch prediction)
+
+### v0.5.1 (5th September 2023)
+
+- [+] str: add string comparison functions `cdada_str_ncmp` and `cdada_str_ncmp_c`
+
+### v0.5.0 (26th August 2023)
+
+- [+] map: add `cdada_map_get_pos()`
+- [+] map: allow NULL ptr for val in `cdada_map_find()` to only check for presence
+- [+] set: add `cdada_set_get_pos()`
+- [O] list: minor change in `cdada_list_get()` to use `std::advance`
+
+### v0.4.1 (26th August 2023)
+
+- [B] set: fix some error path return values for first()/last()
+- [B] set: minor fix in header variable name
+
 ### v0.4.0 (12th March 2022)
 
 - [+] Add `cdada_map_insert_replace()`

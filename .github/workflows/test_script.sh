@@ -71,5 +71,9 @@ valgrind --leak-check=full ./c
 
 echo "Cleaning the house..."
 cd .. && make maintainer-clean
+
+echo "A"
 rm -rf *
+
+echo "B"
 git clean -d -f

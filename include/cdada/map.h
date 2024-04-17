@@ -179,6 +179,8 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 * @param map Map pointer
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
+* @param prev_val If not NULL, when replacing a value the previous value will be
+*                 set here, regardless if the operation is successful or not
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: element is inserted
@@ -186,7 +188,8 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
 *          CDADA_E_INVALID: map is NULL or corrupted
 */
-int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val);
+int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val,
+							void** prev_val);
 
 /**
 * Erase an element in the map
@@ -208,16 +211,34 @@ int cdada_map_erase(cdada_map_t* map, const void* key);
 *
 * @param map Map pointer
 * @param key Key to search
-* @param val If element is found, *val will be set to the value pointer
+* @param val NULL if only want to check presence. If not NULL, and element is
+*                 found, *val will be set to the value pointer
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: element was successfully erased
 *          CDADA_E_NOT_FOUND: no element `key` was found
 *          CDADA_E_MEM: out of memory
 *          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
-*          CDADA_E_INVALID: map is NULL or corrupted or val is NULL
+*          CDADA_E_INVALID: map is NULL or corrupted
 */
 int cdada_map_find(const cdada_map_t* map, const void* key, void** val);
+
+/**
+* Get the Nth element of the map, starting with 0
+* @param map Map pointer
+* @param pos Position in the map [0..size)
+* @param key The key to be filled-in
+* @param value The value pointer to be filled-in
+*
+* @returns Return codes:
+*          CDADA_SUCCESS: element and value were retrieved
+*          CDADA_E_EMPTY: map has no elements
+*          CDADA_E_UNKNOWN: corrupted map or internal error (bug)
+*          CDADA_E_NOT_FOUND: no element on that position (>= size)
+*          CDADA_E_INVALID: map is NULL or corrupted or val is NULL
+*/
+int cdada_map_get_pos(const cdada_map_t* map, const uint32_t pos, void* key,
+								void** val);
 
 /**
 * Get the first element in the map

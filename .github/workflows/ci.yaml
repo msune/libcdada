@@ -7,55 +7,50 @@ on:
     - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
-  gcc-4_8:
-    runs-on: ubuntu-18.04
+  gcc_ubuntu_18_04:
+    strategy:
+      matrix:
+        version: [4.8, 5, 6, 8]
+    runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:18.04
+    env:
+      CPP: cpp-${{ matrix.version }}
+      CC: gcc-${{ matrix.version }}
+      CXX: g++-${{ matrix.version }}
     steps:
+      - name: "Install git..."
+        run: |
+          apt-get update && apt-get install -y software-properties-common && \
+          apt-get update && add-apt-repository -y ppa:git-core/ppa && \
+          apt-get update && apt-get install -y git
+
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
         with:
           path: libcdada
 
       - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
+        run: ./libcdada/.github/workflows/deps.sh gcc ${{ matrix.version }}
 
-      - name: "Compile and test using GCC4.8"
+      - name: "Compile and test using GCC${{ matrix.version }}"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: gcc-4.8
-          CXX: g++-4.8
           CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC4.8 (DEBUG)"
+      - name: "Compile and test using GCC${{ matrix.version }} (DEBUG)"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: gcc-4.8
-          CXX: g++-4.8
-          CONFIG_FLAGS: --disable-silent-rules --enable-debug
-  gcc-5:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: "Checkout libcdada"
-        uses: actions/checkout@v2
-        with:
-          path: libcdada
-
-      - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
-
-      - name: "Compile and test using GCC5"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-5
-          CXX: g++-5
-          CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC5 (DEBUG)"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-5
-          CXX: g++-5
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
-  gcc-6:
-    runs-on: ubuntu-18.04
+  gcc_ubuntu_22_04:
+    strategy:
+      matrix:
+        version: [9, 10, 11, 12]
+    runs-on: ubuntu-22.04
+    env:
+      CPP: cpp-${{ matrix.version }}
+      CC: gcc-${{ matrix.version }}
+      CXX: g++-${{ matrix.version }}
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -63,92 +58,28 @@ jobs:
           path: libcdada
 
       - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
+        run: ./libcdada/.github/workflows/deps.sh gcc ${{ matrix.version }}
 
-      - name: "Compile and test using GCC6"
+      - name: "Compile and test using GCC${{ matrix.version }}"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: gcc-6
-          CXX: g++-6
           CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC6 (DEBUG)"
+      - name: "Compile and test using GCC${{ matrix.version }} (DEBUG)"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: gcc-6
-          CXX: g++-6
-          CONFIG_FLAGS: --disable-silent-rules --enable-debug
-  gcc-8:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: "Checkout libcdada"
-        uses: actions/checkout@v2
-        with:
-          path: libcdada
-
-      - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
-
-      - name: "Compile and test using GCC8"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-8
-          CXX: g++-8
-          CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC8 (DEBUG)"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-8
-          CXX: g++-8
-          CONFIG_FLAGS: --disable-silent-rules --enable-debug
-  gcc-9:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: "Checkout libcdada"
-        uses: actions/checkout@v2
-        with:
-          path: libcdada
-
-      - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
-
-      - name: "Compile and test using GCC9"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-9
-          CXX: g++-9
-          CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC9 (DEBUG)"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-9
-          CXX: g++-9
-          CONFIG_FLAGS: --disable-silent-rules --enable-debug
-  gcc-10:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: "Checkout libcdada"
-        uses: actions/checkout@v2
-        with:
-          path: libcdada
-
-      - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
-
-      - name: "Compile and test using GCC10"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-10
-          CXX: g++-10
-          CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using GCC10 (DEBUG)"
-        run: cd libcdada && .github/workflows/test_script.sh
-        env:
-          CC: gcc-10
-          CXX: g++-10
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
-  clang:
-    runs-on: ubuntu-18.04
+  clang_ubuntu_22_04:
+    strategy:
+      matrix:
+        version: [11, 12, 13, 14]
+    runs-on: ubuntu-22.04
+    env:
+      CPP: clang-cpp-${{ matrix.version }}
+      CC: clang-${{ matrix.version }}
+      CXX: clang++-${{ matrix.version }}
+      CFLAGS: -gdwarf-4 #clang14 and on use dwarf5, but valgrind doesn't support it
+      CXXFLAGS: -gdwarf-4
     steps:
       - name: "Checkout libcdada"
         uses: actions/checkout@v2
@@ -156,17 +87,13 @@ jobs:
           path: libcdada
 
       - name: "Install deps"
-        run: ./libcdada/.github/workflows/deps.sh
+        run: ./libcdada/.github/workflows/deps.sh clang ${{ matrix.version }}
 
-      - name: "Compile and test using clang"
+      - name: "Compile and test using clang-${{ matrix.version }}"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: clang
-          CXX: clang++
           CONFIG_FLAGS: --disable-silent-rules
-      - name: "Compile and test using clang (DEBUG)"
+      - name: "Compile and test using clang-${{ matrix.version }} (DEBUG)"
         run: cd libcdada && .github/workflows/test_script.sh
         env:
-          CC: clang
-          CXX: clang++
           CONFIG_FLAGS: --disable-silent-rules --enable-debug

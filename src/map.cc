@@ -266,7 +266,8 @@ uint32_t cdada_map_size(const cdada_map_t* map){
 }
 
 int _cdada_map_insert(cdada_map_t* map, const void* key, void* val,
-						const bool replace){
+						const bool replace,
+						void** prev_val){
 
 	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
 
@@ -281,61 +282,72 @@ int _cdada_map_insert(cdada_map_t* map, const void* key, void* val,
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				return cdada_map_insert_u<uint8_t>(m, m->map.u8,
+				return cdada_map_insert_u<uint8_t>(m,
+								m->map.u8,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 2:
 				return cdada_map_insert_u<uint16_t>(m,
 								m->map.u16,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 4:
 				return cdada_map_insert_u<uint32_t>(m,
 								m->map.u32,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 8:
 				return cdada_map_insert_u<uint64_t>(m,
 								m->map.u64,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 16:
 				return cdada_map_insert_u<cdada_u128_t>(m,
 								m->map.u128,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 32:
 				return cdada_map_insert_u<cdada_u256_t>(m,
 								m->map.u256,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 64:
 				return cdada_map_insert_u<cdada_u512_t>(m,
 								m->map.u512,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 128:
 				return cdada_map_insert_u<cdada_u1024_t>(m,
 								m->map.u1024,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 256:
 				return cdada_map_insert_u<cdada_u2048_t>(m,
 								m->map.u2048,
 								key,
 								val,
-								replace);
+								replace,
+								prev_val);
 			case 0:
 				CDADA_ASSERT(m->ops);
-				return (*m->ops->insert)(m, key, val, replace);
+				return (*m->ops->insert)(m, key, val, replace,
+								prev_val);
 			default:
 				break;
 		}
@@ -348,11 +360,12 @@ int _cdada_map_insert(cdada_map_t* map, const void* key, void* val,
 }
 
 int cdada_map_insert(cdada_map_t* map, const void* key, void* val){
-	return _cdada_map_insert(map, key, val, false);
+	return _cdada_map_insert(map, key, val, false, NULL);
 }
 
-int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val){
-	return _cdada_map_insert(map, key, val, true);
+int cdada_map_insert_replace(cdada_map_t* map, const void* key, void* val,
+							void** prev_val){
+	return _cdada_map_insert(map, key, val, true, prev_val);
 }
 
 int cdada_map_erase(cdada_map_t* map, const void* key){
@@ -368,8 +381,9 @@ int cdada_map_erase(cdada_map_t* map, const void* key){
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				return cdada_map_erase_u<uint8_t>(m, m->map.u8,
-									key);
+				return cdada_map_erase_u<uint8_t>(m,
+								m->map.u8,
+								key);
 			case 2:
 				return cdada_map_erase_u<uint16_t>(m,
 								m->map.u16,
@@ -422,28 +436,32 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(unlikely(!key || val == NULL))
+	if(unlikely(!key))
 		return CDADA_E_INVALID;
 
 	try{
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				return cdada_map_find_u<uint8_t>(m, m->map.u8,
-									key,
-									val);
+				return cdada_map_find_u<uint8_t>(m,
+								m->map.u8,
+								key,
+								val);
 			case 2:
-				return cdada_map_find_u<uint16_t>(m, m->map.u16,
-									key,
-									val);
+				return cdada_map_find_u<uint16_t>(m,
+								m->map.u16,
+								key,
+								val);
 			case 4:
-				return cdada_map_find_u<uint32_t>(m, m->map.u32,
-									key,
-									val);
+				return cdada_map_find_u<uint32_t>(m,
+								m->map.u32,
+								key,
+								val);
 			case 8:
-				return cdada_map_find_u<uint64_t>(m, m->map.u64,
-									key,
-									val);
+				return cdada_map_find_u<uint64_t>(m,
+								m->map.u64,
+								key,
+								val);
 			case 16:
 				return cdada_map_find_u<cdada_u128_t>(m,
 								m->map.u128,
@@ -469,10 +487,88 @@ int cdada_map_find(const cdada_map_t* map, const void* key, void** val){
 								m->map.u2048,
 								key,
 								val);
-				break;
 			case 0:
 				CDADA_ASSERT(m->ops);
 				return (*m->ops->find)(m, key, val);
+			default:
+				break;
+		}
+	}catch(...){}
+
+	CDADA_ASSERT(0);
+	return CDADA_E_UNKNOWN;
+}
+
+int cdada_map_get_pos(const cdada_map_t* map, const uint32_t pos, void* key,
+								void** val){
+
+	__cdada_map_int_t* m = (__cdada_map_int_t*)map;
+
+	CDADA_CHECK_MAGIC(m);
+
+	if(unlikely(!key || val == NULL))
+		return CDADA_E_INVALID;
+
+	try{
+		int c = m->ops? 0 : m->key_len;
+		switch(c){
+			case 1:
+				return cdada_map_get_pos_u<uint8_t>(m,
+								m->map.u8,
+								pos,
+								key,
+								val);
+			case 2:
+				return cdada_map_get_pos_u<uint16_t>(m,
+								m->map.u16,
+								pos,
+								key,
+								val);
+			case 4:
+				return cdada_map_get_pos_u<uint32_t>(m,
+								m->map.u32,
+								pos,
+								key,
+								val);
+			case 8:
+				return cdada_map_get_pos_u<uint64_t>(m,
+								m->map.u64,
+								pos,
+								key,
+								val);
+			case 16:
+				return cdada_map_get_pos_u<cdada_u128_t>(m,
+								m->map.u128,
+								pos,
+								key,
+								val);
+			case 32:
+				return cdada_map_get_pos_u<cdada_u256_t>(m,
+								m->map.u256,
+								pos,
+								key,
+								val);
+			case 64:
+				return cdada_map_get_pos_u<cdada_u512_t>(m,
+								m->map.u512,
+								pos,
+								key,
+								val);
+			case 128:
+				return cdada_map_get_pos_u<cdada_u1024_t>(m,
+								m->map.u1024,
+								pos,
+								key,
+								val);
+			case 256:
+				return cdada_map_get_pos_u<cdada_u2048_t>(m,
+								m->map.u2048,
+								pos,
+								key,
+								val);
+			case 0:
+				CDADA_ASSERT(m->ops);
+				return (*m->ops->get_pos)(m, pos, key, val);
 			default:
 				break;
 		}
@@ -584,44 +680,57 @@ int cdada_map_traverse(const cdada_map_t* map, cdada_map_it f,
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				cdada_map_traverse_u<uint8_t>(m, m->map.u8, f,
-									opaque);
+				cdada_map_traverse_u<uint8_t>(m,
+								m->map.u8,
+								f,
+								opaque);
 				break;
 			case 2:
-				cdada_map_traverse_u<uint16_t>(m, m->map.u16, f,
-									opaque);
+				cdada_map_traverse_u<uint16_t>(m,
+								m->map.u16,
+								f,
+								opaque);
 				break;
 			case 4:
-				cdada_map_traverse_u<uint32_t>(m, m->map.u32, f,
-									opaque);
+				cdada_map_traverse_u<uint32_t>(m,
+								m->map.u32,
+								f,
+								opaque);
 				break;
 			case 8:
-				cdada_map_traverse_u<uint64_t>(m, m->map.u64, f,
-									opaque);
+				cdada_map_traverse_u<uint64_t>(m,
+								m->map.u64,
+								f,
+								opaque);
 				break;
 			case 16:
 				cdada_map_traverse_u<cdada_u128_t>(m,
-								m->map.u128, f,
+								m->map.u128,
+								f,
 								opaque);
 				break;
 			case 32:
 				cdada_map_traverse_u<cdada_u256_t>(m,
-								m->map.u256, f,
+								m->map.u256,
+								f,
 								opaque);
 				break;
 			case 64:
 				cdada_map_traverse_u<cdada_u512_t>(m,
-								m->map.u512, f,
+								m->map.u512,
+								f,
 								opaque);
 				break;
 			case 128:
 				cdada_map_traverse_u<cdada_u1024_t>(m,
-								m->map.u1024, f,
+								m->map.u1024,
+								f,
 								opaque);
 				break;
 			case 256:
 				cdada_map_traverse_u<cdada_u2048_t>(m,
-								m->map.u2048, f,
+								m->map.u2048,
+								f,
 								opaque);
 				break;
 			case 0:
@@ -654,47 +763,57 @@ int cdada_map_rtraverse(const cdada_map_t* map, cdada_map_it f,
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				cdada_map_rtraverse_u<uint8_t>(m, m->map.u8, f,
-									opaque);
+				cdada_map_rtraverse_u<uint8_t>(m,
+								m->map.u8,
+								f,
+								opaque);
 				break;
 			case 2:
-				cdada_map_rtraverse_u<uint16_t>(m, m->map.u16,
-									f,
-									opaque);
+				cdada_map_rtraverse_u<uint16_t>(m,
+								m->map.u16,
+								f,
+								opaque);
 				break;
 			case 4:
-				cdada_map_rtraverse_u<uint32_t>(m, m->map.u32,
-									f,
-									opaque);
+				cdada_map_rtraverse_u<uint32_t>(m,
+								m->map.u32,
+								f,
+								opaque);
 				break;
 			case 8:
-				cdada_map_rtraverse_u<uint64_t>(m, m->map.u64,
-									f,
-									opaque);
+				cdada_map_rtraverse_u<uint64_t>(m,
+								m->map.u64,
+								f,
+								opaque);
 				break;
 			case 16:
 				cdada_map_rtraverse_u<cdada_u128_t>(m,
-								m->map.u128, f,
+								m->map.u128,
+								f,
 								opaque);
 				break;
 			case 32:
 				cdada_map_rtraverse_u<cdada_u256_t>(m,
-								m->map.u256, f,
+								m->map.u256,
+								f,
 								opaque);
 				break;
 			case 64:
 				cdada_map_rtraverse_u<cdada_u512_t>(m,
-								m->map.u512, f,
+								m->map.u512,
+								f,
 								opaque);
 				break;
 			case 128:
 				cdada_map_rtraverse_u<cdada_u1024_t>(m,
-								m->map.u1024, f,
+								m->map.u1024,
+								f,
 								opaque);
 				break;
 			case 256:
 				cdada_map_rtraverse_u<cdada_u2048_t>(m,
-								m->map.u2048, f,
+								m->map.u2048,
+								f,
 								opaque);
 				break;
 			case 0:
@@ -729,7 +848,8 @@ int cdada_map_dump(cdada_map_t* map, uint32_t size, char* buffer,
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				cdada_map_dump_u<uint8_t>(m, m->map.u8, ss);
+				cdada_map_dump_u<uint8_t>(m, m->map.u8,
+									ss);
 				break;
 			case 2:
 				cdada_map_dump_u<uint16_t>(m, m->map.u16,
@@ -744,29 +864,24 @@ int cdada_map_dump(cdada_map_t* map, uint32_t size, char* buffer,
 									ss);
 				break;
 			case 16:
-				cdada_map_dump_u<cdada_u128_t>(m,
-								m->map.u128,
-								ss);
+				cdada_map_dump_u<cdada_u128_t>(m, m->map.u128,
+									ss);
 				break;
 			case 32:
-				cdada_map_dump_u<cdada_u256_t>(m,
-								m->map.u256,
-								ss);
+				cdada_map_dump_u<cdada_u256_t>(m, m->map.u256,
+									ss);
 				break;
 			case 64:
-				cdada_map_dump_u<cdada_u512_t>(m,
-								m->map.u512,
-								ss);
+				cdada_map_dump_u<cdada_u512_t>(m, m->map.u512,
+									ss);
 				break;
 			case 128:
-				cdada_map_dump_u<cdada_u1024_t>(m,
-								m->map.u1024,
-								ss);
+				cdada_map_dump_u<cdada_u1024_t>(m, m->map.u1024,
+									ss);
 				break;
 			case 256:
-				cdada_map_dump_u<cdada_u2048_t>(m,
-								m->map.u2048,
-								ss);
+				cdada_map_dump_u<cdada_u2048_t>(m, m->map.u2048,
+									ss);
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);
@@ -808,7 +923,8 @@ int cdada_map_print(cdada_map_t* map, FILE *stream){
 		int c = m->ops? 0 : m->key_len;
 		switch(c){
 			case 1:
-				cdada_map_dump_u<uint8_t>(m, m->map.u8, ss);
+				cdada_map_dump_u<uint8_t>(m, m->map.u8,
+									ss);
 				break;
 			case 2:
 				cdada_map_dump_u<uint16_t>(m, m->map.u16,
@@ -823,29 +939,24 @@ int cdada_map_print(cdada_map_t* map, FILE *stream){
 									ss);
 				break;
 			case 16:
-				cdada_map_dump_u<cdada_u128_t>(m,
-								m->map.u128,
-								ss);
+				cdada_map_dump_u<cdada_u128_t>(m, m->map.u128,
+									ss);
 				break;
 			case 32:
-				cdada_map_dump_u<cdada_u256_t>(m,
-								m->map.u256,
-								ss);
+				cdada_map_dump_u<cdada_u256_t>(m, m->map.u256,
+									ss);
 				break;
 			case 64:
-				cdada_map_dump_u<cdada_u512_t>(m,
-								m->map.u512,
-								ss);
+				cdada_map_dump_u<cdada_u512_t>(m, m->map.u512,
+									ss);
 				break;
 			case 128:
-				cdada_map_dump_u<cdada_u1024_t>(m,
-								m->map.u1024,
-								ss);
+				cdada_map_dump_u<cdada_u1024_t>(m, m->map.u1024,
+									ss);
 				break;
 			case 256:
-				cdada_map_dump_u<cdada_u2048_t>(m,
-								m->map.u2048,
-								ss);
+				cdada_map_dump_u<cdada_u2048_t>(m, m->map.u2048,
+									ss);
 				break;
 			case 0:
 				CDADA_ASSERT(m->ops);

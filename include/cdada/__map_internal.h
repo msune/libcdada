@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //This header should _always_ be included from C++
 #ifndef __cplusplus
-	#error CDADA autogenreation headers shall be included only from C++ files
+	#error CDADA autogeneration headers shall be included from C++ files only
 #endif //__cplusplus
 
 #include <stdbool.h>
@@ -60,9 +60,13 @@ typedef struct __cdada_map_ops{
 	bool (*empty)(const cdada_map_t* map);
 	uint32_t (*size)(const cdada_map_t* map);
 	int (*insert)(cdada_map_t* map, const void* key, void* val,
-							const bool replace);
+							const bool replace,
+							void** prev_val);
 	int (*erase)(cdada_map_t* map, const void* key);
 	int (*find)(const cdada_map_t* map, const void* key, void** val);
+	int (*get_pos)(const cdada_map_t* map, const uint32_t pos,
+							void* key,
+							void** val);
 	int (*first_last)(const cdada_map_t* map, bool first, void* key,
 								void** val);
 	void (*traverse)(const cdada_map_t* map, cdada_map_it f, void* opaque);
@@ -97,7 +101,8 @@ template<typename T>
 int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 							const void* key,
 							void* val,
-							const bool replace){
+							const bool replace,
+							void** prev_val){
 	typename std::map<T, void*>::iterator it;
 
 	if(m->key_len == m->user_key_len){
@@ -106,8 +111,12 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 		aux = (T*)key;
 
 		it = m_u->find(*aux);
-		if(!replace && unlikely(it != m_u->end()))
+		if(!replace && it != m_u->end())
 			return CDADA_E_EXISTS;
+
+		if(replace && prev_val)
+			*prev_val = it->second;
+
 		(*m_u)[*aux] = val;
 
 		return CDADA_SUCCESS;
@@ -120,8 +129,11 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	it = m_u->find(aux);
-	if(!replace && unlikely(it != m_u->end()))
+	if(!replace && it != m_u->end())
 		return CDADA_E_EXISTS;
+
+	if(replace && prev_val)
+		*prev_val = it->second;
 
 	(*m_u)[aux] = val;
 
@@ -139,7 +151,7 @@ int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 		aux = (T*)key;
 
 		it = m_u->find(*aux);
-		if(unlikely(it == m_u->end()))
+		if(it == m_u->end())
 			return CDADA_E_NOT_FOUND;
 		m_u->erase(*aux);
 
@@ -153,7 +165,7 @@ int cdada_map_erase_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	it = m_u->find(aux);
-	if(unlikely(it == m_u->end()))
+	if(it == m_u->end())
 		return CDADA_E_NOT_FOUND;
 
 	m_u->erase(aux);
@@ -173,10 +185,11 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 		aux = (T*)key;
 		it = m_u->find(*aux);
 
-		if(unlikely(it == m_u->end()))
+		if(it == m_u->end())
 			return CDADA_E_NOT_FOUND;
 
-		*val = it->second;
+		if(val)
+			*val = it->second;
 
 		return CDADA_SUCCESS;
 	}
@@ -188,8 +201,36 @@ int cdada_map_find_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
 	memcpy(&aux, key, m->user_key_len);
 
 	it = m_u->find(aux);
-	if(unlikely(it == m_u->end()))
+	if(it == m_u->end())
 		return CDADA_E_NOT_FOUND;
+
+	if(val)
+		*val = it->second;
+
+	return CDADA_SUCCESS;
+}
+
+template<typename T>
+int cdada_map_get_pos_u(const __cdada_map_int_t* m, std::map<T, void*>* m_u,
+							const uint32_t pos,
+							void* key,
+							void** val){
+	T* __attribute((__may_alias__)) aux;
+	typename std::map<T, void*>::const_iterator it;
+
+	aux = (T*)key;
+	it = m_u->begin();
+	if(it == m_u->end())
+		return CDADA_E_EMPTY;
+	if(pos >= m_u->size())
+		return CDADA_E_NOT_FOUND;
+
+	std::advance(it, pos);
+
+	if(m->key_len == m->user_key_len)
+		*aux = it->first;
+	else
+		memcpy(aux, &it->first, m->user_key_len);
 
 	*val = it->second;
 

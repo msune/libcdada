@@ -29,7 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //This header should _always_ be included from C++
 #ifndef __cplusplus
-	#error CDADA autogenreation headers shall be included only from C++ files
+	#error CDADA autogeneration headers shall be included from C++ files only
 #endif //__cplusplus
 
 #define __CDADA_INTERNAL_INCLUDE
@@ -108,11 +108,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __CDADA_MAP_CUSTOM_INSERT_F(TYPE) \
 	int __cdada_map_autogen_insert_##TYPE (void* m, const void* key, \
 							void* val, \
-							const bool replace){ \
+							const bool replace, \
+							void** prev_val){ \
 		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
 				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
-		return cdada_map_insert_u< TYPE > (s, p, key, val, replace);\
+		return cdada_map_insert_u< TYPE > (s, p, key, val, replace, \
+								prev_val);\
 	}
 /**
 * @internal Custom type erase f
@@ -135,6 +137,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__CDADA_STD_MAP_TYPE(TYPE)* p = \
 				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
 		return cdada_map_find_u< TYPE > (s, p, key, val);\
+	}
+
+/**
+* @internal Custom type get_pos f
+*/
+#define __CDADA_MAP_CUSTOM_GET_POS_F(TYPE) \
+	int __cdada_map_autogen_get_pos_##TYPE (const void* m, \
+							const uint32_t pos, \
+							void* key, \
+							void** val){ \
+		__cdada_map_int_t* s = (__cdada_map_int_t*)m; \
+		__CDADA_STD_MAP_TYPE(TYPE)* p = \
+				(__CDADA_STD_MAP_TYPE(TYPE)*)s->map.custom; \
+		return cdada_map_get_pos_u< TYPE > (s, p, pos, key, val);\
 	}
 
 /**
@@ -201,6 +217,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__cdada_map_autogen_insert_##TYPE, \
 		__cdada_map_autogen_erase_##TYPE, \
 		__cdada_map_autogen_find_##TYPE, \
+		__cdada_map_autogen_get_pos_##TYPE, \
 		__cdada_map_autogen_first_last_##TYPE, \
 		__cdada_map_autogen_traverse_##TYPE, \
 		__cdada_map_autogen_rtraverse_##TYPE, \
@@ -219,6 +236,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	__CDADA_MAP_CUSTOM_INSERT_F(TYPE); \
 	__CDADA_MAP_CUSTOM_ERASE_F(TYPE); \
 	__CDADA_MAP_CUSTOM_FIND_F(TYPE); \
+	__CDADA_MAP_CUSTOM_GET_POS_F(TYPE); \
 	__CDADA_MAP_CUSTOM_FIRST_LAST_F(TYPE); \
 	__CDADA_MAP_CUSTOM_TRAVERSE_F(TYPE); \
 	__CDADA_MAP_CUSTOM_RTRAVERSE_F(TYPE); \

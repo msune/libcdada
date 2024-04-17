@@ -147,7 +147,8 @@ int cdada_stack_push(cdada_stack_t* stack, const void* val){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				return cdada_stack_push_u<uint8_t>(m, m->stack.u8,
+				return cdada_stack_push_u<uint8_t>(m,
+								m->stack.u8,
 								val);
 			case 2:
 				return cdada_stack_push_u<uint16_t>(m,
@@ -296,7 +297,8 @@ int cdada_stack_top(const cdada_stack_t* stack, void* val){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				return cdada_stack_top_u<uint8_t>(m, m->stack.u8,
+				return cdada_stack_top_u<uint8_t>(m,
+								m->stack.u8,
 								val);
 			case 2:
 				return cdada_stack_top_u<uint16_t>(m,
@@ -431,19 +433,24 @@ int cdada_stack_dump(cdada_stack_t* stack, uint32_t size, char* buffer,
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_stack_dump_u<uint8_t>(m, m->stack.u8, ss);
+				cdada_stack_dump_u<uint8_t>(m,
+								m->stack.u8,
+								ss);
 				break;
 			case 2:
-				cdada_stack_dump_u<uint16_t>(m, m->stack.u16,
-									ss);
+				cdada_stack_dump_u<uint16_t>(m,
+								m->stack.u16,
+								ss);
 				break;
 			case 4:
-				cdada_stack_dump_u<uint32_t>(m, m->stack.u32,
-									ss);
+				cdada_stack_dump_u<uint32_t>(m,
+								m->stack.u32,
+								ss);
 				break;
 			case 8:
-				cdada_stack_dump_u<uint64_t>(m, m->stack.u64,
-									ss);
+				cdada_stack_dump_u<uint64_t>(m,
+								m->stack.u64,
+								ss);
 				break;
 			case 16:
 				cdada_stack_dump_u<cdada_u128_t>(m,
@@ -510,19 +517,24 @@ int cdada_stack_print(cdada_stack_t* stack, FILE *stream){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_stack_dump_u<uint8_t>(m, m->stack.u8, ss);
+				cdada_stack_dump_u<uint8_t>(m,
+								m->stack.u8,
+								ss);
 				break;
 			case 2:
-				cdada_stack_dump_u<uint16_t>(m, m->stack.u16,
-									ss);
+				cdada_stack_dump_u<uint16_t>(m,
+								m->stack.u16,
+								ss);
 				break;
 			case 4:
-				cdada_stack_dump_u<uint32_t>(m, m->stack.u32,
-									ss);
+				cdada_stack_dump_u<uint32_t>(m,
+								m->stack.u32,
+								ss);
 				break;
 			case 8:
-				cdada_stack_dump_u<uint64_t>(m, m->stack.u64,
-									ss);
+				cdada_stack_dump_u<uint64_t>(m,
+								m->stack.u64,
+								ss);
 				break;
 			case 16:
 				cdada_stack_dump_u<cdada_u128_t>(m,

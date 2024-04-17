@@ -147,7 +147,8 @@ int cdada_queue_push(cdada_queue_t* queue, const void* val){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				return cdada_queue_push_u<uint8_t>(m, m->queue.u8,
+				return cdada_queue_push_u<uint8_t>(m,
+								m->queue.u8,
 								val);
 			case 2:
 				return cdada_queue_push_u<uint16_t>(m,
@@ -494,19 +495,24 @@ int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_queue_dump_u<uint8_t>(m, m->queue.u8, ss);
+				cdada_queue_dump_u<uint8_t>(m,
+								m->queue.u8,
+								ss);
 				break;
 			case 2:
-				cdada_queue_dump_u<uint16_t>(m, m->queue.u16,
-									ss);
+				cdada_queue_dump_u<uint16_t>(m,
+								m->queue.u16,
+								ss);
 				break;
 			case 4:
-				cdada_queue_dump_u<uint32_t>(m, m->queue.u32,
-									ss);
+				cdada_queue_dump_u<uint32_t>(m,
+								m->queue.u32,
+								ss);
 				break;
 			case 8:
-				cdada_queue_dump_u<uint64_t>(m, m->queue.u64,
-									ss);
+				cdada_queue_dump_u<uint64_t>(m,
+								m->queue.u64,
+								ss);
 				break;
 			case 16:
 				cdada_queue_dump_u<cdada_u128_t>(m,
@@ -573,19 +579,24 @@ int cdada_queue_print(cdada_queue_t* queue, FILE *stream){
 		int c = m->ops? 0 : m->val_len;
 		switch(c){
 			case 1:
-				cdada_queue_dump_u<uint8_t>(m, m->queue.u8, ss);
+				cdada_queue_dump_u<uint8_t>(m,
+								m->queue.u8,
+								ss);
 				break;
 			case 2:
-				cdada_queue_dump_u<uint16_t>(m, m->queue.u16,
-									ss);
+				cdada_queue_dump_u<uint16_t>(m,
+								m->queue.u16,
+								ss);
 				break;
 			case 4:
-				cdada_queue_dump_u<uint32_t>(m, m->queue.u32,
-									ss);
+				cdada_queue_dump_u<uint32_t>(m,
+								m->queue.u32,
+								ss);
 				break;
 			case 8:
-				cdada_queue_dump_u<uint64_t>(m, m->queue.u64,
-									ss);
+				cdada_queue_dump_u<uint64_t>(m,
+								m->queue.u64,
+								ss);
 				break;
 			case 16:
 				cdada_queue_dump_u<cdada_u128_t>(m,

@@ -193,11 +193,12 @@ uint32_t __cdada_map_autogen_size_TT_TYPE_TT (const void* m){
 }
 int __cdada_map_autogen_insert_TT_TYPE_TT (void* m, const void* key,
 						void* val,
-						const bool replace){
+						const bool replace,
+						void** prev_val){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
 	std::map<TT_TYPE_TT, void*>* p =
 			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
-	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val, replace);
+	return cdada_map_insert_u<TT_TYPE_TT> (s, p, key, val, replace, prev_val);
 }
 int __cdada_map_autogen_erase_TT_TYPE_TT (void* m, const void* key){
 	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
@@ -211,6 +212,14 @@ int __cdada_map_autogen_find_TT_TYPE_TT (const void* m, const void* key,
 	std::map<TT_TYPE_TT, void*>* p =
 			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
 	return cdada_map_find_u<TT_TYPE_TT> (s, p, key, val);
+}
+int __cdada_map_autogen_get_pos_TT_TYPE_TT (const void* m, const uint32_t pos,
+                        void* key,
+						void** val){
+	__cdada_map_int_t* s = (__cdada_map_int_t*)m;
+	std::map<TT_TYPE_TT, void*>* p =
+			(std::map<TT_TYPE_TT, void*>*)s->map.custom;
+	return cdada_map_get_pos_u<TT_TYPE_TT> (s, p, pos, key, val);
 }
 int __cdada_map_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 						void* key,
@@ -252,6 +261,7 @@ __cdada_map_ops_t __cdada_map_autogen_TT_TYPE_TT = {
 	__cdada_map_autogen_insert_TT_TYPE_TT,
 	__cdada_map_autogen_erase_TT_TYPE_TT,
 	__cdada_map_autogen_find_TT_TYPE_TT,
+	__cdada_map_autogen_get_pos_TT_TYPE_TT,
 	__cdada_map_autogen_first_last_TT_TYPE_TT,
 	__cdada_map_autogen_traverse_TT_TYPE_TT,
 	__cdada_map_autogen_rtraverse_TT_TYPE_TT,
@@ -368,6 +378,12 @@ bool __cdada_set_autogen_find_TT_TYPE_TT (const void* m, const void* key){
 	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
 	return cdada_set_find_u< TT_TYPE_TT > (s, p, key);
 }
+int __cdada_set_autogen_get_pos_TT_TYPE_TT (const void* m, const uint32_t pos,
+                                                            void* key){
+	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
+	std::set<TT_TYPE_TT>* p = (std::set<TT_TYPE_TT>*)s->set.custom;
+	return cdada_set_get_pos_u< TT_TYPE_TT > (s, p, pos, key);
+}
 int __cdada_set_autogen_first_last_TT_TYPE_TT (const void* m, bool first,
 							void* key){
 	__cdada_set_int_t* s = (__cdada_set_int_t*)m;
@@ -404,6 +420,7 @@ __cdada_set_ops_t __cdada_set_autogen_TT_TYPE_TT = {
 	__cdada_set_autogen_insert_TT_TYPE_TT,
 	__cdada_set_autogen_erase_TT_TYPE_TT,
 	__cdada_set_autogen_find_TT_TYPE_TT,
+	__cdada_set_autogen_get_pos_TT_TYPE_TT,
 	__cdada_set_autogen_first_last_TT_TYPE_TT,
 	__cdada_set_autogen_traverse_TT_TYPE_TT,
 	__cdada_set_autogen_rtraverse_TT_TYPE_TT,
@@ -562,6 +579,7 @@ if __name__ == "__main__":
     f.write("///                       DO NOT MODIFY AFTER THIS LINE                     ///\n")
     f.write("///////////////////////////////////////////////////////////////////////////////\n\n")
     f.write("#include <string.h>\n")
+    f.write("#include <stdint.h>\n")
     f.write("#include <cdada/list_custom_cc.h>\n")
     f.write("#include <cdada/map_custom_cc.h>\n")
     f.write("#include <cdada/queue_custom_cc.h>\n")
@@ -574,7 +592,7 @@ if __name__ == "__main__":
         ut = ut.replace("TT_TYPE_TT", user_type)
         f.write(ut)
     f.write("\n")
-    f.write("//Cdata wrappers\n\n")
+    f.write("//cdada wrappers\n\n")
     f.write(s)
 
     f.write("/*****************************************************************************/\n")

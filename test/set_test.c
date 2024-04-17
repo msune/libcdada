@@ -396,12 +396,28 @@ int test_u64_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_find(set, &key) == false);
 
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key = i;
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 0ULL);
+	rv = cdada_set_get_pos(set, 12, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 12ULL);
+	rv = cdada_set_get_pos(set, 31, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key == 31ULL);
+	rv = cdada_set_get_pos(set, 33, &key); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_set_print(set, stdout);
@@ -581,12 +597,28 @@ int _test_u552_insert_removal_traverse(){
 
 	TEST_ASSERT(cdada_set_find(set, &key) == false);
 
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0ULL);
+	rv = cdada_set_get_pos(set, 12, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 12ULL);
+	rv = cdada_set_get_pos(set, 31, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31ULL);
+	rv = cdada_set_get_pos(set, 33, &key); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_set_print(set, stdout);
@@ -704,12 +736,28 @@ int test_u3552_insert_removal_traverse_custom(){
 
 	TEST_ASSERT(cdada_set_find(set, &key) == false);
 
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_E_EMPTY);
+
 	//Now add all objects
 	for(i=0;i<32;++i){
 		key.mid = i;
 		rv = cdada_set_insert(set, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
 	}
+
+	//Test get_pos
+	rv = cdada_set_get_pos(set, 0, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 0ULL);
+	rv = cdada_set_get_pos(set, 12, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 12ULL);
+	rv = cdada_set_get_pos(set, 31, &key);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(key.mid == 31ULL);
+	rv = cdada_set_get_pos(set, 33, &key); //Out of bounds
+	TEST_ASSERT(rv == CDADA_E_NOT_FOUND);
 
 	//Dumpers
 	rv = cdada_set_print(set, stdout);
