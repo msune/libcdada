@@ -9,7 +9,7 @@ Legend:
 - [O] Other
 ```
 
-### v0.6.0 (13th February 2024)
+### v0.6.0 (17th April 2024)
 
 - [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
 - [O] CI: add coverage for clang11, 12 and 13.
