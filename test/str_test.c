@@ -408,9 +408,9 @@ int test_cmp(){
 			== strncmp(s1, s2, overlen_avoid_compiler_warn));
 
 	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, 7) == strncmp(s1, s2, 7));
-	TEST_ASSERT(cdada_str_ncmp(c1, s2, 10) == strncmp(s1, s2, 10));
-	TEST_ASSERT(cdada_str_ncmp(c1, s2, 12) == strncmp(s1, s2, 12));
-	TEST_ASSERT(cdada_str_ncmp(c1, s2, overlen_avoid_compiler_warn)
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, 10) == strncmp(s1, s2, 10));
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, 12) == strncmp(s1, s2, 12));
+	TEST_ASSERT(cdada_str_ncmp_c(c1, s2, overlen_avoid_compiler_warn)
 			== strncmp(s1, s2, overlen_avoid_compiler_warn));
 
 	rv = cdada_str_destroy(c1);
