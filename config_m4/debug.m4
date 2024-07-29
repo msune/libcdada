@@ -16,5 +16,3 @@ else
 	AC_MSG_RESULT(no)
 fi
 AM_CONDITIONAL(DEBUG, test "$enable_debug" = yes)
-
-
