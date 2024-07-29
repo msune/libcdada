@@ -552,7 +552,8 @@ int test_basics(){
 
 	int rv;
 
-	void* ptr_not_null = (void*)0x123;
+	int i = 0x123;
+	void* ptr_not_null = (void*)&i;
 
 	//Create
 	map = cdada_map_create(int);
