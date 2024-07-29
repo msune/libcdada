@@ -9,6 +9,11 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.1 (29th July 2024)
+
+- [O] tests: fix segfault in map_test.c
+- [O] build: cleanup configure.ac from old/deprecated MACROs
+
 ### v0.6.0 (17th April 2024)
 
 - [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
