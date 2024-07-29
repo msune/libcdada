@@ -67,7 +67,7 @@ benchmark_LDADD= -lpthread ../src/.libs/libcdada.a
 
 #Valgrind
 if VALGRIND_ENABLED
-TESTS_ENVIRONMENT=valgrind --quiet --trace-children=yes --error-exitcode=1 \
+TESTS_ENVIRONMENT=valgrind --trace-children=yes --error-exitcode=1 \
 				--dsymutil=yes --leak-check=yes \
 				--leak-check-heuristics=all \
 				--suppressions=$(top_srcdir)/test/locale.supp
