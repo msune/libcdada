@@ -45,3 +45,4 @@ include/cdada/version.h
 
 !.gitignore
 !.travis.yml
+!.github/
