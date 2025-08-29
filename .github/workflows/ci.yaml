@@ -10,7 +10,7 @@ env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
 jobs:
-  gcc_ubuntu_18_04:
+  ubuntu_18_04_gcc:
     strategy:
       matrix:
         version: [4.8, 5, 6, 8]
@@ -48,7 +48,7 @@ jobs:
               CONFIG_FLAGS=\"\$CONFIG_FLAGS --enable-debug\" .github/workflows/test_script.sh
             "
 
-  gcc_ubuntu_22_04:
+  ubuntu_22_04_gcc:
     strategy:
       matrix:
         version: [9, 10, 11, 12]
@@ -75,7 +75,7 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
-  gcc_ubuntu_24_04:
+  ubuntu_24_04_gcc:
     strategy:
       matrix:
         version: [13, 14]
@@ -102,7 +102,7 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
-  clang_ubuntu_22_04:
+  ubuntu_22_04_clang:
     strategy:
       matrix:
         version: [11, 12, 13, 14]
@@ -131,7 +131,7 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
-  clang_ubuntu_24_04:
+  ubuntu_24_04_clang:
     strategy:
       matrix:
         version: [15, 16, 17, 18, 19]
