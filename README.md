@@ -1,4 +1,4 @@
-master [![Build status](https://github.com/msune/libcdada/workflows/ci/badge.svg?branch=master)](https://github.com/msune/libcdada/actions), devel [![Build status](https://github.com/msune/libcdada/workflows/ci/badge.svg?branch=devel)](https://github.com/msune/libcdada/actions)
+master [![Build status](https://github.com/msune/libcdada/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/msune/libcdada/actions/workflows/ci.yaml), devel [![Build status](https://github.com/msune/libcdada/actions/workflows/ci.yaml/badge.svg?branch=devel)](https://github.com/msune/libcdada/actions/workflows/ci.yaml)
 
 **libcdada** - basic data structures in C (`libstdc++` wrapper)
 ---------------------------------------------------------------
