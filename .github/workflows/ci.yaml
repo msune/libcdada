@@ -75,11 +75,67 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
+  gcc_ubuntu_24_04:
+    strategy:
+      matrix:
+        version: [13, 14]
+    runs-on: ubuntu-24.04
+    env:
+      CPP: cpp-${{ matrix.version }}
+      CC: gcc-${{ matrix.version }}
+      CXX: g++-${{ matrix.version }}
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v3
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh gcc ${{ matrix.version }}
+
+      - name: "Compile and test using GCC${{ matrix.version }}"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using GCC${{ matrix.version }} (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
   clang_ubuntu_22_04:
     strategy:
       matrix:
         version: [11, 12, 13, 14]
     runs-on: ubuntu-22.04
+    env:
+      CPP: clang-cpp-${{ matrix.version }}
+      CC: clang-${{ matrix.version }}
+      CXX: clang++-${{ matrix.version }}
+      CFLAGS: -gdwarf-4 #clang14 and on use dwarf5, but valgrind doesn't support it
+      CXXFLAGS: -gdwarf-4
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v3
+        with:
+          path: libcdada
+
+      - name: "Install deps"
+        run: ./libcdada/.github/workflows/deps.sh clang ${{ matrix.version }}
+
+      - name: "Compile and test using clang-${{ matrix.version }}"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules
+      - name: "Compile and test using clang-${{ matrix.version }} (DEBUG)"
+        run: cd libcdada && .github/workflows/test_script.sh
+        env:
+          CONFIG_FLAGS: --disable-silent-rules --enable-debug
+
+  clang_ubuntu_24_04:
+    strategy:
+      matrix:
+        version: [15, 16, 17, 18, 19]
+    runs-on: ubuntu-24.04
     env:
       CPP: clang-cpp-${{ matrix.version }}
       CC: clang-${{ matrix.version }}
