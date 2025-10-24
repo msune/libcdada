@@ -105,17 +105,23 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 							void** prev_val){
 	typename std::map<T, void*>::iterator it;
 
+	if(prev_val)
+		*prev_val = NULL;
+
 	if(m->key_len == m->user_key_len){
 		T* __attribute((__may_alias__)) aux;
 
 		aux = (T*)key;
 
 		it = m_u->find(*aux);
-		if(!replace && it != m_u->end())
-			return CDADA_E_EXISTS;
 
-		if(replace && prev_val)
-			*prev_val = it->second;
+		if(it != m_u->end()){
+			if(!replace)
+				return CDADA_E_EXISTS;
+
+			if(prev_val)
+				*prev_val = it->second;
+		}
 
 		(*m_u)[*aux] = val;
 
@@ -132,8 +138,13 @@ int cdada_map_insert_u(__cdada_map_int_t* m, std::map<T, void*>* m_u,
 	if(!replace && it != m_u->end())
 		return CDADA_E_EXISTS;
 
-	if(replace && prev_val)
-		*prev_val = it->second;
+	if(it != m_u->end()){
+		if(!replace)
+			return CDADA_E_EXISTS;
+
+		if(prev_val)
+			*prev_val = it->second;
+	}
 
 	(*m_u)[aux] = val;
 

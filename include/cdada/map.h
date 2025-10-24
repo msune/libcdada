@@ -179,8 +179,9 @@ int cdada_map_insert(cdada_map_t* map, const void* key, void* val);
 * @param map Map pointer
 * @param key Key. The key type _must_ have all bytes initialized
 * @param val Pointer to the value
-* @param prev_val If not NULL, when replacing a value the previous value will be
-*                 set here, regardless if the operation is successful or not
+* @param prev_val If not NULL the previous stored value for that key will be set
+*                 here (*prev_val = old_value_ptr). If the key didn't exist, it
+*                 will be set to NULL.
 *
 * @returns Return codes:
 *          CDADA_SUCCESS: element is inserted

@@ -9,6 +9,11 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.2 (24th October 2025)
+
+- [B] map: fix garbage in `prev_val` when key not in map for `cdada_map_insert_replace()`
+- [O] CI fixes
+
 ### v0.6.1 (29th July 2024)
 
 - [O] tests: fix segfault in map_test.c
