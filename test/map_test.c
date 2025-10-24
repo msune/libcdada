@@ -993,6 +993,51 @@ int test_u3552_insert_removal_traverse_custom(){
 	return 0;
 }
 
+int test_insert_replace_bug_empty(){
+	int rv;
+	uint8_t key;
+	test_u552_t key2;
+	int value, *prev = NULL;
+
+	//Test insert_replace when key doesn't exist in the map
+	map = cdada_map_create(uint8_t);
+	TEST_ASSERT(map != NULL);
+
+	key = 1;
+	//Note: prev is deliberately != NULL, as code MUST nullify
+	prev = (int*)0x1234;
+	rv = cdada_map_insert_replace(map, &key, &value, (void**)&prev);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(prev == NULL);
+
+	rv = cdada_map_insert_replace(map, &key, &value, (void**)&prev);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(prev == &value);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	//Test insert_replace when key doesn't exist in the map
+	map = cdada_map_create(test_u552_t);
+	TEST_ASSERT(map != NULL);
+
+	memset(&key2, 0, sizeof(key2));
+	key2.mid = 1;
+	prev = (int*)0x1234;
+
+	//if not found
+	rv = cdada_map_insert_replace(map, &key2, &value, (void**)&prev);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(prev == NULL);
+
+	rv = cdada_map_insert_replace(map, &key2, &value, (void**)&prev);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(prev == &value);
+	rv = cdada_map_destroy(map);
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+
+	return 0;
+}
+
 int main(int args, char** argv){
 
 	int rv;
@@ -1011,6 +1056,8 @@ int main(int args, char** argv){
 	//Custom type
 	rv |= test_u552_insert_removal_traverse_custom();
 	rv |= test_u3552_insert_removal_traverse_custom();
+
+	rv |= test_insert_replace_bug_empty();
 
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
