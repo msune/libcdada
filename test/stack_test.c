@@ -746,8 +746,7 @@ int _test_u552_push_pop(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 1);
 
-	int jj;
-	for(jj = 0, i=0;i<5; ++i, jj += 1){
+	for(i=0;i<5; ++i){
 		key.mid = 0;
 		rv = cdada_stack_push(stack, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
@@ -906,8 +905,7 @@ int test_u3552_push_pop_custom(){
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	TEST_ASSERT(key.mid == 1);
 
-	int jj;
-	for(jj = 0, i=0;i<5; ++i, jj += 1){
+	for(i=0;i<5; ++i){
 		key.mid = 0;
 		rv = cdada_stack_push(stack, &key);
 		TEST_ASSERT(rv == CDADA_SUCCESS);
