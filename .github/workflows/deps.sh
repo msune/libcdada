@@ -12,6 +12,8 @@ else
 fi
 
 (sudo --help > /dev/null 2>&1 ) || (apt update && apt install -y sudo software-properties-common automake autoconf libtool make) #containers
-sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+if [[ "${PPA_TOOLCHAIN_REPO}" != "false" ]]; then
+	sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+fi
 sudo apt-get update
 sudo apt-get install -y python3 valgrind $COMPILER

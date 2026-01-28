@@ -9,6 +9,10 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.3 (28th January 2026)
+
+- [O] tests/CI: fixed compilation with GCC 16 (thanks A. Stieger). Added CI coverage for GCC 15.
+
 ### v0.6.2 (24th October 2025)
 
 - [B] map: fix garbage in `prev_val` when key not in map for `cdada_map_insert_replace()`
@@ -22,7 +26,7 @@ Legend:
 ### v0.6.0 (17th April 2024)
 
 - [+] !! BREAKING CHANGE !! Add `prev_val` to `cdada_map_insert_replace()` API call to make it more useful
-- [O] CI: add coverage for clang11, 12 and 13.
+- [O] CI: add coverage for clang11, 12 and 13
 
 ### v0.5.2 (7th November 2023)
 
