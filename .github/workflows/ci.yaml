@@ -102,6 +102,42 @@ jobs:
         env:
           CONFIG_FLAGS: --disable-silent-rules --enable-debug
 
+  ubuntu_25_10_gcc:
+    strategy:
+      matrix:
+        version: [15]
+    runs-on: ubuntu-24.04
+    env:
+      CPP: cpp-${{ matrix.version }}
+      CC: gcc-${{ matrix.version }}
+      CXX: g++-${{ matrix.version }}
+    steps:
+      - name: "Checkout libcdada"
+        uses: actions/checkout@v3
+        with:
+          path: libcdada
+
+      - name: Run tests in Ubuntu 25.10 container
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            -e PPA_TOOLCHAIN_REPO="false" \
+            -e CPP="${CPP}" \
+            -e CC="${CC}" \
+            -e CXX="${CXX}" \
+            -e CONFIG_FLAGS="--disable-silent-rules" \
+            ubuntu:25.10 \
+            bash -c "
+              set -e
+              apt-get update
+              apt-get install -y git
+              git config --global --add safe.directory /workspace/libcdada
+              ./libcdada/.github/workflows/deps.sh gcc ${{ matrix.version }}
+              cd libcdada && .github/workflows/test_script.sh
+              CONFIG_FLAGS=\"\$CONFIG_FLAGS --enable-debug\" .github/workflows/test_script.sh
+            "
+
   ubuntu_22_04_clang:
     strategy:
       matrix:
