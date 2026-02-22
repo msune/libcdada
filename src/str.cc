@@ -538,15 +538,20 @@ int cdada_str_replace_all(cdada_str_t* str, const char* match,
 	if(!match || !new_str)
 		return CDADA_E_INVALID;
 
+	size_t l = strlen(match);
+	size_t new_l = strlen(new_str);
+	size_t pos = 0;
+
+	if(!l)
+		return CDADA_E_INVALID;
+
 	std::string& s = *m->str;
 
 	try{
-		size_t pos = s.find(match);
-		size_t l = strlen(match);
-
+		pos = s.find(match, pos);
 		while(pos != string::npos){
 			s.replace(pos, l, new_str);
-			pos += l;
+			pos += new_l;
 			pos = s.find(match, pos);
 		}
 	}catch(bad_alloc& e){
@@ -569,8 +574,12 @@ int cdada_str_replace(cdada_str_t* str, const char* match, const char* new_str,
 	if(!match || !new_str)
 		return CDADA_E_INVALID;
 
-	std::string& s = *m->str;
 	size_t l = strlen(match);
+
+	if(!l)
+		return CDADA_E_INVALID;
+
+	std::string& s = *m->str;
 
 	if(pos+l > s.length())
 		return CDADA_E_INVALID;

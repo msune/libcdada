@@ -337,6 +337,30 @@ int test_manipulation(){
 	rv = cdada_str_replace_all(s, "TEST", "HIGHFIVE");
 	TEST_ASSERT(strcmp(cdada_str(s), "ANOTHER HIGHFIVE HIGHFIVE  HIGHFIVE HIGHFIVE XX YYY XY") == 0);
 
+	rv = cdada_str_set(s, "aaaa");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "a", "aa");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "aaaaaaaa") == 0);
+
+	rv = cdada_str_set(s, "abc");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "", "x");
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	TEST_ASSERT(strcmp(cdada_str(s), "abc") == 0);
+
+	rv = cdada_str_set(s, "abc123123xyz");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "123", "1");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "abc11xyz") == 0);
+
+	rv = cdada_str_set(s, "xxxx");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "xx", "x");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "xx") == 0);
+
 	rv = cdada_str_set(s, "Another test TEST  TEST tEsT xx YYY XY");
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 	rv = cdada_str_replace(s, "TESTt", "HIGHFIVE", 13);
