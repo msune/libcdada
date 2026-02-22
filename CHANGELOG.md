@@ -9,6 +9,12 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.4 ()
+
+- [B] utils: fix `cdada_strerr()` bounds handling for invalid and negative error codes
+- [B] utils: add missing human-readable message for `CDADA_E_FULL`
+- [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
+
 ### v0.6.3 (28th January 2026)
 
 - [O] tests/CI: fixed compilation with GCC 16 (thanks A. Stieger). Added CI coverage for GCC 15.

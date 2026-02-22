@@ -10,11 +10,12 @@ static const char* cdada_err_str[CDADA_E_COUNT] = {
 	"Out of memory",
 	"Feature unsupported",
 	"Empty",
-	"Incomplete"
+	"Incomplete",
+	"Full"
 };
 
 const char* cdada_strerr(int err){
-	return err >= CDADA_E_COUNT? "Invalid code" : cdada_err_str[err];
+	return (err < 0 || err >= CDADA_E_COUNT)? "Invalid code" : cdada_err_str[err];
 }
 
 const char* cdada_get_ver(){

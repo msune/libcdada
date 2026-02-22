@@ -47,6 +47,12 @@ int main(int args, char** argv){
 	rv = cdada_stack_destroy(stack);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
 
+	TEST_ASSERT(strcmp(cdada_strerr(CDADA_SUCCESS), "Success") == 0);
+	TEST_ASSERT(strcmp(cdada_strerr(CDADA_E_FULL), "Full") == 0);
+	TEST_ASSERT(strcmp(cdada_strerr(-1), "Invalid code") == 0);
+	TEST_ASSERT(strcmp(cdada_strerr(CDADA_E_COUNT), "Invalid code") == 0);
+	TEST_ASSERT(strcmp(cdada_strerr(CDADA_E_COUNT + 1000), "Invalid code") == 0);
+
 	//Add your test here, and return a code appropriately...
 	return rv == 0? EXIT_SUCCESS : EXIT_FAILURE;
 }
