@@ -16,6 +16,8 @@ cdada_set_t* __cdada_set_create(const uint16_t key_size,
 		return m;
 
 	m = (__cdada_set_int_t*)malloc(sizeof(__cdada_set_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_set_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_key_len = key_size;

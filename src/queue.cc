@@ -16,6 +16,8 @@ cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 		return m;
 
 	m = (__cdada_queue_int_t*)malloc(sizeof(__cdada_queue_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_queue_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_val_len = val_size;
