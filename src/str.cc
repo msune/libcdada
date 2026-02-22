@@ -143,7 +143,7 @@ const char* cdada_str(const cdada_str_t* str){
 	__cdada_str_int_t* m = (__cdada_str_int_t*)str;
 
 	if(!m || m->magic_num != CDADA_MAGIC)
-		return "";
+		return NULL;
 
 	try{
 		return m->str->c_str();
@@ -151,7 +151,7 @@ const char* cdada_str(const cdada_str_t* str){
 		CDADA_ASSERT(0);
 	}
 
-	return "";
+	return NULL;
 }
 
 int __cdada_str_find(const cdada_str_t* str, const char* substr, uint32_t* pos,

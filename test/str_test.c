@@ -139,7 +139,7 @@ int test_basics(){
 	TEST_ASSERT(cdada_str_length(NULL) == 0);
 
 	ptr = cdada_str(NULL);
-	TEST_ASSERT(strlen(ptr) == 0);
+	TEST_ASSERT(ptr == NULL);
 
 	rv = cdada_str_find_first(NULL, (const char*)ptr_not_null,
 						(uint32_t*)ptr_not_null);
