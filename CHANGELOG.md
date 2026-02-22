@@ -17,11 +17,13 @@ Legend:
 - [B] str: fix `cdada_str_replace*()` to reject empty match and self-replacement issues
 - [B] str: return `NULL` in `cdada_str_create()` when input C string is `NULL`
 - [B] str: align `cdada_str()` invalid-handle behavior with API docs (return `NULL`, not empty string)
+- [B] bbitmap: make `cdada_bbitmap_dump()` set `size_used` in buffered paths too
 - [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
 - [O] tests: add `oom_create_test` coverage for create paths (`list`, `map`, `queue`, `set`, `stack`, `str`, `bbitmap`)
 - [O] tests: add coverage for `cdada_str_replace_all()` empty-match invalid input and self-overlap replacement
 - [O] tests: add `cdada_str_create(NULL)` regression coverage
 - [O] tests: align invalid `cdada_str()` assertion with documented `NULL` return
+- [O] tests: validate `cdada_bbitmap_dump()` updates `size_used` for both incomplete and complete buffered dumps
 
 ### v0.6.3 (28th January 2026)
 
