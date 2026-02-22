@@ -12,6 +12,9 @@ cdada_str_t* cdada_str_create(const char* str){
 
 	__cdada_str_int_t* m = NULL;
 
+	if(!str)
+		return NULL;
+
 	m = (__cdada_str_int_t*)malloc(sizeof(__cdada_str_int_t));
 	if(!m)
 		return NULL;

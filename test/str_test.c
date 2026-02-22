@@ -114,6 +114,9 @@ int test_basics(){
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
+	s = cdada_str_create(NULL);
+	TEST_ASSERT(s == NULL);
+
 	s = cdada_str_create("HELLO");
 	TEST_ASSERT(s != NULL);
 

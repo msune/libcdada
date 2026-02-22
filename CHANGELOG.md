@@ -15,9 +15,11 @@ Legend:
 - [B] utils: add missing human-readable message for `CDADA_E_FULL`
 - [B] list/map/queue/set/stack: return `NULL` when constructor `malloc()` fails (avoid null dereference)
 - [B] str: fix `cdada_str_replace*()` to reject empty match and self-replacement issues
+- [B] str: return `NULL` in `cdada_str_create()` when input C string is `NULL`
 - [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
 - [O] tests: add `oom_create_test` coverage for create paths (`list`, `map`, `queue`, `set`, `stack`, `str`, `bbitmap`)
 - [O] tests: add coverage for `cdada_str_replace_all()` empty-match invalid input and self-overlap replacement
+- [O] tests: add `cdada_str_create(NULL)` regression coverage
 
 ### v0.6.3 (28th January 2026)
 
