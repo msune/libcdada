@@ -9,7 +9,7 @@ Legend:
 - [O] Other
 ```
 
-### v0.6.4 ()
+### v0.6.4 (27th February 2026)
 
 - [B] utils: fix `cdada_strerr()` bounds handling for invalid and negative error codes
 - [B] utils: add missing human-readable message for `CDADA_E_FULL`
