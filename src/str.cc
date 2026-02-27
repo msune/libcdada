@@ -206,7 +206,7 @@ int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(!substr || !n)
+	if(!substr || !n || !*substr)
 		return CDADA_E_INVALID;
 
 	std::string& s = *m->str;
@@ -243,7 +243,7 @@ int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(!substr || !poss || !size || !cnt)
+	if(!substr || !poss || !size || !cnt || !*substr)
 		return CDADA_E_INVALID;
 
 	std::string& s = *m->str;

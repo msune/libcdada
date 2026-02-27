@@ -110,6 +110,7 @@ int test_basics(){
 	int rv;
 	cdada_str_t * s;
 	const char* ptr;
+	uint32_t count, poss[2];
 
 	void* ptr_not_null = (void*)0x123;
 
@@ -168,6 +169,8 @@ int test_basics(){
 	rv = cdada_str_find_count(s, (const char*)ptr_not_null,
 						(uint32_t*)NULL);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_find_count(s, "", &count);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_find_all(NULL, (const char*)ptr_not_null, 123,
 						(uint32_t*)ptr_not_null,
@@ -188,6 +191,8 @@ int test_basics(){
 	rv = cdada_str_find_all(s, (const char*)ptr_not_null, 123,
 						(uint32_t*)ptr_not_null,
 						(uint32_t*)NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_find_all(s, "", 2, poss, &count);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_first_c(NULL, (char*)ptr_not_null);
