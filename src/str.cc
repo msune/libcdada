@@ -93,6 +93,8 @@ int cdada_str_rtraverse(const cdada_str_t* str, cdada_str_it func,
 
 	try{
 		std::string::const_reverse_iterator it;
+		if(s.empty())
+			return CDADA_SUCCESS;
 		uint32_t pos = s.length()-1;
 		for(it = s.rbegin(); it != s.rend(); ++it){
 			(*func)(str, *it, pos, opaque);
