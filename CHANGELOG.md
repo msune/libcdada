@@ -25,6 +25,7 @@ Legend:
 - [B] str: fix uint32_t overflow in `cdada_str_erase()` bounds check
 - [B] str: fix `cdada_str_find_count()`/`cdada_str_find_all()` not returning `CDADA_E_NOT_FOUND`
 - [B] str: reject empty `substr` in `cdada_str_find_count()`/`cdada_str_find_all()`
+- [B] list/map/queue/set/stack: report `size_used` as bytes written on incomplete `dump()`
 - [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
 - [O] tests: add `oom_create_test` coverage for create paths (`list`, `map`, `queue`, `set`, `stack`, `str`, `bbitmap`)
 - [O] tests: add coverage for `cdada_str_replace_all()` empty-match invalid input and self-overlap replacement

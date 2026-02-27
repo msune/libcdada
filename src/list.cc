@@ -1106,8 +1106,10 @@ int cdada_list_dump(cdada_list_t* list, uint32_t size, char* buffer,
 			return CDADA_SUCCESS;
 
 		snprintf(buffer, size, "%s", ss.str().c_str());
-		if(ss.str().length()+1 > size)
+		if(*size_used > size){
+			*size_used = size;
 			return CDADA_E_INCOMPLETE;
+		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
 	}catch(...){
