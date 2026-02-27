@@ -18,6 +18,7 @@ Legend:
 - [B] str: return `NULL` in `cdada_str_create()` when input C string is `NULL`
 - [B] str: align `cdada_str()` invalid-handle behavior with API docs (return `NULL`, not empty string)
 - [B] bbitmap: make `cdada_bbitmap_dump()` set `size_used` in buffered paths too
+- [B] bbitmap: fix corrupted BSD license header in `bbitmap.h`
 - [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
 - [O] tests: add `oom_create_test` coverage for create paths (`list`, `map`, `queue`, `set`, `stack`, `str`, `bbitmap`)
 - [O] tests: add coverage for `cdada_str_replace_all()` empty-match invalid input and self-overlap replacement
