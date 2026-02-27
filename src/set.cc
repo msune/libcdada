@@ -448,7 +448,7 @@ bool cdada_set_find(const cdada_set_t* set, const void* key){
 				return (*m->ops->find)(m, key);
 			default:
 				CDADA_ASSERT(0);
-				return CDADA_E_UNKNOWN;
+				return false;
 		}
 	}catch(...){}
 
