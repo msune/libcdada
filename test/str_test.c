@@ -237,6 +237,8 @@ int test_basics(){
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 	rv = cdada_str_erase(s, 2, 55);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_erase(s, 2, 0xFFFFFFFF);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_lower(NULL);
 	TEST_ASSERT(rv == CDADA_E_INVALID);

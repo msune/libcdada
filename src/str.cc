@@ -485,7 +485,7 @@ int cdada_str_erase(cdada_str_t* str, const uint32_t pos,
 
 	std::string& s = *m->str;
 
-	if(pos > s.length() || (pos+substr_len) > s.length() )
+	if(pos > s.length() || ((size_t)pos+substr_len) > s.length())
 		return CDADA_E_INVALID;
 
 	try{
