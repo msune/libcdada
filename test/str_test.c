@@ -58,7 +58,7 @@ int test_access(){
 	TEST_ASSERT(pos == 15);
 
 	uint32_t count;
-	TEST_ASSERT(cdada_str_find_count(s, "TTT", &count) == CDADA_SUCCESS);
+	TEST_ASSERT(cdada_str_find_count(s, "TTT", &count) == CDADA_E_NOT_FOUND);
 	TEST_ASSERT(count == 0);
 	TEST_ASSERT(cdada_str_find_count(s, "test", &count) == CDADA_SUCCESS);
 	TEST_ASSERT(count == 2);
@@ -71,7 +71,7 @@ int test_access(){
 	TEST_ASSERT(a[1] == 15);
 
 	TEST_ASSERT(cdada_str_find_all(s, "testtttt", 2, a, &count)
-							== CDADA_SUCCESS);
+							== CDADA_E_NOT_FOUND);
 	TEST_ASSERT(count == 0);
 
 	a[0] = a[1] = 1234;

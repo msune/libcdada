@@ -232,7 +232,7 @@ int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 		return CDADA_E_UNKNOWN;
 	}
 
-	return CDADA_SUCCESS;
+	return (*n == 0)? CDADA_E_NOT_FOUND : CDADA_SUCCESS;
 }
 
 int cdada_str_find_all(const cdada_str_t* str, const char* substr,
@@ -268,7 +268,7 @@ int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 		return CDADA_E_UNKNOWN;
 	}
 
-	return CDADA_SUCCESS;
+	return (*cnt == 0)? CDADA_E_NOT_FOUND : CDADA_SUCCESS;
 }
 
 int cdada_str_first_c(const cdada_str_t* str, char* c){
