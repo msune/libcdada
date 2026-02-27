@@ -8,6 +8,7 @@ check_PROGRAMS= bbitmap_test       \
                 cdada_include_test \
                 list_test          \
                 map_test           \
+                oom_create_test    \
                 queue_test         \
                 set_test           \
                 stack_test         \
@@ -40,6 +41,10 @@ map_test_SOURCES= map_test.c map_custom.cc
 map_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 map_test_LDADD= -lpthread ../src/libcdada.la
 
+oom_create_test_SOURCES= oom_create_test.c
+oom_create_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
+oom_create_test_LDADD= -lpthread ../src/libcdada.la
+
 queue_test_SOURCES= queue_test.c queue_custom.cc
 queue_test_CPPFLAGS= -I$(top_builddir)/include/ -I$(top_srcdir)/include/
 queue_test_LDADD= -lpthread ../src/libcdada.la
@@ -71,6 +76,8 @@ TESTS_ENVIRONMENT=valgrind --trace-children=yes --error-exitcode=1 \
 				--dsymutil=yes --leak-check=yes \
 				--leak-check-heuristics=all \
 				--suppressions=$(top_srcdir)/test/locale.supp
+else
+TESTS += oom_create_test
 endif
 
 if HAVE_PYTHON

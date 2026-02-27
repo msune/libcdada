@@ -173,6 +173,7 @@ int test_u8_push_pop(){
 	char buffer2[8];
 	rv = cdada_queue_dump(queue, 8, buffer2, &used);
 	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	TEST_ASSERT(used == 8);
 	fprintf(stdout, "%s\n", buffer2);
 
 	TEST_ASSERT(cdada_queue_size(queue) == 6);

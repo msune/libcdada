@@ -16,6 +16,8 @@ cdada_set_t* __cdada_set_create(const uint16_t key_size,
 		return m;
 
 	m = (__cdada_set_int_t*)malloc(sizeof(__cdada_set_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_set_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_key_len = key_size;
@@ -446,7 +448,7 @@ bool cdada_set_find(const cdada_set_t* set, const void* key){
 				return (*m->ops->find)(m, key);
 			default:
 				CDADA_ASSERT(0);
-				return CDADA_E_UNKNOWN;
+				return false;
 		}
 	}catch(...){}
 
@@ -818,8 +820,10 @@ int cdada_set_dump(cdada_set_t* set, uint32_t size, char* buffer,
 			return CDADA_SUCCESS;
 
 		snprintf(buffer, size, "%s", ss.str().c_str());
-		if(ss.str().length()+1 > size)
+		if(*size_used > size){
+			*size_used = size;
 			return CDADA_E_INCOMPLETE;
+		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
 	}catch(...){

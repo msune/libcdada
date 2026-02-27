@@ -20,6 +20,8 @@ echo "Building out-tree"
 cd build
 ../configure $CONFIG_FLAGS || (cat config.log && /bin/false)
 make check || ((for f in `find test/ -name "*.log"`; do cat $f; done;) && /bin/false)
+echo "Running oom_create_test without valgrind..."
+./test/oom_create_test
 
 echo "Running examples..."
 valgrind --leak-check=full examples/bbitmap

@@ -9,6 +9,30 @@ Legend:
 - [O] Other
 ```
 
+### v0.6.4 (27th February 2026)
+
+- [B] utils: fix `cdada_strerr()` bounds handling for invalid and negative error codes
+- [B] utils: add missing human-readable message for `CDADA_E_FULL`
+- [B] list/map/queue/set/stack: return `NULL` when constructor `malloc()` fails (avoid null dereference)
+- [B] str: fix `cdada_str_replace*()` to reject empty match and self-replacement issues
+- [B] str: return `NULL` in `cdada_str_create()` when input C string is `NULL`
+- [B] str: align `cdada_str()` invalid-handle behavior with API docs (return `NULL`, not empty string)
+- [B] bbitmap: make `cdada_bbitmap_dump()` set `size_used` in buffered paths too
+- [B] bbitmap: fix corrupted BSD license header in `bbitmap.h`
+- [B] str: fix underflow in `cdada_str_rtraverse()` on empty strings
+- [B] list: fix `cdada_list_first()`/`cdada_list_last()` returning `CDADA_SUCCESS` on invalid input
+- [B] set: fix `cdada_set_find()` returning `true` on internal error
+- [B] str: fix uint32_t overflow in `cdada_str_erase()` bounds check
+- [B] str: fix `cdada_str_find_count()`/`cdada_str_find_all()` not returning `CDADA_E_NOT_FOUND`
+- [B] str: reject empty `substr` in `cdada_str_find_count()`/`cdada_str_find_all()`
+- [B] list/map/queue/set/stack: report `size_used` as bytes written on incomplete `dump()`
+- [O] tests: add coverage for `cdada_strerr()` valid, boundary and high invalid values
+- [O] tests: add `oom_create_test` coverage for create paths (`list`, `map`, `queue`, `set`, `stack`, `str`, `bbitmap`)
+- [O] tests: add coverage for `cdada_str_replace_all()` empty-match invalid input and self-overlap replacement
+- [O] tests: add `cdada_str_create(NULL)` regression coverage
+- [O] tests: align invalid `cdada_str()` assertion with documented `NULL` return
+- [O] tests: validate `cdada_bbitmap_dump()` updates `size_used` for both incomplete and complete buffered dumps
+
 ### v0.6.3 (28th January 2026)
 
 - [O] tests/CI: fixed compilation with GCC 16 (thanks A. Stieger). Added CI coverage for GCC 15.

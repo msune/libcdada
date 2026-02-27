@@ -109,6 +109,7 @@ int test_u8_insert_removal(){
 	char buffer2[8];
 	rv = cdada_set_dump(set, 8, buffer2, &used);
 	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	TEST_ASSERT(used == 8);
 	fprintf(stdout, "%s\n", buffer2);
 
 	rv = cdada_set_first(set, &key);

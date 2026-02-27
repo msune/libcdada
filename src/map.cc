@@ -16,6 +16,8 @@ cdada_map_t* __cdada_map_create(const uint16_t key_size,
 		return m;
 
 	m = (__cdada_map_int_t*)malloc(sizeof(__cdada_map_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_map_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_key_len = key_size;
@@ -899,8 +901,10 @@ int cdada_map_dump(cdada_map_t* map, uint32_t size, char* buffer,
 			return CDADA_SUCCESS;
 
 		snprintf(buffer, size, "%s", ss.str().c_str());
-		if(ss.str().length()+1 > size)
+		if(*size_used > size){
+			*size_used = size;
 			return CDADA_E_INCOMPLETE;
+		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
 	}catch(...){

@@ -772,6 +772,7 @@ int _test_u552_insert_removal_traverse(){
 	char buffer2[8];
 	rv = cdada_map_dump(map, 8, buffer2, &used);
 	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	TEST_ASSERT(used == 8);
 	fprintf(stdout, "%s\n", buffer2);
 
 	rv = cdada_map_first(map, &key, &tmp);

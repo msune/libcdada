@@ -16,6 +16,8 @@ cdada_list_t* __cdada_list_create(const uint16_t val_size,
 		return m;
 
 	m = (__cdada_list_int_t*)malloc(sizeof(__cdada_list_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_list_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_val_len = val_size;
@@ -401,7 +403,7 @@ static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
-		return false;
+		return CDADA_E_INVALID;
 
 	try{
 		int c = m->ops? 0 : m->val_len;
@@ -450,7 +452,7 @@ static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 	}catch(...){}
 
 	CDADA_ASSERT(0);
-	return false;
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_first(const cdada_list_t* list, void* key){
@@ -1104,8 +1106,10 @@ int cdada_list_dump(cdada_list_t* list, uint32_t size, char* buffer,
 			return CDADA_SUCCESS;
 
 		snprintf(buffer, size, "%s", ss.str().c_str());
-		if(ss.str().length()+1 > size)
+		if(*size_used > size){
+			*size_used = size;
 			return CDADA_E_INCOMPLETE;
+		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
 	}catch(...){

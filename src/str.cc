@@ -12,6 +12,9 @@ cdada_str_t* cdada_str_create(const char* str){
 
 	__cdada_str_int_t* m = NULL;
 
+	if(!str)
+		return NULL;
+
 	m = (__cdada_str_int_t*)malloc(sizeof(__cdada_str_int_t));
 	if(!m)
 		return NULL;
@@ -90,6 +93,8 @@ int cdada_str_rtraverse(const cdada_str_t* str, cdada_str_it func,
 
 	try{
 		std::string::const_reverse_iterator it;
+		if(s.empty())
+			return CDADA_SUCCESS;
 		uint32_t pos = s.length()-1;
 		for(it = s.rbegin(); it != s.rend(); ++it){
 			(*func)(str, *it, pos, opaque);
@@ -140,7 +145,7 @@ const char* cdada_str(const cdada_str_t* str){
 	__cdada_str_int_t* m = (__cdada_str_int_t*)str;
 
 	if(!m || m->magic_num != CDADA_MAGIC)
-		return "";
+		return NULL;
 
 	try{
 		return m->str->c_str();
@@ -148,7 +153,7 @@ const char* cdada_str(const cdada_str_t* str){
 		CDADA_ASSERT(0);
 	}
 
-	return "";
+	return NULL;
 }
 
 int __cdada_str_find(const cdada_str_t* str, const char* substr, uint32_t* pos,
@@ -201,7 +206,7 @@ int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(!substr || !n)
+	if(!substr || !n || !*substr)
 		return CDADA_E_INVALID;
 
 	std::string& s = *m->str;
@@ -227,7 +232,7 @@ int cdada_str_find_count(const cdada_str_t* str, const char* substr,
 		return CDADA_E_UNKNOWN;
 	}
 
-	return CDADA_SUCCESS;
+	return (*n == 0)? CDADA_E_NOT_FOUND : CDADA_SUCCESS;
 }
 
 int cdada_str_find_all(const cdada_str_t* str, const char* substr,
@@ -238,7 +243,7 @@ int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 
 	CDADA_CHECK_MAGIC(m);
 
-	if(!substr || !poss || !size || !cnt)
+	if(!substr || !poss || !size || !cnt || !*substr)
 		return CDADA_E_INVALID;
 
 	std::string& s = *m->str;
@@ -263,7 +268,7 @@ int cdada_str_find_all(const cdada_str_t* str, const char* substr,
 		return CDADA_E_UNKNOWN;
 	}
 
-	return CDADA_SUCCESS;
+	return (*cnt == 0)? CDADA_E_NOT_FOUND : CDADA_SUCCESS;
 }
 
 int cdada_str_first_c(const cdada_str_t* str, char* c){
@@ -480,7 +485,7 @@ int cdada_str_erase(cdada_str_t* str, const uint32_t pos,
 
 	std::string& s = *m->str;
 
-	if(pos > s.length() || (pos+substr_len) > s.length() )
+	if(pos > s.length() || ((size_t)pos+substr_len) > s.length())
 		return CDADA_E_INVALID;
 
 	try{
@@ -538,15 +543,20 @@ int cdada_str_replace_all(cdada_str_t* str, const char* match,
 	if(!match || !new_str)
 		return CDADA_E_INVALID;
 
+	size_t l = strlen(match);
+	size_t new_l = strlen(new_str);
+	size_t pos = 0;
+
+	if(!l)
+		return CDADA_E_INVALID;
+
 	std::string& s = *m->str;
 
 	try{
-		size_t pos = s.find(match);
-		size_t l = strlen(match);
-
+		pos = s.find(match, pos);
 		while(pos != string::npos){
 			s.replace(pos, l, new_str);
-			pos += l;
+			pos += new_l;
 			pos = s.find(match, pos);
 		}
 	}catch(bad_alloc& e){
@@ -569,8 +579,12 @@ int cdada_str_replace(cdada_str_t* str, const char* match, const char* new_str,
 	if(!match || !new_str)
 		return CDADA_E_INVALID;
 
-	std::string& s = *m->str;
 	size_t l = strlen(match);
+
+	if(!l)
+		return CDADA_E_INVALID;
+
+	std::string& s = *m->str;
 
 	if(pos+l > s.length())
 		return CDADA_E_INVALID;

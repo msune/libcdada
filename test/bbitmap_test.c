@@ -95,11 +95,13 @@ int test_basics(){
 
 	rv = cdada_bbitmap_dump(b, 128, buffer, &used);
 	TEST_ASSERT(rv == CDADA_E_INCOMPLETE);
+	TEST_ASSERT(used == 128);
 	fprintf(stderr, "%s\n", buffer);
 
 	char buffer2[2048*16];
 	rv = cdada_bbitmap_dump(b, 2048*16, buffer2, &used);
 	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(used > 128);
 	fprintf(stderr, "%s\n", buffer2);
 	rv = cdada_bbitmap_print(b, stdout);
 	TEST_ASSERT(rv == CDADA_SUCCESS);

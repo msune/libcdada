@@ -58,7 +58,7 @@ int test_access(){
 	TEST_ASSERT(pos == 15);
 
 	uint32_t count;
-	TEST_ASSERT(cdada_str_find_count(s, "TTT", &count) == CDADA_SUCCESS);
+	TEST_ASSERT(cdada_str_find_count(s, "TTT", &count) == CDADA_E_NOT_FOUND);
 	TEST_ASSERT(count == 0);
 	TEST_ASSERT(cdada_str_find_count(s, "test", &count) == CDADA_SUCCESS);
 	TEST_ASSERT(count == 2);
@@ -71,7 +71,7 @@ int test_access(){
 	TEST_ASSERT(a[1] == 15);
 
 	TEST_ASSERT(cdada_str_find_all(s, "testtttt", 2, a, &count)
-							== CDADA_SUCCESS);
+							== CDADA_E_NOT_FOUND);
 	TEST_ASSERT(count == 0);
 
 	a[0] = a[1] = 1234;
@@ -110,10 +110,14 @@ int test_basics(){
 	int rv;
 	cdada_str_t * s;
 	const char* ptr;
+	uint32_t count, poss[2];
 
 	void* ptr_not_null = (void*)0x123;
 
 	//Create
+	s = cdada_str_create(NULL);
+	TEST_ASSERT(s == NULL);
+
 	s = cdada_str_create("HELLO");
 	TEST_ASSERT(s != NULL);
 
@@ -136,7 +140,7 @@ int test_basics(){
 	TEST_ASSERT(cdada_str_length(NULL) == 0);
 
 	ptr = cdada_str(NULL);
-	TEST_ASSERT(strlen(ptr) == 0);
+	TEST_ASSERT(ptr == NULL);
 
 	rv = cdada_str_find_first(NULL, (const char*)ptr_not_null,
 						(uint32_t*)ptr_not_null);
@@ -165,6 +169,8 @@ int test_basics(){
 	rv = cdada_str_find_count(s, (const char*)ptr_not_null,
 						(uint32_t*)NULL);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_find_count(s, "", &count);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_find_all(NULL, (const char*)ptr_not_null, 123,
 						(uint32_t*)ptr_not_null,
@@ -185,6 +191,8 @@ int test_basics(){
 	rv = cdada_str_find_all(s, (const char*)ptr_not_null, 123,
 						(uint32_t*)ptr_not_null,
 						(uint32_t*)NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_find_all(s, "", 2, poss, &count);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_first_c(NULL, (char*)ptr_not_null);
@@ -233,6 +241,8 @@ int test_basics(){
 	rv = cdada_str_erase(s, 66, 1);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 	rv = cdada_str_erase(s, 2, 55);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_str_erase(s, 2, 0xFFFFFFFF);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	rv = cdada_str_lower(NULL);
@@ -336,6 +346,30 @@ int test_manipulation(){
 
 	rv = cdada_str_replace_all(s, "TEST", "HIGHFIVE");
 	TEST_ASSERT(strcmp(cdada_str(s), "ANOTHER HIGHFIVE HIGHFIVE  HIGHFIVE HIGHFIVE XX YYY XY") == 0);
+
+	rv = cdada_str_set(s, "aaaa");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "a", "aa");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "aaaaaaaa") == 0);
+
+	rv = cdada_str_set(s, "abc");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "", "x");
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	TEST_ASSERT(strcmp(cdada_str(s), "abc") == 0);
+
+	rv = cdada_str_set(s, "abc123123xyz");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "123", "1");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "abc11xyz") == 0);
+
+	rv = cdada_str_set(s, "xxxx");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	rv = cdada_str_replace_all(s, "xx", "x");
+	TEST_ASSERT(rv == CDADA_SUCCESS);
+	TEST_ASSERT(strcmp(cdada_str(s), "xx") == 0);
 
 	rv = cdada_str_set(s, "Another test TEST  TEST tEsT xx YYY XY");
 	TEST_ASSERT(rv == CDADA_SUCCESS);

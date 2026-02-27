@@ -16,6 +16,8 @@ cdada_queue_t* __cdada_queue_create(const uint16_t val_size,
 		return m;
 
 	m = (__cdada_queue_int_t*)malloc(sizeof(__cdada_queue_int_t));
+	if(!m)
+		return NULL;
 	memset(m, 0, sizeof(__cdada_queue_int_t));
 	m->magic_num = CDADA_MAGIC;
 	m->user_val_len = val_size;
@@ -555,8 +557,10 @@ int cdada_queue_dump(cdada_queue_t* queue, uint32_t size, char* buffer,
 			return CDADA_SUCCESS;
 
 		snprintf(buffer, size, "%s", ss.str().c_str());
-		if(ss.str().length()+1 > size)
+		if(*size_used > size){
+			*size_used = size;
 			return CDADA_E_INCOMPLETE;
+		}
 	}catch(bad_alloc& e){
 		return CDADA_E_MEM;
 	}catch(...){
