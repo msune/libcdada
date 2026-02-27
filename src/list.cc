@@ -403,7 +403,7 @@ static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 	__cdada_list_int_t* m = (__cdada_list_int_t*)list;
 
 	if(unlikely(!m || m->magic_num != CDADA_MAGIC || !key))
-		return false;
+		return CDADA_E_INVALID;
 
 	try{
 		int c = m->ops? 0 : m->val_len;
@@ -452,7 +452,7 @@ static int __cdada_list_first_last(const cdada_list_t* list, bool first,
 	}catch(...){}
 
 	CDADA_ASSERT(0);
-	return false;
+	return CDADA_E_UNKNOWN;
 }
 
 int cdada_list_first(const cdada_list_t* list, void* key){

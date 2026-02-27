@@ -1232,6 +1232,14 @@ int test_basics(){
 	rv = cdada_list_remove(list, NULL);
 	TEST_ASSERT(rv == CDADA_E_INVALID);
 
+	rv = cdada_list_first(NULL, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_list_first(list, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_list_last(NULL, ptr_not_null);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
+	rv = cdada_list_last(list, NULL);
+	TEST_ASSERT(rv == CDADA_E_INVALID);
 
 	//Now destroy
 	rv = cdada_list_destroy(list);
