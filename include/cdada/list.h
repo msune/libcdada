@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
 * cdada list structure
 */
-typedef void cdada_list_t;
+typedef struct cdada_list_t cdada_list_t;
 
 //In case it's included from C++
 CDADA_BEGIN_DECLS
